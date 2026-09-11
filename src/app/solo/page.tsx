@@ -22,7 +22,7 @@ export default function SoloPage() {
     if (typeof window !== "undefined") {
       localStorage.setItem("fmttn_player_name", userName);
     }
-    const code = "ARCHE-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+    const code = "BLOC3-FMTTN";
     router.push(`/game/${code}?name=${encodeURIComponent(userName)}`);
   }
 

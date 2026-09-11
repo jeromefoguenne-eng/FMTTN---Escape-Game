@@ -234,14 +234,14 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
             <div className="flex items-center gap-2">
               <span className="text-xs uppercase tracking-widest font-mono text-blue-400">Secteur 01</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                ATELIER DE FABRICATION SPATIALE (P. 99)
+                ATELIER DE FABRICATION SPATIALE (P. 99-100)
               </span>
             </div>
             <h2 className="text-xl md:text-2xl font-black text-white tracking-tight">
               Jeu de Regroupement : Le Tri d'Atelier FMTTN
             </h2>
             <p className="text-xs text-slate-300">
-              Comme sur LearningApps, rangez chaque objet d'atelier dans son bac officiel : <strong>Matière première, Matériau, Consommable ou Ouvrage</strong> (p. 99).
+              Comme sur LearningApps, rangez chaque objet d'atelier dans son bac officiel : <strong>Matière première, Matériau, Consommable ou Ouvrage</strong> (p. 99-100).
             </p>
           </div>
         </div>
@@ -251,7 +251,7 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/40 text-blue-200 text-xs font-bold transition shrink-0 cursor-pointer"
         >
           <HelpCircle className="w-4 h-4 text-blue-400" />
-          <span>Consulter Référentiel p. 99</span>
+          <span>Consulter Glossaire p. 99-100</span>
         </button>
       </div>
 

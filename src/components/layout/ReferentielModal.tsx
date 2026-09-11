@@ -95,7 +95,7 @@ export function ReferentielModal({
 
               <div className="flex items-center gap-2">
                 <a
-                  href={`/docs/refFMTTN.pdf#page=${currentPage}`}
+                  href={pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white transition-colors font-bold shadow-md shadow-indigo-600/30"

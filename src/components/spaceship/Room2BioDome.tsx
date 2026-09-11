@@ -311,7 +311,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
           className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-200 text-xs font-bold transition shrink-0 cursor-pointer"
         >
           <HelpCircle className="w-4 h-4 text-emerald-400" />
-          <span>Consulter Référentiel Numérique</span>
+          <span>Consulter Référentiel p. 22-25</span>
         </button>
       </div>
 

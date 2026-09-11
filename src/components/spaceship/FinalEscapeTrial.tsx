@@ -126,7 +126,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
 
           <div className="space-y-2">
             {[
-              { id: 1, text: "Développer la pensée computationnelle (algorithmique/robotique), la littératie numérique, la cybersécurité et l'esprit critique face aux médias", sub: "Formulation officielle du Tronc Commun Numérique (p. 24)" },
+              { id: 1, text: "« Formation AU numérique et non pas PAR le numérique » : développer conjointement la littératie numérique et médiatique (DIGCOMP & CSEM), la pensée informatique/algorithmique, la sécurité et l'esprit critique (p. 24)", sub: "Principe cardinal et formulation officielle du Volet 2 Numérique (p. 24-25)" },
               { id: 2, text: "Former des utilisateurs passifs de suites logicielles commerciales propriétaires sans aborder le code ni l'éthique", sub: "Approche consumériste sans compréhension des mécanismes sous-jacents" },
               { id: 3, text: "Restreindre le cours à des exercices de dactylographie sans esprit critique ni sensibilisation aux traces et au RGPD", sub: "Vision mécanique désuète déconnectée des enjeux sociétaux actuels" },
             ].map((opt) => (
