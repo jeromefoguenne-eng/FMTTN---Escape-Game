@@ -1,63 +1,61 @@
-<div align="center">
+# 🚀 L'Arche FMTTN — Escape Game Didactique Intergalactique
 
-<img src="public/screenshots/hero.png" alt="CodeEscape — The Algorithm Escape Room" width="100%" />
+> **Mission Spatiale & Didactique du Tronc Commun FMTTN (Formation Manuelle, Technique, Technologique et Numérique - FWB)**
 
-<br/><br/>
-
-![Next.js](https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&logo=next.js)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-![Claude AI](https://img.shields.io/badge/Claude_Sonnet-D97706?style=for-the-badge&logo=anthropic&logoColor=white)
-![Tailwind](https://img.shields.io/badge/Tailwind_v4-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-000?style=for-the-badge&logo=vercel)
-
-**Solve CS puzzles. Beat the clock. Escape with your code.**
-
-</div>
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.3-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19.2-blue?style=for-the-badge&logo=react)](https://react.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38bdf8?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Déployer sur Vercel](https://img.shields.io/badge/Vercel-Deploy_Free-black?style=for-the-badge&logo=vercel)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fjeromefoguenne-eng%2FFMTTN---Escape-Game)
 
 ---
 
-## What is CodeEscape??
+## 🌌 Le Scénario de l'Expédition Stella
 
-CodeEscape is a CS-themed escape room built as a full-stack web app. Pick a topic track — Algorithms, ML/AI, Cybersecurity, Databases, Networks, or a dozen more — then race through 10 questions before the clock hits zero. Play solo or build a team of up to 6, with any open slot fillable by an AI agent teammate.
-
-The twist: your AI agent isn't just a hint button. Each of the four agent personalities responds differently based on your wrong answer, how long you've been stuck, and how much time is left. ARIA encourages without spoiling. BYTE walks you through it step by step. SIGMA asks Socratic questions. ZAP keeps it casual. You choose how you want to be helped.
-
-There are two ways to compete. **Team Mode** keeps everyone moving together — the game advances when all players answer or time runs out, and a live sidebar shows who's still thinking. **Race Mode** flips it individual — a live leaderboard shifts as players answer, and speed bonuses reward decisiveness.
-
-<div align="center">
-<img src="public/screenshots/puzzle.png" alt="Players solving puzzles together" width="70%" />
-</div>
+À bord de l'Arche FMTTN en route vers un nouveau système pour coloniser de nouvelles planètes, une défaillance générale met en péril les **1 450 passagers**. Isolés dans l'espace lointain, aucun secours terrestre n'est possible : **seules les compétences manuelles, techniques, technologiques et numériques (FMTTN)** permettront de réparer manuellement les systèmes vitaux et d'amener l'équipage à bon port en **30 minutes chrono** !
 
 ---
 
-## Background
+## 🗺️ Les 5 Secteurs Didactiques & L'Épreuve Finale
 
-CodeEscape started as a ground-up rebuild of an earlier static HTML/CSS/JS event registration page (CodeScape v1) into a production-grade, full-stack Next.js application. The rebuild introduced real interactive gameplay, a live database, AI integration, real-time team sync, and an adaptive difficulty engine — none of which existed in v1.
+| Secteur de l'Arche | Mécanique de Jeu (Type LearningApps) | Compétence Clé du Référentiel FMTTN | Réf. Officielle |
+|---|---|---|---|
+| **01. Atelier de Fabrication** | Jeu de regroupement par bacs interactifs (Matières premières, Matériaux, Consommables, Ouvrages) | Distinguer les étapes de transformation et la sécurité d'atelier | **Page 99** |
+| **02. Bio-Dôme & Serre IoT** | Frise séquentielle de la démarche technologique + Chaîne d'information numérique (Capteurs ➔ Micro:bit ➔ Actionneurs) | Démarche de conception (5 étapes) & Systèmes cyber-physiques connectés | **Pages 22-25** |
+| **03. Cœur Robotique** | Mini-Labyrinthe 2D & Programmation par blocs (Thymio / Scratch) avec exécution pas-à-pas | Algorithmique débranchée/branchée & Boucles de rétroaction | **Page 101** |
+| **04. Cyber-Centre RGPD** | Paires magnétiques (5 strates d'empreinte numérique) + Viseur d'inspection anti-phishing | Éducation aux médias, RGPD, traces numériques et cybersécurité | **Page 100** |
+| **05. Pont de Commandement** | Console spatiale avec jauges lumineuses et commutateurs didactiques | Les 5 Visées sociétales (Autonomie, Raisonnement, Créativité, Coopération, Éco-citoyenneté) | **Page 26** |
+| **Épreuve Finale** | Sas de décompression et réamorçage des hyper-propulseurs | Intégration globale des deux volets (Technique & Numérique) | **Pages 18-24** |
 
 ---
 
-## Features
+## 🌐 Déploiement Gratuit & Pérenne en Ligne (Vercel)
 
-### Gameplay
-- **12+ CS topic tracks**: Algorithms & Data Structures, Computational Theory, Machine Learning, Cybersecurity, Operating Systems, Databases, Networks, Computer Architecture, and more — plus a Random Mix wildcard
-- **240+ questions** across all tracks; each session draws 10 curated questions from a pool of 20+ per track
-- **Two game modes**: Team Mode (collaborative, timer-driven) and Race Mode (individual leaderboard, speed bonuses)
-- **Solo or team play**: jump in alone or build a team of up to 6 (human + AI slots)
-- **Timed stages** with a color-coded countdown bar (cyan → amber → red as time runs low)
-- **Score system** with points weighted by speed and correctness
+Ce projet est prêt pour un hébergement **100 % gratuit à vie** sur **[Vercel](https://vercel.com)** :
 
-### AI Agent System
-Four distinct AI teammate personalities, each powered by `claude-sonnet-4-6`:
+1. Rendez-vous sur **[vercel.com](https://vercel.com)** et connectez-vous avec votre compte GitHub (**Log in with GitHub**).
+2. Cliquez sur **« Add New... » > « Project »**.
+3. Sélectionnez le dépôt **`FMTTN---Escape-Game`**.
+4. Cliquez sur **« Deploy »** sans toucher aux réglages.
+5. En 60 secondes, votre URL permanente et sécurisée (ex: `https://fmttn-escape-game.vercel.app`) est en ligne !
 
-| Agent | Personality | Style |
-|---|---|---|
-| ARIA 💙 | Supportive | Validates thinking, builds confidence, never gives answers |
-| BYTE 🟡 | Spoon Feeder | Step-by-step micro-hints, reveals approach after 3 failures |
-| SIGMA ⚪ | Supervisor | Socratic questions only, time complexity focus, professional |
-| ZAP ⚡ | Friendly | Casual analogies, light humor, still genuinely helpful |
+---
 
-- Real-time streaming chat with each agent (token-by-token display)
-- Agents receive full context: puzzle type, player's current wrong answer, hints already given, and time remaining
+## 💻 Lancement en Local
+
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/jeromefoguenne-eng/FMTTN---Escape-Game.git
+cd FMTTN---Escape-Game
+
+# 2. Installer les dépendances
+npm install
+
+# 3. Lancer le serveur de développement
+npm run dev
+```
+
+Ouvrez ensuite [http://localhost:3000/game/BLOC3-FMTTN](http://localhost:3000/game/BLOC3-FMTTN) dans votre navigateur.
+
 - Smart hint engine: after a wrong submission, Claude analyzes the *specific* wrong answer and generates a targeted hint — not a generic one
 
 ### Game Modes
