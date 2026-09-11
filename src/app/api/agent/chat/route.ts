@@ -1,0 +1,99 @@
+import { createGroq } from "@ai-sdk/groq";
+import { streamText } from "ai";
+
+const groq = createGroq({ apiKey: process.env.GROQ_API_KEY });
+import { NextRequest } from "next/server";
+import { buildSystemPrompt, AGENT_CONFIGS, TRIGGER_TEXT } from "@/lib/ai/personalities";
+import { PUZZLES } from "@/lib/puzzles/data/puzzles";
+import { ALL_MCQ_BY_ID } from "@/lib/puzzles/loader";
+import { agentChatSchema } from "@/lib/security/schemas";
+import { withRateLimit, agentChatLimiter } from "@/lib/security/ratelimit";
+import { createSupabaseServerClient } from "@/lib/db/supabase.server";
+
+export async function POST(request: NextRequest) {
+  return withRateLimit(request, agentChatLimiter, async () => {
+    const supabase = await createSupabaseServerClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const body = await request.json();
+    const parsed = agentChatSchema.safeParse(body);
+    if (!parsed.success) {
+      return new Response(
+        JSON.stringify({ error: "Invalid input", details: parsed.error.flatten() }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const { puzzleId, agentPersonality, playerAttempt, timeRemainingSeconds, messages, trigger, triggerContext } = parsed.data;
+    const puzzle = PUZZLES[puzzleId];
+    const mcqQuestion = puzzle ? null : ALL_MCQ_BY_ID[puzzleId];
+
+    if (!puzzle && !mcqQuestion) {
+      return new Response(JSON.stringify({ error: "Puzzle not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const hintsUsed = messages.filter((m) => m.role === "assistant").length;
+    const config = AGENT_CONFIGS[agentPersonality];
+
+    const systemPrompt = puzzle
+      ? buildSystemPrompt(agentPersonality, {
+          puzzleType: puzzle.type,
+          puzzleTitle: puzzle.title,
+          puzzleDescription: puzzle.description,
+          playerAttempt,
+          hintsUsed,
+          timeRemainingSeconds,
+          agentContext: puzzle.agentContext,
+        })
+      : buildSystemPrompt(agentPersonality, {
+          puzzleType: "mcq",
+          puzzleTitle: mcqQuestion!.question,
+          puzzleDescription: mcqQuestion!.options
+            .map((o, i) => `${String.fromCharCode(65 + i)}. ${o}`)
+            .join("\n"),
+          playerAttempt,
+          hintsUsed,
+          timeRemainingSeconds,
+          agentContext: `Multiple-choice question (difficulty: ${mcqQuestion!.difficulty}). The player picks one of A/B/C/D. Guide their reasoning — do NOT reveal the correct answer unless hintsUsed >= 3 and your personality is spoon_feeder.`,
+        });
+
+    // Proactive nudges are rendered here from a fixed template keyed by the
+    // validated `trigger` enum — the client never supplies this instruction text.
+    const apiMessages = messages.map((m) => ({ role: m.role, content: m.content }));
+    if (trigger) {
+      apiMessages.push({
+        role: "user" as const,
+        content: `[PROACTIVE — HIDDEN FROM PLAYER]: ${TRIGGER_TEXT[trigger](triggerContext)}`,
+      });
+    }
+
+    if (!process.env.GROQ_API_KEY) {
+      const fallbackAdvice = `[${config.emoji} ${config.name}] : N'hésite pas à consulter le référentiel officiel FMTTN via le bouton en haut de page. Explore en priorité la structure des volets et les définitions du glossaire (p. 99-101) pour t'orienter !`;
+      return new Response(fallbackAdvice, {
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+    }
+
+    const result = streamText({
+      model: groq("llama-3.3-70b-versatile"),
+      system: systemPrompt,
+      messages: apiMessages,
+      maxOutputTokens: 350,
+      temperature: config.temperature,
+    });
+
+    return result.toTextStreamResponse();
+  });
+}

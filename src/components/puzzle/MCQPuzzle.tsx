@@ -1,0 +1,207 @@
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { CheckCircle, XCircle, ChevronRight, Timer, Loader2 } from "lucide-react";
+import type { ClientMCQQuestion } from "@/types";
+
+type Props = {
+  question: ClientMCQQuestion;
+  roomCode: string;
+  questionNumber: number;
+  totalQuestions: number;
+  onAnswer: (isCorrect: boolean, selectedIndex: number) => void;
+  onNext?: () => void;
+  timedOut?: boolean;
+};
+
+export function MCQPuzzle({ question, roomCode, questionNumber, totalQuestions, onAnswer, onNext, timedOut }: Props) {
+  const [selected, setSelected] = useState<number | null>(null);
+  const [revealed, setRevealed] = useState(false);
+  const [grading, setGrading] = useState(false);
+  const [correctIndex, setCorrectIndex] = useState<number | null>(null);
+  const [explanation, setExplanation] = useState("");
+  const gradedRef = useRef(false);
+
+  async function grade(selectedIndex: number | null) {
+    if (gradedRef.current) return;
+    gradedRef.current = true;
+    setGrading(true);
+    try {
+      const res = await fetch("/api/questions/grade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roomCode, answers: [{ questionId: question.id, selectedIndex }] }),
+      });
+      const data = await res.json();
+      const result = data?.results?.[0];
+      setRevealed(true);
+      setGrading(false);
+      if (!res.ok || !result) {
+        onAnswer(false, selectedIndex ?? -1);
+        return;
+      }
+      setCorrectIndex(result.correctIndex);
+      setExplanation(result.explanation);
+      onAnswer(result.isCorrect, selectedIndex ?? -1);
+    } catch {
+      setRevealed(true);
+      setGrading(false);
+      onAnswer(false, selectedIndex ?? -1);
+    }
+  }
+
+  useEffect(() => {
+    if (timedOut && !gradedRef.current) {
+      void grade(selected);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timedOut]);
+
+  function handleSelect(idx: number) {
+    if (revealed || grading) return;
+    setSelected(idx);
+    void grade(idx);
+  }
+
+  const isDS = question.options.length === 5;
+  const isLast = questionNumber === totalQuestions;
+
+  // Keyboard shortcuts: letter keys pick an option, Enter/N advances.
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) return;
+
+      const key = e.key.toUpperCase();
+      if (key === "ENTER") {
+        if (revealed && onNext) {
+          e.preventDefault();
+          onNext();
+        }
+        return;
+      }
+
+      const idx = key.charCodeAt(0) - 65; // A -> 0, B -> 1, ...
+      if (key.length === 1 && idx >= 0 && idx < question.options.length) {
+        e.preventDefault();
+        handleSelect(idx);
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [revealed, grading, onNext, question.options.length]);
+
+  return (
+    <div className="space-y-6 animate-slide-up">
+      {/* Progress */}
+      <div className="flex items-center justify-between text-xs text-muted-foreground tracking-widest">
+        <span>QUESTION {questionNumber} / {totalQuestions}</span>
+        <span className="uppercase font-[family-name:var(--font-orbitron)] text-[var(--neon-cyan)]">
+          {question.difficulty}
+        </span>
+      </div>
+
+      {/* Progress bar */}
+      <div className="h-0.5 bg-border rounded-full overflow-hidden">
+        <div
+          className="h-full bg-[var(--neon-cyan)] transition-all duration-500"
+          style={{ width: `${((questionNumber - 1) / totalQuestions) * 100}%` }}
+        />
+      </div>
+
+      {/* Timed out banner */}
+      {timedOut && revealed && (
+        <div className="flex items-center gap-2 px-4 py-2 rounded border border-red-500/40 bg-red-500/10 text-red-400 text-sm">
+          <Timer className="w-4 h-4 shrink-0" />
+          <span>Time&apos;s up! The correct answer is shown below.</span>
+        </div>
+      )}
+
+      {/* Question text */}
+      <div className="p-6 rounded border border-[var(--dark-border)] bg-card">
+        <p className="text-foreground leading-relaxed whitespace-pre-line text-sm md:text-base">
+          {question.question}
+        </p>
+      </div>
+
+      {/* Options */}
+      <div className={`grid gap-3 ${isDS ? "grid-cols-1" : "grid-cols-1 sm:grid-cols-2"}`}>
+        {question.options.map((opt, idx) => {
+          const isCorrect = revealed && idx === correctIndex;
+          const isSelected = idx === selected;
+
+          let borderClass = "border-[var(--dark-border)] hover:border-[var(--neon-cyan)]/50";
+          let bgClass = "bg-card hover:bg-[var(--neon-cyan)]/5";
+          let textClass = "text-foreground";
+
+          if (revealed) {
+            if (isCorrect) {
+              borderClass = "border-[var(--neon-green)]";
+              bgClass = "bg-[var(--neon-green)]/10";
+              textClass = "text-foreground";
+            } else if (isSelected && !isCorrect) {
+              borderClass = "border-red-500";
+              bgClass = "bg-red-500/10";
+              textClass = "text-foreground";
+            } else {
+              borderClass = "border-[var(--dark-border)] opacity-50";
+              bgClass = "bg-card";
+            }
+          }
+
+          return (
+            <button
+              key={idx}
+              onClick={() => handleSelect(idx)}
+              disabled={revealed || grading}
+              className={`flex items-start gap-3 p-4 rounded border text-left text-sm transition-all ${borderClass} ${bgClass} ${textClass} ${!revealed && !grading ? "cursor-pointer" : "cursor-default"}`}
+            >
+              <span className="shrink-0 w-6 h-6 rounded border border-current flex items-center justify-center text-xs font-bold font-[family-name:var(--font-orbitron)]">
+                {isSelected && grading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : String.fromCharCode(65 + idx)}
+              </span>
+              <span className="flex-1 leading-relaxed">{opt}</span>
+              {revealed && isCorrect && (
+                <CheckCircle className="shrink-0 w-5 h-5 text-[var(--neon-green)] mt-0.5" />
+              )}
+              {revealed && isSelected && !isCorrect && (
+                <XCircle className="shrink-0 w-5 h-5 text-red-500 mt-0.5" />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Explanation */}
+      {revealed && explanation && (
+        <div className="p-4 rounded border border-[var(--neon-cyan)]/30 bg-[var(--neon-cyan)]/5 animate-slide-up">
+          <p className="text-xs text-[var(--neon-cyan)] tracking-widest font-[family-name:var(--font-orbitron)] mb-2">
+            EXPLANATION
+          </p>
+          <p className="text-sm text-foreground leading-relaxed">{explanation}</p>
+        </div>
+      )}
+
+      {/* Next / Finish button — hidden in multiplayer (timer drives advance) */}
+      {revealed && (
+        <div className="flex items-center justify-between">
+          <span className="text-xs text-muted-foreground tracking-widest hidden sm:inline">
+            PRESS ENTER TO CONTINUE
+          </span>
+          {onNext ? (
+            <button
+              onClick={onNext}
+              className="flex items-center gap-2 px-6 py-2 rounded border border-[var(--neon-cyan)] text-[var(--neon-cyan)] text-sm font-semibold hover:bg-[var(--neon-cyan)]/10 transition-all font-[family-name:var(--font-orbitron)]"
+            >
+              {isLast ? "FINISH" : "NEXT"} <ChevronRight className="w-4 h-4" />
+            </button>
+          ) : (
+            <span className="text-xs text-muted-foreground tracking-widest animate-pulse">
+              ⏱ WAITING FOR NEXT QUESTION...
+            </span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
