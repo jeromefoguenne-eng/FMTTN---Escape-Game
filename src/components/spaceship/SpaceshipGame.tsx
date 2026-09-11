@@ -35,6 +35,7 @@ import { Room4CyberCenter } from "./Room4CyberCenter";
 import { Room5Bridge } from "./Room5Bridge";
 import { FinalEscapeTrial } from "./FinalEscapeTrial";
 import { ReferentielModal } from "../layout/ReferentielModal";
+import { assetUrl } from "@/lib/utils";
 
 type Props = {
   roomCode?: string;
@@ -446,7 +447,7 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
             <div className="lg:col-span-6 space-y-3">
               <div className="relative rounded-2xl overflow-hidden border-2 border-indigo-500/40 shadow-xl shadow-indigo-500/10">
                 <img
-                  src="/images/spaceship_map.jpg"
+                  src={assetUrl("/images/spaceship_map.jpg")}
                   alt="L'Arche FMTTN"
                   className="w-full h-auto object-cover"
                 />
@@ -569,7 +570,7 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
             <div className="relative w-full aspect-video min-h-[540px] md:min-h-[620px] lg:min-h-[720px] select-none">
               {/* The Pure Spaceship Blueprint without human characters */}
               <img
-                src="/images/arche_blueprint.jpg"
+                src={assetUrl("/images/arche_blueprint.jpg")}
                 alt="Plan Architectural de l'Arche FMTTN"
                 className="w-full h-full object-cover"
               />

@@ -23,10 +23,10 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-  title: "CodeEscape — The Algorithm Escape Room",
+  title: "L'Arche FMTTN — Escape Game Didactique Intergalactique",
   description:
-    "Solve CS puzzles with AI teammates. An agentic escape room where algorithms unlock the exit.",
-  keywords: ["escape room", "algorithms", "CS education", "AI agents", "coding puzzles"],
+    "Sauvez les passagers de l'Arche spatiale grâce aux compétences du Tronc Commun FMTTN (Formation Manuelle, Technique, Technologique et Numérique - FWB).",
+  keywords: ["FMTTN", "Tronc Commun", "FWB", "Escape Game", "Didactique", "Formation Enseignants", "Technologie", "Numérique"],
 };
 
 export default function RootLayout({

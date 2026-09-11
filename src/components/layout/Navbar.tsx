@@ -52,11 +52,11 @@ export function Navbar() {
           {/* Quick PDF Modal button */}
           <ReferentielModal />
 
-          <Link href="/solo" className="hidden sm:inline-block px-3 py-1.5 rounded text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-            Mode Solo
-          </Link>
-          <Link href="/register" className="hidden sm:inline-block px-3 py-1.5 rounded text-xs text-slate-300 hover:text-emerald-400 transition-colors">
-            Mode Équipe
+          <Link
+            href="/game/BLOC3-FMTTN"
+            className="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-md shadow-emerald-500/20 flex items-center gap-1.5"
+          >
+            <span>🚀 Jouer</span>
           </Link>
 
           <ThemeToggle />

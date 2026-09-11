@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { BookOpen, ExternalLink, X, Bookmark, FileText, AlertCircle } from "lucide-react";
+import { assetUrl } from "@/lib/utils";
 
 type Props = {
   isOpen?: boolean;
@@ -47,7 +48,7 @@ export function ReferentielModal({
     { label: "Logigrammes & Algorithmique", page: 101 },
   ];
 
-  const pdfUrl = `/docs/refFMTTN.pdf#page=${currentPage}`;
+  const pdfUrl = `${assetUrl("/docs/refFMTTN.pdf")}#page=${currentPage}`;
 
   return (
     <>

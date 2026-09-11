@@ -1,46 +1,14 @@
-"use client";
+import { GameContainer } from "./GameContainer";
 
-import { use, useEffect, useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
-import { SpaceshipGame } from "@/components/spaceship/SpaceshipGame";
-import { Loader2 } from "lucide-react";
-
-function GameContainer({ roomCode }: { roomCode: string }) {
-  const searchParams = useSearchParams();
-  const [playerName, setPlayerName] = useState("Cadet FMTTN");
-
-  useEffect(() => {
-    const queryName = searchParams.get("name");
-    const storedName = typeof window !== "undefined" ? localStorage.getItem("fmttn_player_name") : null;
-    if (queryName) {
-      setPlayerName(queryName);
-    } else if (storedName) {
-      setPlayerName(storedName);
-    }
-  }, [searchParams]);
-
-  return <SpaceshipGame roomCode={roomCode} playerName={playerName} />;
+export function generateStaticParams() {
+  return [{ roomCode: "BLOC3-FMTTN" }];
 }
 
-export default function GamePage({
+export default async function GamePage({
   params,
 }: {
   params: Promise<{ roomCode: string }>;
 }) {
-  const { roomCode } = use(params);
-
-  return (
-    <Suspense
-      fallback={
-        <div className="min-h-screen bg-[#090d16] flex items-center justify-center text-slate-300">
-          <div className="flex items-center gap-3 font-mono text-sm">
-            <Loader2 className="w-6 h-6 animate-spin text-emerald-400" />
-            <span>Initialisation de l'Arche FMTTN...</span>
-          </div>
-        </div>
-      }
-    >
-      <GameContainer roomCode={roomCode} />
-    </Suspense>
-  );
+  const { roomCode } = await params;
+  return <GameContainer roomCode={roomCode} />;
 }
