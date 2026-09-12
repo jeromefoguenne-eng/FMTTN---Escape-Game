@@ -482,20 +482,20 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
               {[
                 {
                   id: 1,
-                  title: "Dimension Informationnelle & Sociale (CSEM p. 24)",
-                  text: "Décoder l'intention de communication, évaluer de façon critique la véracité des sources, démasquer la manipulation psychologique et comprendre les enjeux relationnels et citoyens en ligne.",
+                  title: "Dimension Informationnelle & Sociale (CSEM p. 24 - Approche Recommandée)",
+                  text: "Décoder l'intention de communication de l'émetteur, démasquer les leviers d'ingénierie sociale (urgence artificielle, manipulation psychologique, usurpation d'autorité) et développer un esprit critique citoyen sur la diffusion des médias.",
                   correct: true,
                 },
                 {
                   id: 2,
-                  title: "Dimension Purement Matérielle Hardware",
-                  text: "Démonter physiquement la carte mère de l'ordinateur pour mesurer la tension électrique du port réseau Ethernet.",
+                  title: "Focalisation Technique Exclusive (Sans Éducation aux Médias)",
+                  text: "Déléguer la sécurité aux filtres anti-spam et au pare-feu réseau de l'école sans développer le discernement intellectuel ni l'analyse critique des élèves.",
                   correct: false,
                 },
                 {
                   id: 3,
-                  title: "Délégation Extérieure",
-                  text: "Le référentiel stipule que l'analyse des arnaques numériques ne relève pas de la pédagogie scolaire mais doit être confiée exclusivement aux services de police.",
+                  title: "Approche Juridique Formelle Décontextualisée",
+                  text: "Faire mémoriser les articles du code pénal sanctionnant la cybercriminalité sans confronter les élèves à des exemples authentiques d'hameçonnage ni décoder la sémiotique du message.",
                   correct: false,
                 },
               ].map((opt) => (

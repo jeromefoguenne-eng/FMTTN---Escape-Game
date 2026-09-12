@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { GraduationCap, CheckCircle2, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Sparkles, Compass, Lightbulb, Users, Leaf, Cpu, Power, Zap, Sliders } from "lucide-react";
+import { GraduationCap, CheckCircle2, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Power, Zap, Sliders, FileSpreadsheet, Search, Mail, Code, ShieldCheck } from "lucide-react";
 
 type Props = {
   onUnlock: () => void;
@@ -13,7 +13,8 @@ type ViseeSector = {
   id: number;
   name: string;
   shortName: string;
-  icon: typeof Compass;
+  champFMTTN: string;
+  icon: typeof Search;
   gaugeColor: string;
   contextFWB: string;
   problemScenario: string;
@@ -29,161 +30,166 @@ type ViseeSector = {
 const SECTORS: ViseeSector[] = [
   {
     id: 1,
-    name: "Visée 1 : Autonomie (Choix raisonnés & Sécurité)",
-    shortName: "Autonomie",
-    icon: Compass,
+    name: "Dilemme 1 : Recherche d'Information & Discernement Critique",
+    shortName: "Recherche Web",
+    champFMTTN: "Champ 1 : Informations et Données (p. 37, 43, 73)",
+    icon: Search,
     gaugeColor: "from-blue-600 to-cyan-400",
-    contextFWB: "Intelligence Artificielle générative en classe (Liège)",
-    problemScenario: "Les élèves copient-collent des synthèses générées par ChatGPT sans recul critique. Quel levier didactique enclencher ?",
+    contextFWB: "P5 / P6 — Initiation à la recherche documentaire sur le Web (Namur)",
+    problemScenario: "En recherchant des données pour un projet de classe sur l'environnement, les élèves cliquent systématiquement sur le premier lien commercial sponsorisé et recopient fidèlement son texte promotionnel sans vérifier l'auteur. Quelle régulation didactique activer ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Interdiction totale & surveillance policière",
-        sub: "Bloquer tous les accès et punir sans expliquer les enjeux",
+        label: "Levier 1 : Verrouillage restrictif : interdire le Web et fournir un dossier PDF pré-sélectionné",
+        sub: "Distribuer une sélection fermée d'articles validés par le professeur sans confronter les élèves au Web ouvert",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : L'interdiction pure crée la clandestinité et empêche l'éducation à l'autonomie.",
+        feedbackEffect: "Approche trop fermée : priver les élèves du Web ouvert empêche l'acquisition de l'autonomie et des critères d'évaluation des sources prescrits par le référentiel (p. 43, 73).",
       },
       {
         id: 2,
-        label: "Levier 2 : Enseignement critique du prompt & vérification des sources",
-        sub: "Faire de l'IA un tuteur d'investigation : détecter les hallucinations et repérer les biais",
+        label: "Levier 2 : Démarche d'analyse critique : repérage des annonces, examen de l'URL & croisement de sources",
+        sub: "Faire repérer la mention 'Annonce/Sponsorisé', vérifier le domaine (.be, .org, .gouv) et confronter à deux sources indépendantes",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! L'élève apprend à poser des choix raisonnés et responsables face aux techniques (p. 26).",
+        feedbackEffect: "✓ Jauge chargée ! Pleine conformité avec l'attendu officiel : identifier l'intention de chaque élément d'une page Web et questionner la fiabilité de l'information (p. 43, 73).",
       },
       {
         id: 3,
-        label: "Levier 3 : Laisser-faire consumériste passif",
-        sub: "Tolérer la délégation aveugle de tous les travaux sans contrôle",
+        label: "Levier 3 : Laisser-faire naïf : supposer que les 'digital natives' développeront l'esprit critique d'eux-mêmes",
+        sub: "Valider les documents tant que le thème général est abordé, sans analyser la véracité ni le statut de l'auteur",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Dépendance passive incompatible avec l'émancipation intellectuelle.",
+        feedbackEffect: "Illusion pédagogique : l'aisance technique superficielle des élèves ne remplace pas l'apprentissage explicite de la littératie informationnelle (p. 24).",
       },
     ],
   },
   {
     id: 2,
-    name: "Visée 2 : Cognition (Démarche d'Investigation & Diagnostic)",
-    shortName: "Cognition",
-    icon: Cpu,
-    gaugeColor: "from-amber-500 to-yellow-400",
-    contextFWB: "Démarche d'investigation technologique (Namur)",
-    problemScenario: "La sonde d'humidité de la serre scolaire renvoie des données aberrantes. Quel levier didactique enclencher ?",
+    name: "Dilemme 2 : Messagerie, Nétiquette & Protection de la Vie Privée",
+    shortName: "Courriel & RGPD",
+    champFMTTN: "Champ 2 & 4 : Communication, Collaboration & Sécurité (p. 49, 57, 64)",
+    icon: Mail,
+    gaugeColor: "from-indigo-600 to-blue-400",
+    contextFWB: "P6 / S1 — Communication par messagerie et travail collaboratif (Bruxelles)",
+    problemScenario: "Pour diffuser la synthèse d'un travail de groupe, un élève rédige un e-mail et insère les 25 adresses électroniques personnelles de ses camarades dans le champ 'À' (destinataire direct). Quelle régulation didactique activer ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Démarche scientifique : hypothèses, test de continuité & isolation",
-        sub: "Étalonner le capteur dans l'eau, vérifier la masse et inspecter le code",
+        label: "Levier 1 : Enseignement explicite du champ 'Cci / Bcc' (copie cachée) et sensibilisation au RGPD",
+        sub: "Distinguer 'À' (action attendue), 'Cc' (information visible) et 'Cci' (protection de l'adresse et de l'identité numérique des pairs)",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! Développement des processus d'acquisition de savoirs et de compétences (p. 26).",
+        feedbackEffect: "✓ Jauge chargée ! L'élève comprend l'importance de préserver la vie privée et les données personnelles d'autrui conformément au RGPD et à la nétiquette (p. 49, 57, 64).",
       },
       {
         id: 2,
-        label: "Levier 2 : Remplacement aveugle sans analyse",
-        sub: "Jeter la sonde à la poubelle sans tester le circuit",
+        label: "Levier 2 : Suspension de l'accès à la messagerie scolaire et retour exclusif au papier",
+        sub: "Retirer l'outil de communication pour éviter tout risque de fuite de données sans enseigner la bonne pratique",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Consommation impulsive sans démarche d'investigation ni rigueur cognitive.",
+        feedbackEffect: "Approche punitive stérile : le référentiel demande d'apprendre à utiliser les outils de communication en contexte sécurisé, non de les supprimer (p. 49).",
       },
       {
         id: 3,
-        label: "Levier 3 : Abandonner le projet de serre",
-        sub: "Conclure que l'électronique est inaccessible aux élèves",
+        label: "Levier 3 : Demander de transférer les 25 adresses dans le champ 'Cc' (copie conforme)",
+        sub: "Considérer que le champ 'Cc' résout le problème de confidentialité en séparant destinataire et observateurs",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Renoncement stérile face à l'aléa technique.",
+        feedbackEffect: "Erreur technique et légale : le champ 'Cc' laisse toutes les adresses visibles de tous les destinataires, ce qui viole la confidentialité des données personnelles (p. 57, 64).",
       },
     ],
   },
   {
     id: 3,
-    name: "Visée 3 : Créativité (Conception Originale & Prototypage)",
-    shortName: "Créativité",
-    icon: Lightbulb,
-    gaugeColor: "from-purple-500 to-pink-400",
-    contextFWB: "Résolution de problème concret d'école (Bruxelles)",
-    problemScenario: "Les vélos et trottinettes encombrent le hall d'école par manque de mobilier adapté. Quel levier didactique enclencher ?",
+    name: "Dilemme 3 : Pensée Algorithmique & Factorisation par Boucles",
+    shortName: "Scratch & Boucles",
+    champFMTTN: "Champ 3 : Création de Contenus — Pensée informatique (p. 50, 56)",
+    icon: Code,
+    gaugeColor: "from-purple-600 to-pink-400",
+    contextFWB: "P5 / P6 — Algorithmes et programmation par blocs Scratch (Liège)",
+    problemScenario: "Pour faire dessiner un octogone régulier à son lutin Scratch, un élève empile 16 blocs consécutifs : 8 fois le bloc [avancer de 50] alterné avec 8 fois le bloc [tourner à droite de 45°]. Quel levier didactique enclencher ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Interdiction de venir à vélo",
-        sub: "Pénaliser la mobilité active des élèves par une mesure disciplinaire",
+        label: "Levier 1 : Valider le script tel quel car le tracé visuel sur la scène est correct",
+        sub: "Considérer que la méthode d'écriture importe peu tant que le lutin produit la forme géométrique demandée",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Mesure punitive qui tue l'initiative et l'éco-citoyenneté.",
+        feedbackEffect: "Obstacle didactique : passer à côté de l'essence de la pensée computationnelle qui vise l'élégance algorithmique et la factorisation (p. 50, 56).",
       },
       {
         id: 2,
-        label: "Levier 2 : Télécharger un modèle sans adaptation",
-        sub: "Copier un plan sans l'adapter aux dimensions réelles du hall",
+        label: "Levier 2 : Reprendre la souris et remplacer soi-même les blocs par une boucle sans expliciter",
+        sub: "Corriger directement le programme à l'écran pour gagner du temps lors de la séance",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Reproduction passive sans démarche de conception créative.",
+        feedbackEffect: "Dépouillement de l'élève : l'enseignant résout le problème à la place de l'élève sans lui permettre de construire la notion de répétition (p. 26).",
       },
       {
         id: 3,
-        label: "Levier 3 : Défi créatif : concevoir un range-vélos modulaire en bois recyclé",
-        sub: "Cahier des charges, croquis côtés, maquettes carton et prototypage en atelier",
+        label: "Levier 3 : Faire verbaliser le motif récurrent et faire découvrir le bloc itératif [Répéter 8 fois]",
+        sub: "Guider l'élève pour repérer la séquence élémentaire répétée et factoriser le code selon l'attendu du référentiel",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! L'imagination et la construction collective résolvent un problème réel (p. 26).",
+        feedbackEffect: "✓ Jauge chargée ! Parfaite réponse à l'attendu officiel : 'Identifier une suite d'opérations qui peut être remplacée par une boucle' (p. 56).",
       },
     ],
   },
   {
     id: 4,
-    name: "Visée 4 : Collaboration, souci des autres (Intelligence Collective & Inclusion)",
-    shortName: "Collaboration",
-    icon: Users,
-    gaugeColor: "from-teal-500 to-emerald-400",
-    contextFWB: "Inclusion et travail d'équipe en robotique (Charleroi)",
-    problemScenario: "En binôme robotique, un élève monopolise le robot et laisse son camarade passif. Quel levier didactique enclencher ?",
+    name: "Dilemme 4 : Propriété Intellectuelle, Licences Libres & Médias",
+    shortName: "Droits d'Auteur",
+    champFMTTN: "Champ 3 & 4 : Création multimédia et Éthique légale (p. 44, 63, 66)",
+    icon: ShieldCheck,
+    gaugeColor: "from-emerald-600 to-teal-400",
+    contextFWB: "S1 / S2 — Conception de présentations multimédias et éthique numérique (Mons)",
+    problemScenario: "Pour illustrer son diaporama d'exposé, un groupe télécharge des photographies artistiques filigranées sur un moteur de recherche et les publie sans mentionner les auteurs ni vérifier les autorisations. Quelle régulation didactique opérer ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Protocole 'Pair Programming' avec rôles alternés (Pilote / Copilote)",
-        sub: "Un élève code, l'autre contrôle la logique, puis inversion toutes les 15 minutes",
+        label: "Levier 1 : Atelier sur les licences Creative Commons, le filtrage par droits d'usage & la citation légale",
+        sub: "Apprendre à paramétrer le filtre d'images réutilisables, citer l'auteur, le titre et la licence (ex: CC BY-NC) dans le respect de la loi",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! Mise en commun bienveillante des compétences et respect d'autrui (p. 26).",
+        feedbackEffect: "✓ Jauge chargée ! L'élève respecte le droit d'auteur, la propriété intellectuelle et apprend à exploiter légalement des ressources partagées (p. 44, 63, 66).",
       },
       {
         id: 2,
-        label: "Levier 2 : Isoler les élèves chacun sur un écran",
-        sub: "Supprimer tout travail d'équipe et imposer un travail individuel",
+        label: "Levier 2 : Autoriser la copie intégrale sous prétexte que l'usage est strictement scolaire",
+        sub: "Affirmer aux élèves que toute image visible sur Internet est utilisable librement tant qu'on ne la vend pas",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Élimine l'apprentissage social et la collaboration solidaire.",
+        feedbackEffect: "Erreur didactique majeure : l'exception pédagogique ne dispense pas de vérifier les droits et d'apprendre la citation éthique des auteurs (p. 63, 66).",
       },
       {
         id: 3,
-        label: "Levier 3 : Encourager la compétition individuelle",
-        sub: "Seule l'équipe la plus rapide reçoit une note valorisante",
+        label: "Levier 3 : Proscrire tout média externe et obliger à dessiner chaque élément à la main",
+        sub: "Refuser l'accès aux banques d'images pour contourner le problème des droits",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Compétition individualiste opposée à la solidarité du Tronc Commun.",
+        feedbackEffect: "Contournement stérile : l'élève ne développe aucune compétence de recherche documentaire responsable ni de gestion de droits numériques (p. 24).",
       },
     ],
   },
   {
     id: 5,
-    name: "Visée 5 : Développement durable (Écologique, Économique & Social)",
-    shortName: "Dév. durable",
-    icon: Leaf,
-    gaugeColor: "from-emerald-600 to-green-400",
-    contextFWB: "Durabilité du matériel informatique scolaire (Mons)",
-    problemScenario: "30 ordinateurs portables de l'école sont jugés 'trop lents' et voués au rebut. Quel levier didactique enclencher ?",
+    name: "Dilemme 5 : Tableur & Modélisation Dynamique par Formules",
+    shortName: "Tableur Dynamique",
+    champFMTTN: "Champ 3 : Création de Contenus — Traitement de données (p. 50, 73, 74)",
+    icon: FileSpreadsheet,
+    gaugeColor: "from-amber-600 to-yellow-400",
+    contextFWB: "S1 / S2 — Traitement de données et automatisation sous tableur (Charleroi)",
+    problemScenario: "Dans un tableur, des élèves doivent calculer les totaux et les moyennes de dépenses d'un club scolaire. Ils calculent les valeurs sur leur calculatrice et tapent directement le chiffre '145' en dur dans la cellule de total. Quel levier didactique enclencher ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Jeter tous les appareils à la benne",
-        sub: "Rachat complet de matériel neuf sur catalogue",
+        label: "Levier 1 : Valider la cellule dès lors que le montant numérique calculé est arithmétiquement exact",
+        sub: "Traiter le tableur comme une simple grille de traitement de texte sans mobiliser ses capacités de calcul",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Gaspillage économique et pollution électronique massive.",
+        feedbackEffect: "Régression didactique : le tableur est réduit à un tableau passif sans faire découvrir la puissance du calcul dynamique (p. 73-74).",
       },
       {
         id: 2,
-        label: "Levier 2 : Laisser pourrir dans une armoire",
-        sub: "Stocker passivement les machines sans chercher à les réparer",
+        label: "Levier 2 : Faire saisir la formule '=50+45+50' avec les chiffres en dur dans la barre de formule",
+        sub: "Expliquer le symbole '=' mais en additionnant des constantes plutôt que des références de cellules",
         isOptimal: false,
-        feedbackEffect: "Court-circuit : Immobilisation inutile sans valorisation pédagogique.",
+        feedbackEffect: "Piège technique : si une valeur de départ change, le total reste faux car il n'est pas lié aux coordonnées des cellules (p. 74).",
       },
       {
         id: 3,
-        label: "Levier 3 : Créer un 'Repair Café scolaire' : nettoyage & Linux éducatif léger",
-        sub: "Dépoussiérer, changer la pâte thermique, installer un OS libre sobre et éco-responsable",
+        label: "Levier 3 : Faire manipuler les références de cellules (A2:A10) et la fonction '=SOMME()' puis modifier une valeur test",
+        sub: "Démontrer l'intérêt du recalcul automatique instantané et formaliser les notions de cellule, plage et fonction native",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! Confluence exemplaire des enjeux écologiques, économiques et sociaux (p. 26).",
+        feedbackEffect: "✓ Jauge chargée ! Réussite exemplaire des attendus du tableur : utiliser adéquatement formules, fonctions et adressage de cellules (p. 73-74).",
       },
     ],
   },
@@ -222,237 +228,264 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
     }));
 
     if (sw.isOptimal) {
-      // Gauge to 100%
-      setGauges((prev) => ({
-        ...prev,
-        [sectorId]: 100,
-      }));
+      setGauges((prev) => ({ ...prev, [sectorId]: 100 }));
       setFeedbackMessages((prev) => ({
         ...prev,
         [sectorId]: sw.feedbackEffect,
       }));
       setErrorMsg("");
-
-      // Automatically advance to next uncharged sector
-      const nextUncharged = SECTORS.find((s) => s.id !== sectorId && (gauges[s.id] || 0) < 100);
-      if (nextUncharged) {
-        setTimeout(() => setActiveSectorId(nextUncharged.id), 700);
-      }
     } else {
-      // Penalty / Crash
-      setGauges((prev) => ({
-        ...prev,
-        [sectorId]: 0,
-      }));
+      setGauges((prev) => ({ ...prev, [sectorId]: 0 }));
       setFeedbackMessages((prev) => ({
         ...prev,
         [sectorId]: sw.feedbackEffect,
       }));
       onError();
-      setErrorMsg(`⚠️ Commutateur inadapté sur la ${sector?.shortName} : ${sw.feedbackEffect}`);
     }
   }
 
-  function handleFinalHyperspaceLock() {
+  function handleIgniteHyperdrive() {
     if (!all5GaugesCharged) {
+      setErrorMsg("Toutes les jauges didactiques doivent être chargées à 100% avec les leviers optimaux !");
       onError();
-      setErrorMsg("⚠️ Toutes les 5 jauges sociétales doivent être chargées à 100% pour allumer l'ordinateur de bord.");
       return;
     }
-
     setUnlocked(true);
     onUnlock();
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-indigo-950/70 via-slate-900 to-cyan-950/70 border border-indigo-800/40 shadow-xl">
-        <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-indigo-500/20 border border-indigo-500/40 text-indigo-400">
-            <GraduationCap className="w-7 h-7" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-widest font-mono text-cyan-400">Secteur 05 • Niveau 5 (Posture Enseignante & Éthique)</span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                PONT DE COMMANDEMENT & LES 5 VISÉES (P. 26)
-              </span>
+    <div className="space-y-6 text-slate-100 max-w-5xl mx-auto pb-12">
+      {/* HEADER SECTION */}
+      <div className="bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+        <div className="absolute -top-12 -right-12 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-cyan-500/20 border border-cyan-500/40 rounded-xl text-cyan-400">
+              <Sliders className="w-7 h-7" />
             </div>
-            <h2 className="text-xl md:text-2xl font-black text-white tracking-tight">
-              Console Cockpit : Les 5 Leviers de Gouvernance Sociétale
-            </h2>
-            <p className="text-xs text-slate-300">
-              Comme sur un tableau de bord LearningApps, actionnez les bons commutateurs didactiques pour charger les 5 jauges sociétales de l'Arche à 100% (p. 26).
-            </p>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                  Secteur 05 · Niveau 5
+                </span>
+                <span className="text-xs text-slate-400 font-mono">Volet 2 : Numérique FMTTN</span>
+              </div>
+              <h2 className="text-xl md:text-2xl font-black text-white mt-1">
+                Le Laboratoire Didactique de l'Enseignant de Numérique
+              </h2>
+              <p className="text-sm text-slate-300">
+                Analysez 5 situations authentiques de classe de numérique et choisissez la régulation didactique conforme au Tronc Commun.
+              </p>
+            </div>
+          </div>
+
+          <button
+            onClick={() => openPdf(24)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-medium transition self-start md:self-auto shadow-sm"
+          >
+            <HelpCircle className="w-4 h-4" />
+            <span>Consulter le Volet Numérique (p. 24-26)</span>
+          </button>
+        </div>
+
+        {/* 5 GAUGES SUMMARY BAR */}
+        <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-3 pt-4 border-t border-slate-800">
+          {SECTORS.map((s) => {
+            const isFilled = gauges[s.id] === 100;
+            const isCurrent = activeSectorId === s.id;
+            const SectorIcon = s.icon;
+            return (
+              <button
+                key={s.id}
+                onClick={() => setActiveSectorId(s.id)}
+                className={`flex flex-col p-3 rounded-xl border text-left transition-all ${
+                  isCurrent
+                    ? "bg-slate-800/90 border-cyan-400 ring-2 ring-cyan-500/30"
+                    : "bg-slate-900/60 border-slate-800 hover:border-slate-700"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className={`p-1 rounded-md ${isFilled ? "text-emerald-400 bg-emerald-950/50" : "text-slate-400 bg-slate-800"}`}>
+                    <SectorIcon className="w-4 h-4" />
+                  </div>
+                  <span className={`text-[11px] font-mono font-bold ${isFilled ? "text-emerald-400" : "text-slate-500"}`}>
+                    {gauges[s.id]}%
+                  </span>
+                </div>
+                <div className="text-xs font-bold truncate text-slate-200">{s.shortName}</div>
+                {/* Visual mini-bar */}
+                <div className="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-500 ${
+                      isFilled ? "bg-gradient-to-r from-emerald-500 to-cyan-400 w-full" : "w-0"
+                    }`}
+                  />
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ACTIVE SECTOR DETAIL CARD */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-xl relative backdrop-blur-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+              <Icon className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-cyan-400">
+                  {activeSector.champFMTTN}
+                </span>
+                <span className="text-xs text-slate-500 font-mono">• {activeSector.contextFWB}</span>
+              </div>
+              <h3 className="text-lg font-black text-white mt-0.5">{activeSector.name}</h3>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setActiveSectorId((prev) => (prev > 1 ? prev - 1 : 5))}
+              className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition"
+              title="Dilemme précédent"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </button>
+            <span className="text-xs font-mono font-bold text-slate-400 px-2">
+              {activeSectorId} / 5
+            </span>
+            <button
+              onClick={() => setActiveSectorId((prev) => (prev < 5 ? prev + 1 : 1))}
+              className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition"
+              title="Dilemme suivant"
+            >
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* SITUATION DIDACTIQUE AUTHENTIQUE */}
+        <div className="p-4 rounded-xl bg-slate-950/70 border border-cyan-500/30 mb-6">
+          <div className="flex items-center gap-2 text-xs font-bold text-cyan-300 uppercase tracking-wider mb-2">
+            <GraduationCap className="w-4 h-4 text-cyan-400" />
+            <span>Situation Didactique Concrète de Classe (FWB)</span>
+          </div>
+          <p className="text-sm text-slate-200 font-medium leading-relaxed italic">
+            « {activeSector.problemScenario} »
+          </p>
+        </div>
+
+        {/* 3 LEVIERS PLAUSIBLES */}
+        <div className="space-y-3">
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+            Actionnez le levier didactique conforme aux attendus du Tronc Commun :
+          </div>
+
+          {activeSector.switches.map((sw) => {
+            const isSelected = activeSwitchSelections[activeSectorId] === sw.id;
+            const isGaugeFull = gauges[activeSectorId] === 100;
+            const isThisOptimal = sw.isOptimal;
+
+            return (
+              <button
+                key={sw.id}
+                onClick={() => toggleSwitch(activeSectorId, sw.id)}
+                className={`w-full text-left p-4 rounded-xl border transition-all relative overflow-hidden ${
+                  isSelected
+                    ? isThisOptimal
+                      ? "bg-emerald-950/40 border-emerald-500/80 ring-2 ring-emerald-500/40"
+                      : "bg-red-950/40 border-red-500/80 ring-2 ring-red-500/40"
+                    : "bg-slate-950/50 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60"
+                }`}
+              >
+                <div className="flex items-start gap-3.5">
+                  <div
+                    className={`mt-0.5 p-2 rounded-lg border transition ${
+                      isSelected
+                        ? isThisOptimal
+                          ? "bg-emerald-500 text-slate-950 border-emerald-400"
+                          : "bg-red-500 text-white border-red-400"
+                        : "bg-slate-900 text-slate-400 border-slate-800"
+                    }`}
+                  >
+                    <Power className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className={`text-sm font-bold ${isSelected ? (isThisOptimal ? "text-emerald-300" : "text-red-300") : "text-slate-200"}`}>
+                        {sw.label}
+                      </span>
+                      {isSelected && (
+                        <span className="text-xs font-bold uppercase font-mono px-2 py-0.5 rounded">
+                          {isThisOptimal ? "✓ Activé (100%)" : "✕ Inadéquat"}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-slate-400 mt-1 leading-relaxed">{sw.sub}</p>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* FEEDBACK DISPLAY */}
+        {feedbackMessages[activeSectorId] && (
+          <div
+            className={`mt-5 p-4 rounded-xl border text-xs font-medium leading-relaxed animate-fadeIn ${
+              gauges[activeSectorId] === 100
+                ? "bg-emerald-950/40 border-emerald-500/50 text-emerald-200"
+                : "bg-red-950/40 border-red-500/50 text-red-200"
+            }`}
+          >
+            {feedbackMessages[activeSectorId]}
+          </div>
+        )}
+      </div>
+
+      {/* ERROR MESSAGE IF ANY */}
+      {errorMsg && (
+        <div className="p-4 bg-red-950/60 border border-red-500/50 rounded-xl text-red-200 text-xs flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+          <span>{errorMsg}</span>
+        </div>
+      )}
+
+      {/* FINAL UNLOCK BUTTON */}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 bg-slate-900/90 border border-slate-800 rounded-2xl backdrop-blur-sm">
+        <div>
+          <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
+            Progression Didactique du Volet Numérique :
+          </div>
+          <div className="text-sm font-semibold text-slate-200 mt-0.5">
+            Jauges chargées : <span className="font-mono text-cyan-400 font-bold">{totalGaugesSum / 100} / 5</span>
           </div>
         </div>
 
         <button
-          onClick={() => openPdf(26)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-200 text-xs font-bold transition shrink-0 cursor-pointer"
+          onClick={handleIgniteHyperdrive}
+          disabled={!all5GaugesCharged}
+          className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm uppercase tracking-wider transition-all shadow-lg ${
+            all5GaugesCharged
+              ? "bg-gradient-to-r from-cyan-500 to-emerald-500 text-slate-950 hover:brightness-110 ring-2 ring-cyan-400/50 cursor-pointer animate-pulse"
+              : "bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed"
+          }`}
         >
-          <HelpCircle className="w-4 h-4 text-cyan-400" />
-          <span>Consulter Référentiel p. 26</span>
+          <Zap className="w-4 h-4" />
+          <span>{all5GaugesCharged ? "Allumer le Cap Didactique & Valider la Salle" : "Chargez les 5 jauges à 100%"}</span>
+          <ArrowRight className="w-4 h-4" />
         </button>
       </div>
 
-      {/* 5 COCKPIT POWER GAUGES (LE CLUSTEUR DE BORD) */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 p-4 rounded-2xl bg-slate-950 border border-slate-800 shadow-2xl">
-        {SECTORS.map((s) => {
-          const SIcon = s.icon;
-          const val = gauges[s.id] || 0;
-          const isCharged = val === 100;
-          const isCurrent = activeSectorId === s.id;
-
-          return (
-            <div
-              key={s.id}
-              onClick={() => setActiveSectorId(s.id)}
-              className={`p-3 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
-                isCurrent
-                  ? "bg-slate-900 border-cyan-400 ring-2 ring-cyan-400/40 shadow-lg"
-                  : isCharged
-                  ? "bg-emerald-950/20 border-emerald-500/50"
-                  : "bg-slate-900/40 border-slate-800 hover:border-slate-700"
-              }`}
-            >
-              <div className="flex items-center justify-between gap-1 mb-1">
-                <span className="text-xs font-bold text-white flex items-center gap-1 truncate">
-                  <SIcon className="w-3.5 h-3.5 shrink-0 text-cyan-400" />
-                  <span className="truncate">{s.shortName}</span>
-                </span>
-                {isCharged && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />}
-              </div>
-
-              {/* Vertical Gauge Bar */}
-              <div className="my-2 h-2.5 w-full rounded-full bg-slate-800 overflow-hidden">
-                <div
-                  style={{ width: `${val}%` }}
-                  className={`h-full bg-gradient-to-r ${s.gaugeColor} transition-all duration-500`}
-                />
-              </div>
-
-              <div className="flex justify-between items-center text-[10px] font-mono text-slate-400">
-                <span>V0{s.id}</span>
-                <span className={isCharged ? "text-emerald-400 font-bold" : "text-slate-500"}>
-                  {val}%
-                </span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* UNLOCKED SUCCESS */}
-      {unlocked ? (
-        <div className="p-8 rounded-2xl bg-emerald-950/30 border border-emerald-500/50 text-center space-y-4 shadow-2xl animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
-            <CheckCircle2 className="w-8 h-8" />
-          </div>
-          <h3 className="text-2xl font-black text-emerald-300">
-            5 / 5 JAUGES SOCIÉTALES AU MAXIMUM !
-          </h3>
-          <p className="text-sm text-emerald-200/90 max-w-xl mx-auto">
-            Gouvernance exemplaire ! Vous avez activé les 5 leviers émancipateurs du Tronc Commun (Autonomie, Raisonnement, Créativité, Coopération, Éco-citoyenneté p. 26). L'Arche FMTTN est déverrouillée !
-          </p>
-        </div>
-      ) : (
-        /* INTERACTIVE CONSOLE SECTOR PANEL */
-        <div className="p-6 md:p-8 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-6 shadow-xl">
-          {/* Active Sector Header */}
-          <div className="flex items-start gap-4 pb-4 border-b border-slate-800">
-            <div className="p-3 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 shrink-0">
-              <Icon className="w-7 h-7" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400">
-                  {activeSector.name}
-                </span>
-                <span className="text-xs text-slate-500 font-mono">• {activeSector.contextFWB}</span>
-              </div>
-              <h3 className="text-base sm:text-lg font-bold text-white mt-1">
-                « {activeSector.problemScenario} »
-              </h3>
-            </div>
-          </div>
-
-          {/* 3 Mechanical Switches */}
-          <div className="space-y-3">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-400 block">
-              Actionnez le commutateur didactique conforme au Tronc Commun (p. 26) :
-            </span>
-
-            <div className="grid grid-cols-1 gap-3">
-              {activeSector.switches.map((sw) => {
-                const isSelected = activeSwitchSelections[activeSector.id] === sw.id;
-                const isOptimal = sw.isOptimal;
-
-                return (
-                  <div
-                    key={sw.id}
-                    onClick={() => toggleSwitch(activeSector.id, sw.id)}
-                    className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-start gap-4 ${
-                      isSelected
-                        ? isOptimal
-                          ? "bg-emerald-950/50 border-emerald-400 ring-2 ring-emerald-400/40 text-white shadow-xl scale-[1.01]"
-                          : "bg-rose-950/50 border-rose-500 ring-2 ring-rose-500/40 text-rose-200"
-                        : "bg-slate-950/90 border-slate-800 hover:border-cyan-500/60 text-slate-300 hover:bg-slate-900/80"
-                    }`}
-                  >
-                    {/* Mechanical Toggle Button Icon */}
-                    <div
-                      className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all ${
-                        isSelected
-                          ? isOptimal
-                            ? "bg-emerald-500 border-white text-slate-950 shadow-md shadow-emerald-500/50"
-                            : "bg-rose-600 border-white text-white"
-                          : "bg-slate-800 border-slate-700 text-slate-400"
-                      }`}
-                    >
-                      <Power className="w-5 h-5" />
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-sm text-white">{sw.label}</div>
-                      <p className="text-xs text-slate-400 mt-1">{sw.sub}</p>
-                      {isSelected && (
-                        <div
-                          className={`text-xs mt-2 font-mono font-bold ${
-                            isOptimal ? "text-emerald-300" : "text-rose-400"
-                          }`}
-                        >
-                          {sw.feedbackEffect}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Sector Navigation & Master Hyperspace Button */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800">
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400 font-mono">
-                Jauges pleines : <strong className="text-cyan-400">{Object.values(gauges).filter((v) => v === 100).length} / 5</strong>
-              </span>
-            </div>
-
-            <button
-              onClick={handleFinalHyperspaceLock}
-              disabled={!all5GaugesCharged}
-              className={`px-8 py-3.5 rounded-xl font-bold text-xs uppercase tracking-wider shadow-xl transition cursor-pointer flex items-center gap-2 ${
-                all5GaugesCharged
-                  ? "bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white animate-bounce shadow-cyan-500/40"
-                  : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700"
-              }`}
-            >
-              <Zap className="w-4 h-4" />
-              <span>{all5GaugesCharged ? "Verrouiller le Cap vers la Nouvelle Planète ➔" : "Chargez les 5 jauges pour allumer le cap"}</span>
-            </button>
+      {/* SUCCESS BANNER */}
+      {unlocked && (
+        <div className="p-4 rounded-xl bg-emerald-950/60 border border-emerald-500/60 text-emerald-200 text-sm flex items-center gap-3 animate-fadeIn">
+          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+          <div>
+            <span className="font-bold">Postures Didactiques Maîtrisées !</span> Vous avez régulé avec succès les 5 situations de classe du Volet Numérique. Le pont de commandement est opérationnel pour le Sas Final.
           </div>
         </div>
       )}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Wrench, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, RotateCcw, Sparkles, Box, Check, ArrowDown, GraduationCap } from "lucide-react";
+import { HardDrive, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, RotateCcw, Sparkles, Box, Check, ArrowDown, GraduationCap, Cpu, Layers, FileCode, Cloud } from "lucide-react";
 
 type Props = {
   onUnlock: () => void;
@@ -9,7 +9,7 @@ type Props = {
   openPdf: (page?: number) => void;
 };
 
-type ItemCategory = "MATIERE_PREMIERE" | "MATERIAU" | "CONSOMMABLE" | "OUVRAGE";
+type ItemCategory = "HARDWARE" | "SOFTWARE" | "FICHIERS" | "CLOUD";
 
 type WorkshopItem = {
   id: string;
@@ -23,112 +23,112 @@ type WorkshopItem = {
 
 const ITEMS_POOL: WorkshopItem[] = [
   {
-    id: "tronc",
-    name: "Tronc de chêne brut non débité",
-    icon: "🪵",
-    pupilContext: "Emma (S1) : Bille de bois abattue en forêt ardennaise",
-    expectedCategory: "MATIERE_PREMIERE",
-    description: "Substance végétale issue directement de la nature, sans transformation industrielle humaine.",
-    didacticTrap: "Matière première (p. 100) : ressource naturelle à l'état brut n'ayant subi aucun façonnage.",
+    id: "ram",
+    name: "Barrette de mémoire vive RAM (8 Go)",
+    icon: "⚡",
+    pupilContext: "Lucas (P5) : Composant branché sur la carte mère",
+    expectedCategory: "HARDWARE",
+    description: "Mémoire de travail rapide et volatile : stocke temporairement les programmes en cours d'exécution mais s'efface à l'extinction.",
+    didacticTrap: "Hardware (p. 63) : distinguer impérativement la mémoire vive volatile de la mémoire de stockage permanente.",
   },
   {
-    id: "papier_recycle",
-    name: "Ramette de papier recyclé 80g",
+    id: "ssd",
+    name: "Disque SSD interne NVMe (512 Go)",
+    icon: "💾",
+    pupilContext: "Zoé (S1) : Support de stockage physique du poste",
+    expectedCategory: "HARDWARE",
+    description: "Support de stockage physique permanent non volatile conservant les fichiers et le système même hors tension.",
+    didacticTrap: "Hardware (p. 43, 63) : composant physique de stockage permanent local opposé au cloud distant.",
+  },
+  {
+    id: "os",
+    name: "Système d'exploitation (Linux / Windows)",
+    icon: "🐧",
+    pupilContext: "Emma (P6) : Le programme qui gère toute la machine",
+    expectedCategory: "SOFTWARE",
+    description: "Logiciel système fondamental assurant la liaison entre le matériel physique et les logiciels d'application.",
+    didacticTrap: "Software (p. 43) : utiliser adéquatement en contexte les termes dont système d'exploitation, logiciel, application.",
+  },
+  {
+    id: "navigateur",
+    name: "Navigateur Web (Firefox / Chromium)",
+    icon: "🌐",
+    pupilContext: "Noah (P4) : L'outil pour afficher les pages Web",
+    expectedCategory: "SOFTWARE",
+    description: "Logiciel applicatif client conçu pour interpréter le code HTML/CSS et naviguer sur le réseau Internet.",
+    didacticTrap: "Software (p. 37, 43) : distinguer navigateur (logiciel client) et moteur de recherche (service Web en ligne).",
+  },
+  {
+    id: "docx",
+    name: "Document textuel : rapport_projet.docx",
     icon: "📄",
-    pupilContext: "Lucas (P6) : Feuilles calibrées pour le dossier technique",
-    expectedCategory: "MATERIAU",
-    description: "Pâte à papier issue de fibres récupérées, broyée, lavée, pressée et séchée en usine pour être réutilisable.",
-    didacticTrap: "Piège fréquent ! Même recyclé, le papier n'est plus une matière brute : c'est un matériau élaboré (p. 100).",
+    pupilContext: "Emma (P6) : Dossier de synthèse rédigé en classe",
+    expectedCategory: "FICHIERS",
+    description: "Format de fichier bureautique contenant du texte structuré et associé à un logiciel de traitement de texte.",
+    didacticTrap: "Format de fichier (p. 63) : associer différents types de fichiers à un logiciel à l'aide de leur extension.",
   },
   {
-    id: "colle",
-    name: "Flacon de colle vinylique à bois",
-    icon: "🧴",
-    pupilContext: "Noah (P5) : Adhésif d'assemblage des montants",
-    expectedCategory: "CONSOMMABLE",
-    description: "Produit de liaison liquide qui s'infiltre dans les pores du bois, polymérise et s'intègre de façon irréversible.",
-    didacticTrap: "Consommable (p. 99) : produit à usage unique ou limité qui se détruit ou s'incorpore dans l'ouvrage.",
+    id: "mp3",
+    name: "Balado audio : interview_temoin.mp3",
+    icon: "🎵",
+    pupilContext: "Lucas (P5) : Enregistrement sonore pour la webradio",
+    expectedCategory: "FICHIERS",
+    description: "Format de fichier numérique compressé encapsulant des données audio échantillonnées.",
+    didacticTrap: "Format multimédia (p. 50, 63) : identifier la nature du média numérique à travers son extension normalisée.",
   },
   {
-    id: "vis",
-    name: "Boîte de vis à bois inox 4x35mm",
-    icon: "🔩",
-    pupilContext: "Noah (P5) : Organes filetés de fixation mécanique",
-    expectedCategory: "CONSOMMABLE",
-    description: "Éléments d'assemblage mécanique scellés à demeure dans l'ouvrage fini et non réutilisables.",
-    didacticTrap: "Piège d'élèves ! Les vis ne sont pas du « matériel » : elles s'intègrent définitivement dans l'objet fabriqué (p. 99).",
+    id: "cloud_drive",
+    name: "Espace partagé Cloud de la Fédération",
+    icon: "☁️",
+    pupilContext: "Zoé (S1) : Répertoire en ligne accessible partout",
+    expectedCategory: "CLOUD",
+    description: "Espace de stockage distant dématérialisé hébergé sur des serveurs distants connectés au réseau Internet.",
+    didacticTrap: "Stockage distant (p. 43) : distinguer des supports de stockage utilisés dont disque dur local et cloud.",
   },
   {
-    id: "argile",
-    name: "Pain d'argile naturelle de carrière",
-    icon: "🧱",
-    pupilContext: "Zoé (S1) : Terre glaise brute pour mouler un creuset",
-    expectedCategory: "MATIERE_PREMIERE",
-    description: "Roche sédimentaire meuble extraite du sol, n'ayant encore subi ni cuisson ni adjuvant.",
-    didacticTrap: "Matière première (p. 100) : substance géologique naturelle prête à être transformée.",
-  },
-  {
-    id: "tasseau",
-    name: "Tasseau de pin raboté 20x20mm",
-    icon: "📐",
-    pupilContext: "Lucas (P6) : Baguette de bois délignée et calibrée",
-    expectedCategory: "MATERIAU",
-    description: "Bois scié, séché en étuve et usiné aux quatre faces pour être apte à la construction.",
-    didacticTrap: "Matériau (p. 100) : matière mise en forme par l'humain pour servir à la réalisation d'un ouvrage.",
-  },
-  {
-    id: "nichoir",
-    name: "Nichoir à mésanges terminé et lasuré",
-    icon: "🏠",
-    pupilContext: "Zoé (S1) : Abri écologique fonctionnel et étanche",
-    expectedCategory: "OUVRAGE",
-    description: "Objet technique finalisé, répondant au cahier des charges et prêt pour son cadre d'utilisation.",
-    didacticTrap: "Ouvrage (p. 100) : objet résultant d'un travail de fabrication technique complet.",
-  },
-  {
-    id: "support_tablette",
-    name: "Pupitre scolaire ergonomique assemblé",
-    icon: "📱",
-    pupilContext: "Lucas (P6) : Support incliné prêt pour la classe",
-    expectedCategory: "OUVRAGE",
-    description: "Produit fini issu du processus complet de conception, sciage, ponçage et vissage.",
-    didacticTrap: "Ouvrage (p. 100) : réalisation technique concrète satisfaisant un besoin utilisateur.",
+    id: "ent_server",
+    name: "Serveur de messagerie et ENT scolaire",
+    icon: "🏛️",
+    pupilContext: "Noah (P4) : Plateforme en ligne pour recevoir les devoirs",
+    expectedCategory: "CLOUD",
+    description: "Infrastructure réseau distante fournissant des services collaboratifs synchrones et asynchrones aux élèves.",
+    didacticTrap: "Réseau et services distants (p. 24, 63) : comprendre l'architecture client-serveur de l'école.",
   },
 ];
 
 const BINS = [
   {
-    id: "MATIERE_PREMIERE" as ItemCategory,
-    label: "1. Matières Premières",
-    sub: "Ressources à l'état brut dans la nature (sans façonnage industriel)",
-    icon: "🌿",
-    bgColor: "bg-amber-950/30 border-amber-500/50 text-amber-300",
-    activeColor: "ring-2 ring-amber-400 bg-amber-950/60",
-    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-  },
-  {
-    id: "MATERIAU" as ItemCategory,
-    label: "2. Matériaux",
-    sub: "Matières traitées et usinées par l'humain pour fabriquer des ouvrages",
-    icon: "🪵",
+    id: "HARDWARE" as ItemCategory,
+    label: "1. Hardware (Matériel)",
+    sub: "Composants physiques de la machine (RAM, SSD, processeur - p. 63)",
+    icon: "💻",
     bgColor: "bg-blue-950/30 border-blue-500/50 text-blue-300",
     activeColor: "ring-2 ring-blue-400 bg-blue-950/60",
     badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/40",
   },
   {
-    id: "CONSOMMABLE" as ItemCategory,
-    label: "3. Consommables",
-    sub: "Éléments à usage unique ou limité qui se détruisent ou s'intègrent",
-    icon: "🔩",
-    bgColor: "bg-rose-950/30 border-rose-500/50 text-rose-300",
-    activeColor: "ring-2 ring-rose-400 bg-rose-950/60",
-    badgeColor: "bg-rose-500/20 text-rose-300 border-rose-500/40",
+    id: "SOFTWARE" as ItemCategory,
+    label: "2. Software (Logiciels & OS)",
+    sub: "Programmes, système d'exploitation & applications (p. 43)",
+    icon: "⚙️",
+    bgColor: "bg-purple-950/30 border-purple-500/50 text-purple-300",
+    activeColor: "ring-2 ring-purple-400 bg-purple-950/60",
+    badgeColor: "bg-purple-500/20 text-purple-300 border-purple-500/40",
   },
   {
-    id: "OUVRAGE" as ItemCategory,
-    label: "4. Ouvrages",
-    sub: "Objets techniques finalisés résultant du travail et répondant au besoin",
-    icon: "📦",
+    id: "FICHIERS" as ItemCategory,
+    label: "3. Formats & Fichiers",
+    sub: "Données encodées et extensions (.docx, .mp3, .svg - p. 63)",
+    icon: "📁",
+    bgColor: "bg-amber-950/30 border-amber-500/50 text-amber-300",
+    activeColor: "ring-2 ring-amber-400 bg-amber-950/60",
+    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
+  },
+  {
+    id: "CLOUD" as ItemCategory,
+    label: "4. Cloud & Réseau Distant",
+    sub: "Stockage dématérialisé et serveurs distants en ligne (p. 43)",
+    icon: "☁️",
     bgColor: "bg-emerald-950/30 border-emerald-500/50 text-emerald-300",
     activeColor: "ring-2 ring-emerald-400 bg-emerald-950/60",
     badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
@@ -136,416 +136,488 @@ const BINS = [
 ];
 
 export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
-  const [assignedBins, setAssignedBins] = useState<Record<string, ItemCategory>>({});
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-  const [sortingCompleted, setSortingCompleted] = useState(false);
+  const [placements, setPlacements] = useState<Record<string, ItemCategory>>({});
+  const [validationErrors, setValidationErrors] = useState<Record<string, boolean>>({});
+  const [allCorrect, setAllCorrect] = useState(false);
+  const [step, setStep] = useState<"SORT" | "DIDACTIC_QUESTION" | "AXIOM">("SORT");
 
-  // Didactic question for Bloc 3 student teacher
+  // Step 2 : Didactic analysis of pupil misconception
   const [didacticChoice, setDidacticChoice] = useState<number | null>(null);
+  const [didacticError, setDidacticError] = useState("");
+
+  // Step 3 : Axiom completion (p. 24)
   const [axiomWord, setAxiomWord] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-  const [unlocked, setUnlocked] = useState(false);
+  const [axiomError, setAxiomError] = useState("");
 
-  const selectedItem = ITEMS_POOL.find((i) => i.id === selectedItemId);
-  const unassignedItems = ITEMS_POOL.filter((item) => !assignedBins[item.id]);
+  const unplacedItems = ITEMS_POOL.filter((item) => !placements[item.id]);
 
-  function handleSelectCard(itemId: string) {
-    if (selectedItemId === itemId) {
-      setSelectedItemId(null);
-    } else {
-      setSelectedItemId(itemId);
-      setErrorMsg("");
-    }
+  function handleSelectItem(itemId: string) {
+    setSelectedItemId(itemId === selectedItemId ? null : itemId);
   }
 
-  function handleDropInBin(category: ItemCategory) {
+  function handlePlaceItem(binId: ItemCategory) {
     if (!selectedItemId) return;
-
-    setAssignedBins((prev) => ({
+    setPlacements((prev) => ({
       ...prev,
-      [selectedItemId]: category,
+      [selectedItemId]: binId,
     }));
-    setSelectedItemId(null);
-    setErrorMsg("");
-  }
-
-  function handleRemoveFromBin(itemId: string) {
-    setAssignedBins((prev) => {
-      const copy = { ...prev };
-      delete copy[itemId];
-      return copy;
+    // Clear error for this item if any
+    setValidationErrors((prev) => {
+      const next = { ...prev };
+      delete next[selectedItemId];
+      return next;
     });
-    setErrorMsg("");
+    setSelectedItemId(null);
   }
 
-  function verifySorting() {
-    if (Object.keys(assignedBins).length < ITEMS_POOL.length) {
-      setErrorMsg(`⚠️ Il vous reste ${ITEMS_POOL.length - Object.keys(assignedBins).length} carte(s) à classer dans les 4 bacs d'atelier !`);
-      return;
-    }
+  function handleRemoveItem(itemId: string) {
+    setPlacements((prev) => {
+      const next = { ...prev };
+      delete next[itemId];
+      return next;
+    });
+    setValidationErrors((prev) => {
+      const next = { ...prev };
+      delete next[itemId];
+      return next;
+    });
+    setAllCorrect(false);
+  }
 
-    const errors: string[] = [];
+  function handleReset() {
+    setPlacements({});
+    setValidationErrors({});
+    setSelectedItemId(null);
+    setAllCorrect(false);
+  }
+
+  function handleVerifySorting() {
+    let hasError = false;
+    const errors: Record<string, boolean> = {};
+
     ITEMS_POOL.forEach((item) => {
-      if (assignedBins[item.id] !== item.expectedCategory) {
-        errors.push(item.name);
+      const placedBin = placements[item.id];
+      if (placedBin !== item.expectedCategory) {
+        errors[item.id] = true;
+        hasError = true;
       }
     });
 
-    if (errors.length > 0) {
-      onError();
-      setErrorMsg(
-        `❌ Vigilance didactique : ${errors.length} objet(s) sont mal classés (${errors.slice(0, 2).join(", ")}...). Attention aux pièges : le papier recyclé n'est pas brut (c'est un matériau), et les vis ne sont pas du matériel (ce sont des consommables) ! Consultez p. 99-100.`
-      );
-      return;
-    }
+    setValidationErrors(errors);
 
-    setErrorMsg("");
-    setSortingCompleted(true);
+    if (hasError) {
+      onError();
+      setAllCorrect(false);
+    } else {
+      setAllCorrect(true);
+    }
   }
 
-  function verifyAxiomAndDidactics() {
-    if (didacticChoice !== 1) {
-      onError();
-      setErrorMsg("❌ Diagnostic didactique incorrect ! Comment le référentiel p. 99-100 distingue-t-il rigoureusement un consommable d'un matériel/outil pour un élève de P5 ?");
-      return;
+  function handleProceedToDidactic() {
+    if (allCorrect) {
+      setStep("DIDACTIC_QUESTION");
     }
-
-    const clean = axiomWord.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    if (clean !== "TECHNOLOGIQUE") {
-      onError();
-      setErrorMsg("❌ Mot manquant incorrect ! Relisez la page 99 : « C'est le geste qui est technique, c'est l'objet qui est... »");
-      return;
-    }
-
-    setErrorMsg("");
-    setUnlocked(true);
-    onUnlock();
   }
 
-  function resetGame() {
-    setAssignedBins({});
-    setSelectedItemId(null);
-    setSortingCompleted(false);
-    setDidacticChoice(null);
-    setAxiomWord("");
-    setErrorMsg("");
+  function handleVerifyDidactic() {
+    // Correct choice is 1
+    if (didacticChoice === 1) {
+      setDidacticError("");
+      setStep("AXIOM");
+    } else {
+      setDidacticError("Analyse incomplète : relisez les savoirs officiels de la page 63 (distinction mémoire vive / mémoire de stockage).");
+      onError();
+    }
+  }
+
+  function handleVerifyAxiom() {
+    const cleaned = axiomWord.trim().toUpperCase();
+    if (cleaned === "PAR") {
+      setAxiomError("");
+      onUnlock();
+    } else {
+      setAxiomError("Mot incorrect ! Consultez la citation officielle de la page 24 du référentiel.");
+      onError();
+    }
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-blue-950/70 via-slate-900 to-indigo-950/70 border border-blue-800/40 shadow-xl">
-        <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-blue-500/20 border border-blue-500/40 text-blue-400">
-            <Wrench className="w-7 h-7" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-widest font-mono text-blue-400">Secteur 01 • Niveau 1 (Fondations)</span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                TERMINOLOGIE OFFICIELLE & DIDACTIQUE TECHNIQUE (P. 99-100)
-              </span>
+    <div className="space-y-6 text-slate-100 max-w-5xl mx-auto pb-12">
+      {/* HEADER WITH PDF HELPER */}
+      <div className="bg-slate-900/90 border border-blue-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+        <div className="absolute -top-12 -right-12 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-blue-500/20 border border-blue-500/40 rounded-xl text-blue-400">
+              <Cpu className="w-7 h-7" />
             </div>
-            <h2 className="text-xl md:text-2xl font-black text-white tracking-tight">
-              Atelier FMTTN : Tri Didactique & Vigilance Épistémologique
-            </h2>
-            <p className="text-xs text-slate-300">
-              Déjouez les pièges conceptuels d'élèves en classant les 8 ressources de fabrication (<strong>Matière première, Matériau, Consommable, Ouvrage</strong>), puis régulez la situation didactique de classe.
-            </p>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                  Secteur 01 · Niveau 1
+                </span>
+                <span className="text-xs text-slate-400 font-mono">Volet 2 : Numérique FMTTN</span>
+              </div>
+              <h2 className="text-xl md:text-2xl font-black text-white mt-1">
+                Architecture Numérique & Système Informatique
+              </h2>
+              <p className="text-sm text-slate-300">
+                Maîtrisez les fondements de l'environnement numérique prescrits par le référentiel pour les classes de P3 à S3.
+              </p>
+            </div>
           </div>
+
+          <button
+            onClick={() => openPdf(43)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-blue-300 border border-blue-500/40 rounded-lg text-xs font-medium transition self-start md:self-auto shadow-sm"
+          >
+            <HelpCircle className="w-4 h-4" />
+            <span>Consulter le Référentiel (p. 43, 63)</span>
+          </button>
         </div>
 
-        <button
-          onClick={() => openPdf(99)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/40 text-blue-200 text-xs font-bold transition shrink-0 cursor-pointer"
-        >
-          <HelpCircle className="w-4 h-4 text-blue-400" />
-          <span>Consulter Glossaire p. 99-100</span>
-        </button>
+        {/* STEP PROGRESS BAR */}
+        <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-semibold">
+          <div className={`flex items-center gap-2 ${step === "SORT" ? "text-blue-400 font-bold" : allCorrect ? "text-emerald-400" : "text-slate-400"}`}>
+            <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">1</span>
+            <span>Tri d'Environnement Numérique</span>
+          </div>
+          <div className="w-12 h-0.5 bg-slate-800" />
+          <div className={`flex items-center gap-2 ${step === "DIDACTIC_QUESTION" ? "text-blue-400 font-bold" : step === "AXIOM" ? "text-emerald-400" : "text-slate-500"}`}>
+            <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">2</span>
+            <span>Diagnostic Didactique de l'Élève</span>
+          </div>
+          <div className="w-12 h-0.5 bg-slate-800" />
+          <div className={`flex items-center gap-2 ${step === "AXIOM" ? "text-blue-400 font-bold" : "text-slate-500"}`}>
+            <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">3</span>
+            <span>Axiome Fondateur (p. 24)</span>
+          </div>
+        </div>
       </div>
 
-      {/* UNLOCKED SUCCESS CARD */}
-      {unlocked ? (
-        <div className="p-8 rounded-2xl bg-emerald-950/30 border border-emerald-500/50 text-center space-y-4 shadow-2xl animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
-            <CheckCircle className="w-8 h-8" />
-          </div>
-          <h3 className="text-2xl font-black text-emerald-300">
-            SECTEUR 01 SÉCURISÉ & TERMINOLOGIE MAÎTRISÉE !
-          </h3>
-          <p className="text-sm text-emerald-200/90 max-w-xl mx-auto">
-            Remarquable ! Vous avez déjoué les confusions d'élèves sur le papier recyclé et les consommables, explicité la distinction avec le matériel et rétabli l'axiome fondateur : <em>« C'est le geste qui est technique, c'est l'objet qui est technologique »</em> (p. 99).
-          </p>
-        </div>
-      ) : !sortingCompleted ? (
-        /* ─────────────────────────────────────────────────────────────
-           STEP 1 : THE LEARNINGAPPS CATEGORY SORTING GAME
-        ───────────────────────────────────────────────────────────── */
+      {/* STEP 1: INTERACTIVE SORTING BINS */}
+      {step === "SORT" && (
         <div className="space-y-6">
-          {/* Card Selection Pool */}
-          <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-3 shadow-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase text-slate-300">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 backdrop-blur-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
                 <Box className="w-4 h-4 text-blue-400" />
-                <span>1. Ressources d'élèves en attente de classement ({unassignedItems.length} restantes) :</span>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200">
+                  Composants & Données à Classifier ({unplacedItems.length} restant{unplacedItems.length > 1 ? "s" : ""})
+                </h3>
               </div>
-              <span className="text-[11px] text-blue-400 font-mono">
-                {selectedItemId ? "👉 Cliquez sur un des 4 bacs ci-dessous pour déposer" : "Cliquez sur une ressource pour la sélectionner"}
-              </span>
+              <span className="text-xs text-slate-400">Cliquez sur un élément puis sur le bac correspondant</span>
             </div>
 
-            {unassignedItems.length === 0 ? (
-              <div className="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/40 text-emerald-300 text-xs text-center font-bold">
-                ✓ Toutes les ressources sont placées dans les bacs ! Cliquez sur « Valider le Tri d'Atelier » ci-dessous pour tester votre rigueur didactique.
+            {unplacedItems.length === 0 ? (
+              <div className="p-4 bg-slate-950/60 border border-slate-800 rounded-xl text-center text-xs text-slate-400">
+                Tous les éléments ont été rangés dans les 4 bacs numériques. Cliquez sur « Valider la Classification » ci-dessous.
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {unassignedItems.map((item) => {
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
+                {unplacedItems.map((item) => {
                   const isSelected = selectedItemId === item.id;
                   return (
-                    <div
+                    <button
                       key={item.id}
-                      onClick={() => handleSelectCard(item.id)}
-                      className={`p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
+                      onClick={() => handleSelectItem(item.id)}
+                      className={`p-3 rounded-xl border text-left transition-all ${
                         isSelected
-                          ? "bg-blue-600 border-white text-white scale-105 shadow-xl ring-2 ring-white"
-                          : "bg-slate-950/90 border-slate-700/80 hover:border-blue-400 text-slate-200 hover:scale-[1.02]"
+                          ? "bg-blue-600/30 border-blue-400 ring-2 ring-blue-400/50 shadow-lg scale-[1.02]"
+                          : "bg-slate-950/70 border-slate-800 hover:border-slate-700 hover:bg-slate-900"
                       }`}
                     >
-                      <div>
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <span className="text-2xl">{item.icon}</span>
-                          <span className="font-bold text-xs leading-tight">{item.name}</span>
-                        </div>
-                        <p className="text-[10px] text-slate-400 italic mb-1.5">{item.pupilContext}</p>
-                        <p className="text-[11px] opacity-80 leading-snug">{item.description}</p>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xl">{item.icon}</span>
+                        <span className="text-xs font-bold text-white truncate">{item.name}</span>
                       </div>
-                      <div className="pt-2 mt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px] font-mono">
-                        <span className={isSelected ? "text-amber-300 font-bold" : "text-blue-400"}>
-                          {isSelected ? "Sélectionné ➔" : "Sélectionner"}
-                        </span>
-                        <ArrowDown className="w-3 h-3 opacity-50" />
-                      </div>
-                    </div>
+                      <p className="text-[11px] text-slate-400 line-clamp-2 leading-tight">{item.description}</p>
+                      <div className="mt-2 text-[10px] font-mono text-cyan-400/80">{item.pupilContext}</div>
+                    </button>
                   );
                 })}
               </div>
             )}
           </div>
 
-          {/* 4 Interactive Drop Bins */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* 4 BINS */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {BINS.map((bin) => {
-              const itemsInBin = ITEMS_POOL.filter((i) => assignedBins[i.id] === bin.id);
+              const itemsInBin = ITEMS_POOL.filter((i) => placements[i.id] === bin.id);
               const isTargetActive = selectedItemId !== null;
 
               return (
                 <div
                   key={bin.id}
-                  onClick={() => isTargetActive && handleDropInBin(bin.id)}
-                  className={`p-4 rounded-2xl border-2 transition-all flex flex-col justify-between min-h-[220px] ${bin.bgColor} ${
-                    isTargetActive
-                      ? "cursor-pointer hover:border-white hover:scale-[1.02] ring-2 ring-blue-500/40"
-                      : "cursor-default"
+                  onClick={() => isTargetActive && handlePlaceItem(bin.id)}
+                  className={`border rounded-2xl p-4 transition-all flex flex-col justify-between min-h-[220px] ${bin.bgColor} ${
+                    isTargetActive ? "cursor-pointer hover:border-white/60 hover:scale-[1.01]" : ""
                   }`}
                 >
-                  {/* Bin Header */}
                   <div>
-                    <div className="flex items-center justify-between pb-2 border-b border-slate-700/60 mb-2">
+                    <div className="flex items-center justify-between gap-2 pb-2 border-b border-white/10">
                       <div className="flex items-center gap-2">
-                        <span className="text-xl">{bin.icon}</span>
-                        <span className="font-bold text-xs sm:text-sm text-white">{bin.label}</span>
+                        <span className="text-2xl">{bin.icon}</span>
+                        <div>
+                          <h4 className="text-sm font-bold text-white leading-tight">{bin.label}</h4>
+                          <p className="text-[11px] text-slate-300 leading-tight">{bin.sub}</p>
+                        </div>
                       </div>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-900/80 text-slate-300 border border-slate-700">
+                      <span className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-white/10 text-white">
                         {itemsInBin.length}
                       </span>
                     </div>
-                    <p className="text-[11px] opacity-75 leading-relaxed mb-3">{bin.sub}</p>
+
+                    {/* ITEMS PLACED IN THIS BIN */}
+                    <div className="mt-3 space-y-2">
+                      {itemsInBin.length === 0 ? (
+                        <div className="py-8 text-center text-xs text-slate-400 italic">
+                          {isTargetActive ? "Cliquez ici pour placer l'élément sélectionné" : "Aucun élément dans ce bac"}
+                        </div>
+                      ) : (
+                        itemsInBin.map((item) => {
+                          const hasError = validationErrors[item.id];
+                          return (
+                            <div
+                              key={item.id}
+                              className={`p-2.5 rounded-xl border flex items-center justify-between gap-2 transition ${
+                                hasError
+                                  ? "bg-red-950/80 border-red-500 text-red-200"
+                                  : allCorrect
+                                  ? "bg-emerald-950/80 border-emerald-500 text-emerald-200"
+                                  : "bg-slate-900/90 border-slate-700 text-slate-200"
+                              }`}
+                            >
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span className="text-lg shrink-0">{item.icon}</span>
+                                <div className="min-w-0">
+                                  <div className="text-xs font-bold truncate">{item.name}</div>
+                                  {hasError && (
+                                    <div className="text-[10px] text-red-400 font-semibold mt-0.5">
+                                      {item.didacticTrap}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveItem(item.id);
+                                }}
+                                className="p-1 hover:bg-white/10 rounded text-slate-400 hover:text-white transition shrink-0"
+                                title="Retirer de ce bac"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
                   </div>
 
-                  {/* Items currently in this bin */}
-                  <div className="space-y-1.5 my-2 flex-1">
-                    {itemsInBin.map((it) => (
-                      <div
-                        key={it.id}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRemoveFromBin(it.id);
-                        }}
-                        title="Cliquez pour retirer du bac"
-                        className="p-2 rounded-lg bg-slate-900/90 border border-slate-700 hover:border-rose-500 flex items-center justify-between text-xs text-slate-200 transition cursor-pointer group"
-                      >
-                        <span className="flex items-center gap-1.5 truncate">
-                          <span>{it.icon}</span>
-                          <span className="truncate font-semibold">{it.name}</span>
-                        </span>
-                        <span className="text-[10px] text-slate-400 group-hover:text-rose-400 font-mono shrink-0 ml-1">✕</span>
-                      </div>
-                    ))}
-
-                    {itemsInBin.length === 0 && (
-                      <div className="h-16 rounded-xl border border-dashed border-slate-700/60 flex items-center justify-center text-[11px] text-slate-500 italic text-center px-2">
-                        {isTargetActive ? "👉 Cliquez ici pour déposer la carte" : "Bac vide"}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Drop Indicator */}
                   {isTargetActive && (
-                    <button
-                      onClick={() => handleDropInBin(bin.id)}
-                      className="w-full py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs transition cursor-pointer mt-1"
-                    >
-                      Déposer dans ce bac ⇩
-                    </button>
+                    <div className="mt-3 pt-2 border-t border-white/10 text-center">
+                      <span className="text-xs font-bold text-white flex items-center justify-center gap-1">
+                        <ArrowDown className="w-3.5 h-3.5 animate-bounce" />
+                        Déposer ici
+                      </span>
+                    </div>
                   )}
                 </div>
               );
             })}
           </div>
 
-          {/* Error Message */}
-          {errorMsg && (
-            <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 text-rose-300 text-xs flex items-center gap-2.5 animate-shake">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
-              <div>{errorMsg}</div>
-            </div>
-          )}
-
-          {/* Control Bar */}
-          <div className="flex items-center justify-between pt-2">
+          {/* CONTROLS */}
+          <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-slate-900/80 border border-slate-800 rounded-2xl backdrop-blur-sm">
             <button
-              onClick={resetGame}
-              className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-white transition cursor-pointer"
+              onClick={handleReset}
+              className="flex items-center gap-2 px-3 py-2 text-xs text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4 h-4" />
               <span>Réinitialiser les bacs</span>
             </button>
 
-            <button
-              onClick={verifySorting}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-600/30 transition cursor-pointer hover:scale-105"
-            >
-              <Check className="w-4 h-4" />
-              <span>Valider le Tri d'Atelier</span>
-            </button>
-          </div>
-        </div>
-      ) : (
-        /* ─────────────────────────────────────────────────────────────
-           STEP 2 : DIDACTIC REGULATION & FOUNDATIONAL AXIOM (P. 99-100)
-        ───────────────────────────────────────────────────────────── */
-        <div className="p-6 rounded-2xl bg-slate-900/90 border border-blue-500/40 space-y-6 shadow-2xl animate-fade-in">
-          {/* Sub-challenge A: Classroom Situation Analysis */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
-              <GraduationCap className="w-4 h-4" />
-              <span>Étape 2A : Analyse Didactique d'une Conception d'Élève (P5-P6)</span>
-            </div>
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs sm:text-sm text-slate-200 space-y-2">
-              <p className="font-semibold text-white">
-                💬 Situation en classe : Lors de l'inventaire de l'atelier, Noah (P5) range les vis et le pot de colle sur l'étagère de la perceuse et des scies en déclarant :
-              </p>
-              <blockquote className="pl-3 border-l-2 border-amber-400 text-amber-200/90 italic">
-                « Tout ça, c'est du matériel pour bricoler ! La colle, la vis, le serre-joint et la perceuse, c'est exactement la même catégorie ! »
-              </blockquote>
-              <p className="text-slate-300 text-xs">
-                En tant que futur enseignant de Bloc 3, quelle explication didactique basée sur le glossaire (p. 99-100) devez-vous apporter pour réguler cette conception erronée ?
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              {[
-                {
-                  id: 1,
-                  title: "Explication Didactique Normée (Glossaire p. 99-100)",
-                  text: "La vis et la colle sont des consommables : des éléments à usage unique ou limité qui s'intègrent définitivement dans l'ouvrage ou se détruisent lors de la fabrication. La perceuse et le serre-joint sont du matériel/outils : des instruments durables réutilisables qui agissent sur la matière sans s'y incorporer.",
-                  correct: true,
-                },
-                {
-                  id: 2,
-                  title: "Conception Vulgaire de Magasin",
-                  text: "Noah a raison selon le sens commun car tout ce qui est vendu au rayon bricolage d'un magasin fait partie du matériel indifférencié.",
-                  correct: false,
-                },
-                {
-                  id: 3,
-                  title: "Confusion Matière / Produit Fini",
-                  text: "La vis est un matériau métallique, la colle est une matière chimique brute, et la perceuse est un ouvrage finalisé.",
-                  correct: false,
-                },
-              ].map((opt) => (
-                <div
-                  key={opt.id}
-                  onClick={() => {
-                    setDidacticChoice(opt.id);
-                    setErrorMsg("");
-                  }}
-                  className={`p-3.5 rounded-xl border transition-all cursor-pointer text-xs ${
-                    didacticChoice === opt.id
-                      ? "bg-blue-950/60 border-blue-400 text-blue-100 ring-2 ring-blue-400/40"
-                      : "bg-slate-950/80 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+            <div className="flex items-center gap-3">
+              {!allCorrect ? (
+                <button
+                  onClick={handleVerifySorting}
+                  disabled={Object.keys(placements).length !== ITEMS_POOL.length}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition ${
+                    Object.keys(placements).length === ITEMS_POOL.length
+                      ? "bg-blue-600 hover:bg-blue-500 text-white shadow-lg cursor-pointer"
+                      : "bg-slate-800 text-slate-500 cursor-not-allowed"
                   }`}
                 >
-                  <div className="font-bold text-white mb-0.5">{opt.title}</div>
-                  <p className="text-slate-300 leading-relaxed">{opt.text}</p>
-                </div>
-              ))}
+                  <Check className="w-4 h-4" />
+                  <span>Valider la Classification ({Object.keys(placements).length}/{ITEMS_POOL.length})</span>
+                </button>
+              ) : (
+                <button
+                  onClick={handleProceedToDidactic}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-cyan-500 hover:brightness-110 text-slate-950 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg transition animate-pulse cursor-pointer"
+                >
+                  <span>Passer à l'Étape 2 : Diagnostic de l'Élève</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </div>
+        </div>
+      )}
 
-          {/* Sub-challenge B: Foundational Axiom Cloze Test */}
-          <div className="space-y-3 pt-4 border-t border-slate-800">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold text-blue-400 uppercase tracking-wider">
-              <Sparkles className="w-4 h-4" />
-              <span>Étape 2B : L'Axiome Didactique Fondateur (Référentiel p. 99)</span>
-            </div>
-            <p className="text-xs text-slate-300 leading-relaxed">
-              Le référentiel FMTTN affirme que le travail manuel et le travail intellectuel ne s'opposent en rien. Complétez la maxime officielle (p. 99) :
+      {/* STEP 2 : DIDACTIC QUESTION */}
+      {step === "DIDACTIC_QUESTION" && (
+        <div className="bg-slate-900/90 border border-blue-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-xl space-y-6">
+          <div className="flex items-center gap-2 text-xs font-bold text-blue-400 uppercase tracking-wider">
+            <GraduationCap className="w-4 h-4" />
+            <span>Étape 2 sur 3 · Analyse Didactique de Conception Erronée d'Élève</span>
+          </div>
+
+          <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-xl space-y-2">
+            <h3 className="text-sm font-bold text-white flex items-center gap-2">
+              <span>Situation authentique en classe de P4 (Namur)</span>
+            </h3>
+            <p className="text-xs text-slate-300 italic leading-relaxed">
+              « Lucas (P4) panique devant son poste : l'ordinateur s'est éteint brusquement suite à un faux contact. Il s'exclame : 
+              <strong className="text-white font-semibold not-italic"> "Tout mon devoir est effacé pour toujours parce que la mémoire de l'ordinateur se vide dès qu'on coupe l'électricité !"</strong>. 
+              Or, Lucas avait cliqué sur le bouton 'Enregistrer' 5 minutes avant la coupure. »
             </p>
-
-            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-center font-mono text-xs sm:text-sm text-slate-200 space-y-3">
-              <div className="text-slate-300">
-                « C'est le geste qui est technique, c'est l'objet qui est... »
-              </div>
-              <div className="flex justify-center items-center gap-2">
-                <input
-                  type="text"
-                  value={axiomWord}
-                  onChange={(e) => setAxiomWord(e.target.value)}
-                  placeholder="MOT MANQUANT..."
-                  className="px-4 py-2.5 rounded-xl bg-slate-900 border border-blue-500/50 text-white font-bold text-center uppercase tracking-widest text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 w-64"
-                />
-              </div>
-              <p className="text-[11px] text-slate-400 italic">
-                (Indice : 13 lettres, adjectif dérivé de technologie, voir p. 99)
-              </p>
-            </div>
           </div>
 
-          {/* Error Message */}
-          {errorMsg && (
-            <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 text-rose-300 text-xs flex items-center gap-2.5 animate-shake">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
-              <div>{errorMsg}</div>
+          <div className="space-y-3">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
+              En tant que professeur de numérique, quelle remédiation didactique conforme au référentiel (p. 63) apportez-vous ?
+            </div>
+
+            {[
+              {
+                id: 1,
+                label: "Option A : Expliciter la distinction entre mémoire vive (RAM) et mémoire de stockage permanente (SSD/Disque)",
+                desc: "Lucas confond la RAM (mémoire de travail volatile effacée à l'extinction) et le stockage de masse non volatile. Le fait d'avoir cliqué sur 'Enregistrer' a transféré le document de la RAM vers le disque permanent : son travail est préservé.",
+              },
+              {
+                id: 2,
+                label: "Option B : Confirmer la crainte de Lucas en lui apprenant à imprimer immédiatement chaque page rédigée",
+                desc: "Valider l'idée qu'un ordinateur perd inévitablement ses données et imposer l'impression papier systématique comme seule sauvegarde fiable.",
+              },
+              {
+                id: 3,
+                label: "Option C : Lui expliquer que le document a été aspiré automatiquement sur le Cloud sans passer par le disque",
+                desc: "Affirmer que tous les ordinateurs envoient automatiquement les fichiers sur les serveurs distants du Web même sans connexion réseau.",
+              },
+            ].map((opt) => (
+              <button
+                key={opt.id}
+                onClick={() => setDidacticChoice(opt.id)}
+                className={`w-full text-left p-4 rounded-xl border transition-all ${
+                  didacticChoice === opt.id
+                    ? "bg-blue-950/60 border-blue-400 ring-2 ring-blue-400/40"
+                    : "bg-slate-950/50 border-slate-800 hover:border-slate-700"
+                }`}
+              >
+                <div className="text-xs font-bold text-white">{opt.label}</div>
+                <div className="text-[11px] text-slate-400 mt-1 leading-relaxed">{opt.desc}</div>
+              </button>
+            ))}
+          </div>
+
+          {didacticError && (
+            <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-200 text-xs flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+              <span>{didacticError}</span>
             </div>
           )}
 
-          {/* Action buttons */}
-          <div className="flex justify-between items-center pt-2">
+          <div className="flex items-center justify-between pt-4 border-t border-slate-800">
             <button
-              onClick={() => setSortingCompleted(false)}
-              className="text-xs text-slate-400 hover:text-white cursor-pointer"
+              onClick={() => setStep("SORT")}
+              className="text-xs text-slate-400 hover:text-white transition"
             >
-              ← Revoir le tri des bacs
+              ← Revenir au tri
             </button>
-
             <button
-              onClick={verifyAxiomAndDidactics}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/30 transition cursor-pointer hover:scale-105"
+              onClick={handleVerifyDidactic}
+              disabled={didacticChoice === null}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition ${
+                didacticChoice !== null
+                  ? "bg-blue-600 hover:bg-blue-500 text-white shadow-lg cursor-pointer"
+                  : "bg-slate-800 text-slate-500 cursor-not-allowed"
+              }`}
             >
-              <Check className="w-4 h-4" />
-              <span>Valider le Secteur 01 & Débloquer la Suite</span>
+              <span>Valider la réponse didactique</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* STEP 3 : AXIOM OF VOLET NUMERIQUE (p. 24) */}
+      {step === "AXIOM" && (
+        <div className="bg-slate-900/90 border border-emerald-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-xl space-y-6">
+          <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
+            <Sparkles className="w-4 h-4" />
+            <span>Étape 3 sur 3 · L'Axiome Épistémologique Fondateur du Volet Numérique (p. 24)</span>
+          </div>
+
+          <div className="p-5 bg-slate-950/80 border border-emerald-500/30 rounded-xl space-y-3">
+            <p className="text-sm text-slate-200 leading-relaxed">
+              « Dès lors, le numérique ne doit pas être considéré, dans le cadre de ce référentiel, comme une aide à l’enseignement, mais comme un objet d’apprentissage pour lui-même. Il s’agit donc bien, ici, d’une formation <strong className="text-cyan-300 font-bold">AU</strong> numérique et non pas, <span className="underline decoration-emerald-400 decoration-2 font-black text-emerald-300">[ ??? ]</span> le numérique. »
+            </p>
+            <div className="text-[11px] font-mono text-slate-400">
+              — Référentiel FMTTN, Volet 2 : Numérique, Enjeux et objectifs généraux, Page 24.
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-300 block">
+              Saisissez la préposition officielle manquante (en majuscules ou minuscules) :
+            </label>
+            <div className="flex gap-3">
+              <input
+                type="text"
+                value={axiomWord}
+                onChange={(e) => setAxiomWord(e.target.value)}
+                placeholder="Exemple : PAR"
+                maxLength={10}
+                className="px-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm font-mono text-white focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 uppercase tracking-widest w-48"
+              />
+              <button
+                onClick={handleVerifyAxiom}
+                disabled={!axiomWord.trim()}
+                className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition ${
+                  axiomWord.trim()
+                    ? "bg-gradient-to-r from-emerald-500 to-cyan-500 hover:brightness-110 text-slate-950 shadow-lg cursor-pointer"
+                    : "bg-slate-800 text-slate-500 cursor-not-allowed"
+                }`}
+              >
+                Valider & Déverrouiller le Secteur 01
+              </button>
+            </div>
+          </div>
+
+          {axiomError && (
+            <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-200 text-xs flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+              <span>{axiomError}</span>
+            </div>
+          )}
+
+          <div className="pt-2 border-t border-slate-800 flex justify-between items-center text-xs text-slate-400">
+            <button
+              onClick={() => setStep("DIDACTIC_QUESTION")}
+              className="hover:text-white transition"
+            >
+              ← Revenir à l'étape 2
+            </button>
+            <button
+              onClick={() => openPdf(24)}
+              className="text-cyan-400 hover:underline flex items-center gap-1"
+            >
+              <HelpCircle className="w-3.5 h-3.5" />
+              <span>Voir la page 24 du référentiel</span>
             </button>
           </div>
         </div>

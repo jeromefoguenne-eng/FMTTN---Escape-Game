@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Leaf, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Cpu, Radio, Zap, Sparkles, Activity, Eye, Layers, GraduationCap } from "lucide-react";
+import { Search, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Cpu, Radio, Zap, Sparkles, Activity, Eye, Layers, GraduationCap, Globe, Check } from "lucide-react";
 
 type Props = {
   onUnlock: () => void;
@@ -9,7 +9,7 @@ type Props = {
   openPdf: (page?: number) => void;
 };
 
-type DemarcheStepCard = {
+type SearchStepCard = {
   id: string;
   orderNumber: number;
   title: string;
@@ -20,56 +20,56 @@ type DemarcheStepCard = {
   didacticRationale: string;
 };
 
-const INITIAL_SHUFFLED_STEPS: DemarcheStepCard[] = [
+const INITIAL_SHUFFLED_STEPS: SearchStepCard[] = [
   {
-    id: "step-fab",
-    orderNumber: 4,
-    title: "Fabrication, Façonnage & Assemblage en Atelier",
-    sub: "Mesurage, traçage, sciage sécurisé et vissage des panneaux de la serre",
-    phaseName: "Phase 4 : Réalisation concrète",
-    icon: "🛠️",
-    quoteDidactique: "« L'élève met en œuvre les gestes techniques en respectant les règles d'ergonomie et de sécurité. » (p. 23)",
-    didacticRationale: "L'usinage ne commence que lorsque le plan et la gamme d'usinage sont validés pour éviter le gâchis.",
-  },
-  {
-    id: "step-croquis",
-    orderNumber: 2,
-    title: "Recherche d'Idées, Croquis d'Intention & Schématisation",
-    sub: "Dessin technique, cotations, vues 2D/3D et prévision des aérations pour le climat",
-    phaseName: "Phase 2 : Conception créative",
-    icon: "✏️",
-    quoteDidactique: "« L'élève imagine plusieurs solutions, confronte ses croquis avec ses pairs et modélise. » (p. 22)",
-    didacticRationale: "La schématisation permet de matérialiser la pensée avant de figer le choix de matière.",
-  },
-  {
-    id: "step-materiaux",
+    id: "step-intention",
     orderNumber: 3,
-    title: "Choix des Matériaux, Outils & Gamme de Fabrication",
-    sub: "Sélection de bois non traité (évite les toxines), visserie inox et ordonnancement logique",
-    phaseName: "Phase 3 : Planification technique",
-    icon: "🪵",
-    quoteDidactique: "« L'élève choisit les matériaux adéquats et élabore l'ordre logique d'usinage. » (p. 23)",
-    didacticRationale: "L'intention et la fonction technique dictent le matériau, jamais l'inverse.",
+    title: "Identification de l'Intention des Éléments de la Page Web",
+    sub: "Distinguer contenus d'information, encarts promotionnels, cookies et annonces sponsorisées",
+    phaseName: "Étape 3 : Détection d'intention",
+    icon: "🎯",
+    quoteDidactique: "« L'élève identifie l'intention de chaque élément figurant sur une page Web : informer, vendre, séduire, convaincre... » (p. 43, 73)",
+    didacticRationale: "Apprentissage clé pour ne pas confondre un résultat de recherche éditorial avec un lien publicitaire rémunéré.",
+  },
+  {
+    id: "step-requete",
+    orderNumber: 2,
+    title: "Requête Ciblée dans le Moteur de Recherche avec Opérateurs",
+    sub: "Utiliser la barre de recherche avec des combinaisons de mots et des filtres précis",
+    phaseName: "Étape 2 : Interrogation ciblée",
+    icon: "🔍",
+    quoteDidactique: "« L'élève utilise des outils de recherche dont des moteurs de recherche, en considérant leurs spécificités. » (p. 37, 43)",
+    didacticRationale: "Proscrire les phrases complètes en langage naturel au profit de requêtes structurées et ciblées.",
+  },
+  {
+    id: "step-orga",
+    orderNumber: 5,
+    title: "Organisation, Sauvegarde Structurée & Citation Éthique",
+    sub: "Nommer le fichier avec méthode, classer dans l'arborescence et mentionner la source",
+    phaseName: "Étape 5 : Structuration & Droits",
+    icon: "📁",
+    quoteDidactique: "« L'élève organise des fichiers numériques avec méthode et cite la source dans le respect des droits. » (p. 43, 63)",
+    didacticRationale: "La recherche ne s'arrête pas à la lecture : elle implique la gestion documentaire et le respect de la paternité de l'œuvre.",
   },
   {
     id: "step-besoin",
     orderNumber: 1,
-    title: "Expression du Besoin Authentique & Cahier des Charges",
-    sub: "Identifier le problème réel : réguler l'humidité et nourrir les colons en circuit fermé",
-    phaseName: "Phase 1 : Émergence du besoin",
-    icon: "📋",
-    quoteDidactique: "« Tout projet technologique débute par l'identification d'un besoin sociétal ou écologique réel. » (p. 22)",
-    didacticRationale: "Proscrire le bricolage gratuit : l'apprentissage part d'un enjeu sociétal ou d'usage signifiant.",
+    title: "Formulation du Besoin d'Information & Mots-Clés Pertinents",
+    sub: "Définir la question de recherche et extraire les concepts pivots sans bruit documentaire",
+    phaseName: "Étape 1 : Cadrage du besoin",
+    icon: "💡",
+    quoteDidactique: "« Déterminer un ou plusieurs mot(s)-clé(s) pertinent(s) pour effectuer une recherche. » (p. 37, 43)",
+    didacticRationale: "Sans questionnement préalable clair, l'élève se noie dans l'infobésité du Web sans objectif d'apprentissage.",
   },
   {
-    id: "step-eval",
-    orderNumber: 5,
-    title: "Test Fonctionnel, Éco-évaluation & Analyse du Cycle de Vie",
-    sub: "Contrôle des capteurs, bilan de consommation énergétique et réparabilité de la serre",
-    phaseName: "Phase 5 : Validation & Durabilité",
-    icon: "🔍",
-    quoteDidactique: "« L'élève teste l'efficacité de son ouvrage et analyse son empreinte écologique globale. » (p. 23)",
-    didacticRationale: "Clôture critique : mesurer l'impact écologique (vivable), économique et social (p. 26).",
+    id: "step-critique",
+    orderNumber: 4,
+    title: "Évaluation Critique de la Source (Auteur, Date & Croisement)",
+    sub: "Vérifier la fiabilité du site (.be, .org), la date de mise à jour et croiser 2 sources",
+    phaseName: "Étape 4 : Validation critique",
+    icon: "⚖️",
+    quoteDidactique: "« Identifier des éléments nécessaires au questionnement quant à la fiabilité de l'information. » (p. 24, 73)",
+    didacticRationale: "Développement de l'esprit critique d'élève-citoyen face aux rumeurs, fake news et biais d'autorité.",
   },
 ];
 
@@ -87,560 +87,604 @@ type IoTComponent = {
 const IOT_COMPONENTS: IoTComponent[] = [
   {
     id: "hum_soil",
-    name: "Sonde d'humidité du sol",
+    name: "Sonde d'humidité numérique",
     icon: "💧",
     expectedRole: "ENTREE",
-    description: "Mesure la teneur en eau de la terre et transmet un signal électrique continu.",
+    description: "Mesure la teneur en eau du milieu et transmet un signal électrique numérique.",
     technicalRoleDesc: "CAPTEUR (Entrée) : Capte une grandeur physique du milieu pour la convertir en signal de mesure.",
   },
   {
     id: "temp_co2",
-    name: "Sonde thermique & CO2",
+    name: "Capteur thermique & CO2",
     icon: "🌡️",
     expectedRole: "ENTREE",
-    description: "Mesure la température de l'air et la concentration de gaz sous la coupole.",
-    technicalRoleDesc: "CAPTEUR (Entrée) : Acquiert la température et le CO2 ambiant.",
+    description: "Mesure la température et la concentration de gaz dans l'environnement spatial.",
+    technicalRoleDesc: "CAPTEUR (Entrée) : Acquiert la température ambiante sous forme de données numériques.",
   },
   {
     id: "ldr_light",
-    name: "Capteur de luminosité (Photorésistance LDR)",
+    name: "Photorésistance LDR (Luminosité)",
     icon: "☀️",
     expectedRole: "ENTREE",
-    description: "Détecte la tombée de la nuit ou l'insuffisance de flux lumineux.",
-    technicalRoleDesc: "CAPTEUR (Entrée) : Convertit le flux lumineux en tension pour déclencher la consigne d'éclairage.",
+    description: "Détecte le flux lumineux pour déterminer l'état jour/nuit.",
+    technicalRoleDesc: "CAPTEUR (Entrée) : Convertit le flux lumineux en données d'entrée pour l'algorithme.",
   },
   {
     id: "microbit",
     name: "Carte programmable scolaire Micro:bit",
     icon: "🧠",
     expectedRole: "TRAITEMENT",
-    description: "Le microcontrôleur central : exécute le programme algorithmique et décide selon les seuils.",
-    technicalRoleDesc: "TRAITEMENT (Unité centrale) : Compare les valeurs capteurs aux seuils programmés et ordonne les sorties.",
+    description: "Le microcontrôleur central : exécute le programme algorithmique et traite les conditions.",
+    technicalRoleDesc: "TRAITEMENT (Unité centrale) : Compare les valeurs reçues aux seuils programmés et déclenche les ordres.",
   },
   {
-    id: "valve",
-    name: "Électrovanne d'arrosage hydroponique",
-    icon: "🚿",
+    id: "electrovanne",
+    name: "Électrovanne d'irrigation",
+    icon: "🚰",
     expectedRole: "SORTIE",
-    description: "Ouvre le circuit d'eau nutritive sur impulsion du microcontrôleur.",
-    technicalRoleDesc: "ACTIONNEUR (Sortie) : Convertit l'ordre électrique en action mécanique sur le débit d'eau.",
+    description: "Vanne motorisée qui s'ouvre pour arroser lorsque l'algorithme détecte un sol trop sec.",
+    technicalRoleDesc: "ACTIONNEUR (Sortie) : Convertit un ordre électrique du programme en action mécanique physique.",
   },
   {
-    id: "fan",
-    name: "Extracteur d'air / Ventilateur",
-    icon: "💨",
-    expectedRole: "SORTIE",
-    description: "Évacue la surchauffe dès que la température mesurée dépasse 28°C.",
-    technicalRoleDesc: "ACTIONNEUR (Sortie) : Brasse l'air pour évacuer l'excès thermique.",
-  },
-  {
-    id: "led_uv",
-    name: "Rampe LED horticole à spectre photosynthétique",
+    id: "led_strip",
+    name: "Rampe de LED horticoles",
     icon: "💡",
     expectedRole: "SORTIE",
-    description: "Fournit aux végétaux les longueurs d'ondes nécessaires à la croissance.",
-    technicalRoleDesc: "ACTIONNEUR (Sortie) : Convertit l'énergie électrique en énergie lumineuse ciblée.",
+    description: "Éclairage artificiel activé automatiquement par le microcontrôleur en cas d'obscurité.",
+    technicalRoleDesc: "ACTIONNEUR (Sortie) : Émet de la lumière en réponse au signal de commande du traitement.",
   },
   {
-    id: "lcd_screen",
-    name: "Écran LCD d'affichage des paramètres",
+    id: "ecran_lcd",
+    name: "Afficheur numérique LCD I2C",
     icon: "📟",
     expectedRole: "SORTIE",
-    description: "Affiche en temps réel les données de température et l'état de la serre aux colons.",
-    technicalRoleDesc: "RESTITUTION / SORTIE : Transmet l'information traitée aux humains sous forme lisible.",
-  },
-];
-
-const COMPARTMENTS = [
-  {
-    role: "ENTREE" as DigitalComponentRole,
-    title: "1. ACQUÉRIR • Les Capteurs (Entrées)",
-    sub: "Transforment une grandeur physique du milieu (eau, lumière, chaleur) en signal électrique exploitable",
-    icon: "📡",
-    color: "border-blue-500/50 bg-blue-950/30 text-blue-300",
-    badgeColor: "bg-blue-500/20 text-blue-300 border-blue-500/40",
+    description: "Écran d'affichage restituant les températures et alertes aux utilisateurs.",
+    technicalRoleDesc: "SORTIE (Restitution) : Traduit les données internes traitées en texte lisible pour l'humain.",
   },
   {
-    role: "TRAITEMENT" as DigitalComponentRole,
-    title: "2. TRAITER • L'Unité Algorithmique",
-    sub: "Microcontrôleur qui analyse les données reçues, compare aux seuils et prend les décisions logiques",
-    icon: "🧠",
-    color: "border-amber-500/50 bg-amber-950/30 text-amber-300",
-    badgeColor: "bg-amber-500/20 text-amber-300 border-amber-500/40",
-  },
-  {
-    role: "SORTIE" as DigitalComponentRole,
-    title: "3. AGIR & COMMUNIQUER • Les Actionneurs (Sorties)",
-    sub: "Exécutent les ordres physiques réels (arroser, ventiler, éclairer) ou affichent l'information (écran LCD)",
-    icon: "⚙️",
-    color: "border-emerald-500/50 bg-emerald-950/30 text-emerald-300",
-    badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/40",
+    id: "buzzer",
+    name: "Avertisseur sonore (Buzzer)",
+    icon: "🔔",
+    expectedRole: "SORTIE",
+    description: "Émet un bip d'alerte en cas de dépassement d'un seuil critique de température.",
+    technicalRoleDesc: "ACTIONNEUR (Sortie) : Convertit un signal électrique en alerte acoustique.",
   },
 ];
 
 export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
-  const [activeTab, setActiveTab] = useState<"timeline" | "iot_chain">("timeline");
+  const [phase, setPhase] = useState<"SEARCH_CHAIN" | "IOT_SYSTEM" | "DIDACTIC_QUESTION">("SEARCH_CHAIN");
 
-  const [orderedSteps, setOrderedSteps] = useState<DemarcheStepCard[]>(INITIAL_SHUFFLED_STEPS);
-  const [timelineValidated, setTimelineValidated] = useState(false);
+  // PHASE 1 STATE : 5 STEPS ORDERING
+  const [stepsList, setStepsList] = useState<SearchStepCard[]>(INITIAL_SHUFFLED_STEPS);
+  const [selectedStepIndex, setSelectedStepIndex] = useState<number | null>(null);
+  const [phase1Error, setPhase1Error] = useState("");
+  const [phase1Success, setPhase1Success] = useState(false);
 
-  const [assignedComponents, setAssignedComponents] = useState<Record<string, DigitalComponentRole>>({});
-  const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
-  const [isChainSimulating, setIsChainSimulating] = useState(false);
+  // PHASE 2 STATE : IOT 3 BINS
+  const [placedIoT, setPlacedIoT] = useState<Record<string, DigitalComponentRole>>({});
+  const [selectedIoTId, setSelectedIoTId] = useState<string | null>(null);
+  const [phase2Errors, setPhase2Errors] = useState<Record<string, boolean>>({});
+  const [phase2Success, setPhase2Success] = useState(false);
 
-  // Spiral progression question for Bloc 3 teachers
-  const [spiralChoice, setSpiralChoice] = useState<number | null>(null);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [unlocked, setUnlocked] = useState(false);
+  // PHASE 3 STATE : DIDACTIC QUESTION
+  const [didacticChoice, setDidacticChoice] = useState<number | null>(null);
+  const [didacticError, setDidacticError] = useState("");
 
-  const unassignedComponents = IOT_COMPONENTS.filter((c) => !assignedComponents[c.id]);
+  // Move step up / down in array
+  function handleMoveStep(index: number, direction: "UP" | "DOWN") {
+    const targetIndex = direction === "UP" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= stepsList.length) return;
 
-  function moveStep(index: number, direction: "up" | "down") {
-    if (timelineValidated) return;
-    const targetIndex = direction === "up" ? index - 1 : index + 1;
-    if (targetIndex < 0 || targetIndex >= orderedSteps.length) return;
+    const updated = [...stepsList];
+    const temp = updated[index];
+    updated[index] = updated[targetIndex];
+    updated[targetIndex] = temp;
 
-    const copy = [...orderedSteps];
-    const temp = copy[index];
-    copy[index] = copy[targetIndex];
-    copy[targetIndex] = temp;
-    setOrderedSteps(copy);
-    setErrorMsg("");
+    setStepsList(updated);
+    setPhase1Success(false);
+    setPhase1Error("");
   }
 
-  function verifyTimeline() {
-    const isCorrect = orderedSteps.every((step, idx) => step.orderNumber === idx + 1);
+  function handleVerifyStepsOrder() {
+    const isOrdered = stepsList.every((step, idx) => step.orderNumber === idx + 1);
 
-    if (!isCorrect) {
-      onError();
-      setErrorMsg(
-        "❌ Ordre chronologique erroné ! La démarche technologique (p. 22-23) débute obligatoirement par le Besoin sociétal, passe par les Croquis et les Matériaux, puis l'Usinage supervisé, et se conclut par l'Éco-évaluation de durabilité."
-      );
-      return;
-    }
-
-    setErrorMsg("");
-    setTimelineValidated(true);
-    setActiveTab("iot_chain");
-  }
-
-  function handleSelectComponent(id: string) {
-    if (selectedComponentId === id) {
-      setSelectedComponentId(null);
+    if (isOrdered) {
+      setPhase1Success(true);
+      setPhase1Error("");
     } else {
-      setSelectedComponentId(id);
-      setErrorMsg("");
+      setPhase1Error("L'ordonnancement de la recherche critique n'est pas correct. Relisez la progression officielle des pages 37, 43 et 73.");
+      onError();
     }
   }
 
-  function handleAssignRole(role: DigitalComponentRole) {
-    if (!selectedComponentId) return;
+  // IoT Classification handlers
+  function handleSelectIoT(id: string) {
+    setSelectedIoTId(id === selectedIoTId ? null : id);
+  }
 
-    setAssignedComponents((prev) => ({
+  function handlePlaceIoT(role: DigitalComponentRole) {
+    if (!selectedIoTId) return;
+    setPlacedIoT((prev) => ({
       ...prev,
-      [selectedComponentId]: role,
+      [selectedIoTId]: role,
     }));
-    setSelectedComponentId(null);
-    setErrorMsg("");
-  }
-
-  function handleRemoveComponent(id: string) {
-    setAssignedComponents((prev) => {
-      const copy = { ...prev };
-      delete copy[id];
-      return copy;
+    setPhase2Errors((prev) => {
+      const next = { ...prev };
+      delete next[selectedIoTId];
+      return next;
     });
-    setErrorMsg("");
+    setSelectedIoTId(null);
   }
 
-  function verifyIoTChain() {
-    if (Object.keys(assignedComponents).length < IOT_COMPONENTS.length) {
-      setErrorMsg(`⚠️ Il reste ${IOT_COMPONENTS.length - Object.keys(assignedComponents).length} composant(s) à insérer dans la chaîne d'information.`);
-      return;
-    }
+  function handleRemoveIoT(id: string) {
+    setPlacedIoT((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    setPhase2Errors((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    setPhase2Success(false);
+  }
 
-    const errors: string[] = [];
+  function handleVerifyIoTChain() {
+    let hasError = false;
+    const errors: Record<string, boolean> = {};
+
     IOT_COMPONENTS.forEach((comp) => {
-      if (assignedComponents[comp.id] !== comp.expectedRole) {
-        errors.push(comp.name);
+      const placedRole = placedIoT[comp.id];
+      if (placedRole !== comp.expectedRole) {
+        errors[comp.id] = true;
+        hasError = true;
       }
     });
 
-    if (errors.length > 0) {
+    setPhase2Errors(errors);
+
+    if (hasError) {
       onError();
-      setErrorMsg(
-        `❌ Erreur dans la chaîne numérique : ${errors.slice(0, 2).join(", ")} n'est pas au bon maillon ! Rappel didactique : le Capteur mesure une grandeur physique (Entrée), le Microcontrôleur compare et décide (Traitement), et l'Actionneur/Écran agit ou affiche (Sortie).`
-      );
-      return;
+      setPhase2Success(false);
+    } else {
+      setPhase2Success(true);
     }
+  }
 
-    if (spiralChoice !== 1) {
-      onError();
-      setErrorMsg("❌ Analyse de progression spiralaire incorrecte ! Comment évoluent les systèmes automatisés du P4 au S3 selon le référentiel p. 20, 23 et 76-79 ?");
-      return;
-    }
-
-    setErrorMsg("");
-    setIsChainSimulating(true);
-
-    setTimeout(() => {
-      setIsChainSimulating(false);
-      setUnlocked(true);
+  function handleVerifyDidactic() {
+    if (didacticChoice === 1) {
+      setDidacticError("");
       onUnlock();
-    }, 1800);
+    } else {
+      setDidacticError("Régulation inadéquate : l'attendu de la page 73 exige d'apprendre aux élèves à questionner la fiabilité de l'information et à identifier l'intention de l'auteur.");
+      onError();
+    }
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-slate-900 to-teal-950/70 border border-emerald-800/40 shadow-xl">
-        <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400">
-            <Leaf className="w-7 h-7" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-widest font-mono text-emerald-400">Secteur 02 • Niveau 2 (Intermédiaire)</span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                DÉMARCHE TECHNOLOGIQUE & CHAÎNE IoT (P. 22-25)
-              </span>
+    <div className="space-y-6 text-slate-100 max-w-5xl mx-auto pb-12">
+      {/* HEADER WITH PDF LINK */}
+      <div className="bg-slate-900/90 border border-emerald-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+        <div className="absolute -top-12 -right-12 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-emerald-500/20 border border-emerald-500/40 rounded-xl text-emerald-400">
+              <Globe className="w-7 h-7" />
             </div>
-            <h2 className="text-xl md:text-2xl font-black text-white tracking-tight">
-              Ingénierie de la Serre : Démarche de Projet & Système Cyber-Physique
-            </h2>
-            <p className="text-xs text-slate-300">
-              Ordonnancez la démarche de projet sans céder au bricolage spontané, puis structurez la chaîne d'information d'un objet connecté (<strong>Capteurs ➔ Traitement ➔ Actionneurs</strong>).
-            </p>
-          </div>
-        </div>
-
-        <button
-          onClick={() => openPdf(24)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-200 text-xs font-bold transition shrink-0 cursor-pointer"
-        >
-          <HelpCircle className="w-4 h-4 text-emerald-400" />
-          <span>Consulter Référentiel p. 22-25</span>
-        </button>
-      </div>
-
-      {/* TABS SELECTOR */}
-      <div className="flex items-center gap-3 p-1.5 rounded-2xl bg-slate-900/90 border border-slate-800">
-        <button
-          onClick={() => setActiveTab("timeline")}
-          className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
-            activeTab === "timeline"
-              ? "bg-emerald-600 text-white shadow-lg shadow-emerald-600/30"
-              : "text-slate-400 hover:text-white"
-          }`}
-        >
-          <Layers className="w-4 h-4" />
-          <span>1. Les 5 Étapes de la Démarche Technologique (p. 22-23)</span>
-          {timelineValidated && <CheckCircle className="w-4 h-4 text-emerald-300" />}
-        </button>
-
-        <button
-          onClick={() => setActiveTab("iot_chain")}
-          className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
-            activeTab === "iot_chain"
-              ? "bg-emerald-600 text-white shadow-lg shadow-emerald-600/30"
-              : "text-slate-400 hover:text-white"
-          }`}
-        >
-          <Cpu className="w-4 h-4" />
-          <span>2. Chaîne d'Information IoT & Spirale Curriculaire (p. 24-25)</span>
-          {unlocked && <CheckCircle className="w-4 h-4 text-emerald-300" />}
-        </button>
-      </div>
-
-      {/* UNLOCKED SUCCESS BANNER */}
-      {unlocked ? (
-        <div className="p-8 rounded-2xl bg-emerald-950/30 border border-emerald-500/50 text-center space-y-4 shadow-2xl animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
-            <CheckCircle className="w-8 h-8" />
-          </div>
-          <h3 className="text-2xl font-black text-emerald-300">
-            BIO-DÔME OPÉRATIONNEL & SERRE IoT EN SERVICE !
-          </h3>
-          <p className="text-sm text-emerald-200/90 max-w-xl mx-auto">
-            Maîtrise didactique parfaite ! La démarche technologique garantit une conception écologique rigoureuse, et la chaîne cyber-physique (Capteurs ➔ Micro:bit ➔ Actionneurs) régule le biotope en toute autonomie.
-          </p>
-        </div>
-      ) : activeTab === "timeline" ? (
-        /* ─────────────────────────────────────────────────────────────
-           TAB 1 : LA DÉMARCHE TECHNOLOGIQUE (ORDONNANCEMENT SÉQUENTIEL)
-        ───────────────────────────────────────────────────────────── */
-        <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-5 shadow-xl">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
             <div>
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-                Logique Séquentielle de la Démarche Technologique (p. 22-23)
-              </h3>
-              <p className="text-xs text-slate-300">
-                Utilisez les flèches ▲ et ▼ pour remettre les 5 phases dans l'ordre chronologique d'apprentissage :
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  Secteur 02 · Niveau 2
+                </span>
+                <span className="text-xs text-slate-400 font-mono">Volet 2 : Numérique FMTTN</span>
+              </div>
+              <h2 className="text-xl md:text-2xl font-black text-white mt-1">
+                Investigation Critique & Systèmes de Données
+              </h2>
+              <p className="text-sm text-slate-300">
+                Maîtrisez la recherche d'information sur le Web (p. 37, 43, 73) et la chaîne de traitement cyber-physique (p. 24, 76-79).
               </p>
             </div>
-            <span className="text-xs font-mono text-emerald-400 font-bold">
-              5 Phases Canoniques
-            </span>
           </div>
 
-          {/* Cards List with Up/Down buttons */}
-          <div className="space-y-3">
-            {orderedSteps.map((step, idx) => (
+          <button
+            onClick={() => openPdf(43)}
+            className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-emerald-300 border border-emerald-500/40 rounded-lg text-xs font-medium transition self-start md:self-auto shadow-sm"
+          >
+            <HelpCircle className="w-4 h-4" />
+            <span>Consulter le Référentiel (p. 43, 73)</span>
+          </button>
+        </div>
+
+        {/* PHASE SELECTOR */}
+        <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-semibold">
+          <button
+            onClick={() => setPhase("SEARCH_CHAIN")}
+            className={`flex items-center gap-2 transition ${phase === "SEARCH_CHAIN" ? "text-emerald-400 font-bold" : phase1Success ? "text-emerald-500/70" : "text-slate-400"}`}
+          >
+            <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">1</span>
+            <span>Démarche de Recherche Critique</span>
+          </button>
+          <div className="w-10 h-0.5 bg-slate-800" />
+          <button
+            onClick={() => phase1Success && setPhase("IOT_SYSTEM")}
+            disabled={!phase1Success}
+            className={`flex items-center gap-2 transition ${phase === "IOT_SYSTEM" ? "text-emerald-400 font-bold" : phase2Success ? "text-emerald-500/70" : phase1Success ? "text-slate-300" : "text-slate-600 cursor-not-allowed"}`}
+          >
+            <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">2</span>
+            <span>Chaîne Cyber-Physique IoT</span>
+          </button>
+          <div className="w-10 h-0.5 bg-slate-800" />
+          <button
+            onClick={() => phase2Success && setPhase("DIDACTIC_QUESTION")}
+            disabled={!phase2Success}
+            className={`flex items-center gap-2 transition ${phase === "DIDACTIC_QUESTION" ? "text-emerald-400 font-bold" : phase2Success ? "text-slate-300" : "text-slate-600 cursor-not-allowed"}`}
+          >
+            <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">3</span>
+            <span>Régulation Didactique (Bloc 3)</span>
+          </button>
+        </div>
+      </div>
+
+      {/* PHASE 1 : ORDERING THE 5 RESEARCH STEPS */}
+      {phase === "SEARCH_CHAIN" && (
+        <div className="space-y-4">
+          <div className="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl backdrop-blur-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 className="text-sm font-bold text-white flex items-center gap-2">
+                <span>Ordonnancez les 5 étapes canoniques de la recherche documentaire numérique (p. 37, 43, 73)</span>
+              </h3>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Utilisez les flèches ↑ et ↓ pour ranger chronologiquement les étapes de l'apprentissage de l'élève.
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                setStepsList(INITIAL_SHUFFLED_STEPS);
+                setPhase1Success(false);
+                setPhase1Error("");
+              }}
+              className="text-xs text-slate-400 hover:text-white transition px-2 py-1 bg-slate-800 rounded-lg self-start sm:self-auto"
+            >
+              Mélanger à nouveau
+            </button>
+          </div>
+
+          <div className="space-y-2.5">
+            {stepsList.map((step, idx) => (
               <div
                 key={step.id}
-                className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 flex items-center gap-4 transition hover:border-emerald-500/50"
+                className={`p-4 rounded-xl border transition-all flex items-center justify-between gap-4 ${
+                  phase1Success
+                    ? "bg-emerald-950/40 border-emerald-500/60 text-emerald-200"
+                    : "bg-slate-900/90 border-slate-800 hover:border-slate-700"
+                }`}
               >
-                <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono font-bold text-sm flex items-center justify-center shrink-0">
-                  {idx + 1}
-                </div>
-
-                <span className="text-2xl shrink-0">{step.icon}</span>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-bold text-sm text-white">{step.title}</span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-slate-800 text-emerald-300 border border-slate-700">
-                      {step.phaseName}
-                    </span>
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-slate-950 border border-slate-700 flex items-center justify-center font-mono font-bold text-sm text-emerald-400 shrink-0">
+                    {idx + 1}
                   </div>
-                  <p className="text-xs text-slate-300 mt-0.5">{step.sub}</p>
-                  <p className="text-[11px] text-emerald-400/80 italic mt-1">{step.didacticRationale}</p>
+                  <span className="text-2xl shrink-0">{step.icon}</span>
+                  <div className="min-w-0">
+                    <div className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                      {step.phaseName}
+                    </div>
+                    <div className="text-sm font-bold text-white truncate">{step.title}</div>
+                    <div className="text-xs text-slate-400 mt-0.5">{step.sub}</div>
+                    <div className="text-[11px] text-slate-500 italic mt-1 font-mono">{step.quoteDidactique}</div>
+                  </div>
                 </div>
 
-                {/* Move Controls */}
-                <div className="flex flex-col gap-1 shrink-0">
-                  <button
-                    onClick={() => moveStep(idx, "up")}
-                    disabled={idx === 0 || timelineValidated}
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 disabled:opacity-20 text-white transition cursor-pointer"
-                    title="Monter"
-                  >
-                    ▲
-                  </button>
-                  <button
-                    onClick={() => moveStep(idx, "down")}
-                    disabled={idx === orderedSteps.length - 1 || timelineValidated}
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-emerald-600 disabled:opacity-20 text-white transition cursor-pointer"
-                    title="Descendre"
-                  >
-                    ▼
-                  </button>
-                </div>
+                {!phase1Success && (
+                  <div className="flex flex-col gap-1 shrink-0">
+                    <button
+                      onClick={() => handleMoveStep(idx, "UP")}
+                      disabled={idx === 0}
+                      className={`p-1.5 rounded-md border text-xs font-bold transition ${
+                        idx === 0
+                          ? "bg-slate-950 text-slate-700 border-slate-800 cursor-not-allowed"
+                          : "bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700 hover:text-white"
+                      }`}
+                      title="Monter d'un rang"
+                    >
+                      ▲
+                    </button>
+                    <button
+                      onClick={() => handleMoveStep(idx, "DOWN")}
+                      disabled={idx === stepsList.length - 1}
+                      className={`p-1.5 rounded-md border text-xs font-bold transition ${
+                        idx === stepsList.length - 1
+                          ? "bg-slate-950 text-slate-700 border-slate-800 cursor-not-allowed"
+                          : "bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700 hover:text-white"
+                      }`}
+                      title="Descendre d'un rang"
+                    >
+                      ▼
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
 
-          {errorMsg && (
-            <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 text-rose-300 text-xs flex items-center gap-2.5 animate-shake">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
-              <div>{errorMsg}</div>
+          {phase1Error && (
+            <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-200 text-xs flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+              <span>{phase1Error}</span>
             </div>
           )}
 
-          <div className="flex justify-end pt-2">
-            <button
-              onClick={verifyTimeline}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/30 transition cursor-pointer hover:scale-105"
-            >
-              <span>Valider la Démarche & Passer à la Chaîne IoT</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      ) : (
-        /* ─────────────────────────────────────────────────────────────
-           TAB 2 : CHAÎNE D'INFORMATION NUMÉRIQUE & SPIRALE (P. 24-25, 76, 79)
-        ───────────────────────────────────────────────────────────── */
-        <div className="space-y-6">
-          {/* Unassigned Components Pool */}
-          <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-3 shadow-xl">
-            <div className="flex items-center justify-between">
-              <div className="text-xs font-mono font-bold uppercase text-slate-300 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-emerald-400" />
-                <span>Composants IoT de la Serre ({unassignedComponents.length} restants) :</span>
-              </div>
-              <span className="text-[11px] text-emerald-400 font-mono">
-                {selectedComponentId ? "👉 Cliquez sur un des 3 maillons ci-dessous pour insérer" : "Sélectionnez un composant ci-dessous"}
-              </span>
-            </div>
-
-            {unassignedComponents.length === 0 ? (
-              <div className="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/40 text-emerald-300 text-xs text-center font-bold">
-                ✓ Tous les 8 composants sont placés dans la chaîne d'information !
-              </div>
+          <div className="flex items-center justify-end gap-3 p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
+            {!phase1Success ? (
+              <button
+                onClick={handleVerifyStepsOrder}
+                className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg transition cursor-pointer"
+              >
+                <Check className="w-4 h-4" />
+                <span>Valider la Chronologie de Recherche</span>
+              </button>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {unassignedComponents.map((comp) => {
-                  const isSelected = selectedComponentId === comp.id;
-                  return (
-                    <div
-                      key={comp.id}
-                      onClick={() => handleSelectComponent(comp.id)}
-                      className={`p-3.5 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
-                        isSelected
-                          ? "bg-emerald-600 border-white text-white scale-105 shadow-xl ring-2 ring-white"
-                          : "bg-slate-950/90 border-slate-700/80 hover:border-emerald-400 text-slate-200 hover:scale-[1.02]"
-                      }`}
-                    >
-                      <div>
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <span className="text-2xl">{comp.icon}</span>
-                          <span className="font-bold text-xs leading-tight">{comp.name}</span>
-                        </div>
-                        <p className="text-[11px] opacity-80 leading-snug">{comp.description}</p>
-                      </div>
-                      <div className="pt-2 mt-2 border-t border-slate-800/80 text-[10px] font-mono text-emerald-400">
-                        {isSelected ? "Sélectionné ➔" : "Sélectionner"}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+              <button
+                onClick={() => setPhase("IOT_SYSTEM")}
+                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg transition animate-pulse cursor-pointer"
+              >
+                <span>Phase 1 Réussie · Passer à la Chaîne Cyber-Physique</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
             )}
           </div>
+        </div>
+      )}
 
-          {/* 3 Chain Compartments (Acquérir / Traiter / Agir) */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {COMPARTMENTS.map((comp) => {
-              const itemsInRole = IOT_COMPONENTS.filter((c) => assignedComponents[c.id] === comp.role);
-              const isTargetReady = selectedComponentId !== null;
+      {/* PHASE 2 : IOT 3 BINS (CAPTEUR, TRAITEMENT, ACTIONNEUR) */}
+      {phase === "IOT_SYSTEM" && (
+        <div className="space-y-6">
+          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <Cpu className="w-4 h-4 text-emerald-400" />
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                  Composants Connectés IoT à Classer dans la Chaîne d'Information (p. 24, 76-79)
+                </h3>
+              </div>
+              <span className="text-xs text-slate-400">Cliquez sur un composant puis sur son rôle fonctionnel</span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+              {IOT_COMPONENTS.filter((c) => !placedIoT[c.id]).map((comp) => {
+                const isSelected = selectedIoTId === comp.id;
+                return (
+                  <button
+                    key={comp.id}
+                    onClick={() => handleSelectIoT(comp.id)}
+                    className={`p-3 rounded-xl border text-left transition-all ${
+                      isSelected
+                        ? "bg-emerald-600/30 border-emerald-400 ring-2 ring-emerald-400/50 shadow-lg scale-[1.02]"
+                        : "bg-slate-950/70 border-slate-800 hover:border-slate-700"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xl">{comp.icon}</span>
+                      <span className="text-xs font-bold text-white truncate">{comp.name}</span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 line-clamp-2">{comp.description}</p>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 3 ROLES : ENTREE / TRAITEMENT / SORTIE */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              {
+                role: "ENTREE" as DigitalComponentRole,
+                label: "1. Acquérir / Entrées (Capteurs)",
+                sub: "Convertissent une grandeur physique du milieu en données numériques",
+                icon: "📡",
+                color: "border-blue-500/50 bg-blue-950/30 text-blue-300",
+              },
+              {
+                role: "TRAITEMENT" as DigitalComponentRole,
+                label: "2. Traiter / Unité Centrale",
+                sub: "Exécute l'algorithme, compare aux seuils et décide des actions",
+                icon: "🧠",
+                color: "border-purple-500/50 bg-purple-950/30 text-purple-300",
+              },
+              {
+                role: "SORTIE" as DigitalComponentRole,
+                label: "3. Agir / Sorties (Actionneurs)",
+                sub: "Convertissent un ordre du microcontrôleur en action concrète ou affichage",
+                icon: "⚡",
+                color: "border-amber-500/50 bg-amber-950/30 text-amber-300",
+              },
+            ].map((col) => {
+              const compsInRole = IOT_COMPONENTS.filter((c) => placedIoT[c.id] === col.role);
+              const isActive = selectedIoTId !== null;
 
               return (
                 <div
-                  key={comp.role}
-                  onClick={() => isTargetReady && handleAssignRole(comp.role)}
-                  className={`p-4 rounded-2xl border-2 transition-all flex flex-col justify-between min-h-[240px] ${comp.color} ${
-                    isTargetReady
-                      ? "cursor-pointer hover:border-white hover:scale-[1.01] ring-2 ring-emerald-500/40"
-                      : "cursor-default"
+                  key={col.role}
+                  onClick={() => isActive && handlePlaceIoT(col.role)}
+                  className={`border rounded-2xl p-4 flex flex-col justify-between min-h-[220px] transition-all ${col.color} ${
+                    isActive ? "cursor-pointer hover:border-white/60 hover:scale-[1.01]" : ""
                   }`}
                 >
                   <div>
-                    <div className="flex items-center justify-between pb-2 border-b border-slate-700/60 mb-2">
+                    <div className="flex items-center justify-between pb-2 border-b border-white/10">
                       <div className="flex items-center gap-2">
-                        <span className="text-xl">{comp.icon}</span>
-                        <span className="font-bold text-xs sm:text-sm text-white">{comp.title}</span>
+                        <span className="text-2xl">{col.icon}</span>
+                        <div>
+                          <h4 className="text-xs font-bold text-white leading-tight">{col.label}</h4>
+                          <p className="text-[10px] text-slate-300 leading-tight mt-0.5">{col.sub}</p>
+                        </div>
                       </div>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-900/80 text-slate-300 border border-slate-700">
-                        {itemsInRole.length}
+                      <span className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-white/10 text-white">
+                        {compsInRole.length}
                       </span>
                     </div>
-                    <p className="text-[11px] opacity-75 leading-relaxed mb-3">{comp.sub}</p>
+
+                    <div className="mt-3 space-y-2">
+                      {compsInRole.length === 0 ? (
+                        <div className="py-8 text-center text-xs text-slate-400 italic">
+                          {isActive ? "Cliquez ici pour ranger le composant" : "Aucun composant placé"}
+                        </div>
+                      ) : (
+                        compsInRole.map((comp) => {
+                          const hasErr = phase2Errors[comp.id];
+                          return (
+                            <div
+                              key={comp.id}
+                              className={`p-2 rounded-xl border flex items-center justify-between gap-2 text-xs ${
+                                hasErr
+                                  ? "bg-red-950/80 border-red-500 text-red-200"
+                                  : phase2Success
+                                  ? "bg-emerald-950/80 border-emerald-500 text-emerald-200"
+                                  : "bg-slate-900/90 border-slate-700 text-slate-200"
+                              }`}
+                            >
+                              <div className="flex items-center gap-2 min-w-0">
+                                <span>{comp.icon}</span>
+                                <span className="font-semibold truncate">{comp.name}</span>
+                              </div>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveIoT(comp.id);
+                                }}
+                                className="p-1 hover:bg-white/10 rounded text-slate-400 hover:text-white shrink-0"
+                              >
+                                ✕
+                              </button>
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
                   </div>
 
-                  {/* Components placed */}
-                  <div className="space-y-1.5 my-2 flex-1">
-                    {itemsInRole.map((item) => (
-                      <div
-                        key={item.id}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRemoveComponent(item.id);
-                        }}
-                        title="Cliquez pour retirer"
-                        className="p-2 rounded-lg bg-slate-900/90 border border-slate-700 hover:border-rose-500 flex items-center justify-between text-xs text-slate-200 transition cursor-pointer group"
-                      >
-                        <span className="flex items-center gap-1.5 truncate">
-                          <span>{item.icon}</span>
-                          <span className="truncate font-semibold">{item.name}</span>
-                        </span>
-                        <span className="text-[10px] text-slate-400 group-hover:text-rose-400 font-mono shrink-0 ml-1">✕</span>
-                      </div>
-                    ))}
-
-                    {itemsInRole.length === 0 && (
-                      <div className="h-16 rounded-xl border border-dashed border-slate-700/60 flex items-center justify-center text-[11px] text-slate-500 italic text-center px-2">
-                        {isTargetReady ? "👉 Cliquez ici pour insérer le composant" : "Maillon vide"}
-                      </div>
-                    )}
-                  </div>
-
-                  {isTargetReady && (
-                    <button
-                      onClick={() => handleAssignRole(comp.role)}
-                      className="w-full py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition cursor-pointer mt-1"
-                    >
-                      Insérer dans ce maillon ⇩
-                    </button>
+                  {isActive && (
+                    <div className="mt-2 text-center text-xs font-bold text-white animate-pulse">
+                      Déposer dans ce rôle
+                    </div>
                   )}
                 </div>
               );
             })}
           </div>
 
-          {/* Sub-challenge: Spiral Progression Question for Bloc 3 Teacher */}
-          <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3 shadow-xl">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
-              <GraduationCap className="w-4 h-4" />
-              <span>Transposition Didactique : La Progression Spiralaire des Objets Connectés (p. 20, 23, 76-79)</span>
-            </div>
-            <p className="text-xs text-slate-300">
-              Dans le référentiel FMTTN, comment s'articule la complexification progressive de la compétence « Concevoir, construire un objet technologique » du primaire au secondaire inférieur ?
-            </p>
+          <div className="flex items-center justify-between p-4 bg-slate-900/80 border border-slate-800 rounded-2xl">
+            <button
+              onClick={() => setPlacedIoT({})}
+              className="text-xs text-slate-400 hover:text-white transition"
+            >
+              Réinitialiser la chaîne
+            </button>
 
-            <div className="space-y-2">
-              {[
-                {
-                  id: 1,
-                  title: "Progression Spiralaire Officielle (p. 20, 23 & 76-79)",
-                  text: "P4 : Utilisation d'un instrument de mesure passif ➔ P6/S1 : Circuit électrique élémentaire avec capteur réactif ➔ S2-S3 : Système cyber-physique automatisé multicapteurs avec régulation algorithmique en boucle fermée.",
-                  correct: true,
-                },
-                {
-                  id: 2,
-                  title: "Saut Conceptuel Brutal",
-                  text: "P1 à P6 : Dessins théoriques sur papier sans aucun composant ➔ S1 : Passage immédiat au câblage industriel haute tension.",
-                  correct: false,
-                },
-                {
-                  id: 3,
-                  title: "Rupture par Exclusion",
-                  text: "L'apprentissage des capteurs et des microcontrôleurs est strictement exclu du Tronc Commun général et réservé aux filières techniques qualifiantes du troisième degré.",
-                  correct: false,
-                },
-              ].map((opt) => (
-                <div
-                  key={opt.id}
-                  onClick={() => {
-                    setSpiralChoice(opt.id);
-                    setErrorMsg("");
-                  }}
-                  className={`p-3.5 rounded-xl border transition-all cursor-pointer text-xs ${
-                    spiralChoice === opt.id
-                      ? "bg-emerald-950/60 border-emerald-400 text-emerald-100 ring-2 ring-emerald-400/40"
-                      : "bg-slate-950/80 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200"
-                  }`}
-                >
-                  <div className="font-bold text-white mb-0.5">{opt.title}</div>
-                  <p className="text-slate-300 leading-relaxed">{opt.text}</p>
-                </div>
-              ))}
-            </div>
+            {!phase2Success ? (
+              <button
+                onClick={handleVerifyIoTChain}
+                disabled={Object.keys(placedIoT).length !== IOT_COMPONENTS.length}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition ${
+                  Object.keys(placedIoT).length === IOT_COMPONENTS.length
+                    ? "bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg cursor-pointer"
+                    : "bg-slate-800 text-slate-500 cursor-not-allowed"
+                }`}
+              >
+                <Check className="w-4 h-4" />
+                <span>Valider la Chaîne ({Object.keys(placedIoT).length}/{IOT_COMPONENTS.length})</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setPhase("DIDACTIC_QUESTION")}
+                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg transition animate-pulse cursor-pointer"
+              >
+                <span>Phase 2 Réussie · Passer à la Didactique (Étape 3)</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* PHASE 3 : DIDACTIC QUESTION FOR BLOC 3 */}
+      {phase === "DIDACTIC_QUESTION" && (
+        <div className="bg-slate-900/90 border border-emerald-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-xl space-y-6">
+          <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
+            <GraduationCap className="w-4 h-4" />
+            <span>Étape 3 sur 3 · Didactique de l'Évaluation de l'Information Numérique</span>
           </div>
 
-          {errorMsg && (
-            <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 text-rose-300 text-xs flex items-center gap-2.5 animate-shake">
-              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
-              <div>{errorMsg}</div>
+          <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-xl space-y-2">
+            <h3 className="text-sm font-bold text-white">Situation concrète en classe de P5 (Liège)</h3>
+            <p className="text-xs text-slate-300 italic leading-relaxed">
+              « Lors d'un projet de recherche sur l'énergie, les élèves tapent "énergie solaire" sur un moteur de recherche. Le premier résultat est un encart publicitaire intitulé "Installez vos panneaux gratuitement !". Les élèves recopient textuellement le slogan commercial dans leur exposé sans vérifier la source. »
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
+              En tant que professeur de numérique, quelle consigne d'apprentissage conforme au référentiel (p. 43, 73) mettez-vous en place ?
+            </div>
+
+            {[
+              {
+                id: 1,
+                label: "Option A : Mettre en œuvre la grille de questionnement critique officielle (intention, auteur, statut du site)",
+                desc: "Faire identifier l'intention commerciale de la balise 'Annonce', apprendre à ignorer les liens sponsorisés payants et exiger le croisement de deux sites institutionnels ou encyclopédiques (.be, .org) avec identification de l'auteur (p. 43, 73).",
+              },
+              {
+                id: 2,
+                label: "Option B : Accepter le texte dès lors que les mots 'panneaux' et 'solaire' sont présents",
+                desc: "Considérer que les élèves de primaire n'ont pas besoin de distinguer publicité et contenu scientifique, la manipulation du clavier étant la seule priorité.",
+              },
+              {
+                id: 3,
+                label: "Option C : Désinstaller le navigateur Internet et faire tout l'exposé à partir du dictionnaire papier",
+                desc: "Renoncer à l'enseignement du numérique sous prétexte que le Web commercial est trop dangereux pour les élèves.",
+              },
+            ].map((opt) => (
+              <button
+                key={opt.id}
+                onClick={() => setDidacticChoice(opt.id)}
+                className={`w-full text-left p-4 rounded-xl border transition-all ${
+                  didacticChoice === opt.id
+                    ? "bg-emerald-950/60 border-emerald-400 ring-2 ring-emerald-400/40"
+                    : "bg-slate-950/50 border-slate-800 hover:border-slate-700"
+                }`}
+              >
+                <div className="text-xs font-bold text-white">{opt.label}</div>
+                <div className="text-[11px] text-slate-400 mt-1 leading-relaxed">{opt.desc}</div>
+              </button>
+            ))}
+          </div>
+
+          {didacticError && (
+            <div className="p-3 bg-red-950/60 border border-red-500/50 rounded-xl text-red-200 text-xs flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-red-400 shrink-0" />
+              <span>{didacticError}</span>
             </div>
           )}
 
-          <div className="flex justify-between items-center pt-2">
+          <div className="flex items-center justify-between pt-4 border-t border-slate-800">
             <button
-              onClick={() => setActiveTab("timeline")}
-              className="text-xs text-slate-400 hover:text-white cursor-pointer"
+              onClick={() => setPhase("IOT_SYSTEM")}
+              className="text-xs text-slate-400 hover:text-white transition"
             >
-              ← Revoir la Démarche Technologique
+              ← Revenir à la chaîne IoT
             </button>
-
             <button
-              onClick={verifyIoTChain}
-              disabled={isChainSimulating}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/30 transition cursor-pointer hover:scale-105 disabled:opacity-50"
+              onClick={handleVerifyDidactic}
+              disabled={didacticChoice === null}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition ${
+                didacticChoice !== null
+                  ? "bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-black shadow-lg cursor-pointer"
+                  : "bg-slate-800 text-slate-500 cursor-not-allowed"
+              }`}
             >
-              <Zap className="w-4 h-4" />
-              <span>{isChainSimulating ? "Simulation du cycle IoT en cours..." : "Valider la Chaîne Numérique & Débloquer"}</span>
+              <span>Valider & Déverrouiller le Secteur 02</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>

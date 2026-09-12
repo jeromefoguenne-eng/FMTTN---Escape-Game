@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Rocket, CheckCircle2, AlertTriangle, HelpCircle, ShieldCheck, KeyRound, Sparkles, Award, Layers, Compass, ArrowUp, ArrowDown, ArrowRight } from "lucide-react";
+import { Rocket, CheckCircle2, AlertTriangle, HelpCircle, ShieldCheck, KeyRound, Sparkles, Award, Layers, Compass, ArrowUp, ArrowDown, ArrowRight, Monitor, Code, Lock, Share2 } from "lucide-react";
 
 type Props = {
   onSuccess: () => void;
@@ -9,7 +9,7 @@ type Props = {
   openPdf: (page?: number) => void;
 };
 
-// ÉCHELON 1 : DIAGNOSTIC DIDACTIQUE DE SÉQUENCES
+// ÉCHELON 1 : DIAGNOSTIC DIDACTIQUE DE SÉQUENCES NUMÉRIQUES
 type SéquenceScenario = {
   id: number;
   title: string;
@@ -21,35 +21,35 @@ type SéquenceScenario = {
 const SEQUENCES_POOL: SéquenceScenario[] = [
   {
     id: 1,
-    title: "Séquence A : Le Quiz de grammaire sur tablette tactile",
-    context: "Les élèves de P5 utilisent chacun un iPad pour répondre en direct à un questionnaire Kahoot révisant les accords du participe passé en français.",
+    title: "Séquence A : Le Quiz de révision grammaticale sur tablette tactile",
+    context: "Les élèves de P5 utilisent individuellement des tablettes pour répondre à un questionnaire Kahoot minuté portant sur les règles de grammaire et d'orthographe en français.",
     isFMTTN: false,
-    diagnosticExplanation: "Écueil didactique majeur (p. 24) : C'est une formation PAR le numérique (le numérique est un support d'enseignement pour une autre matière), mais ABSOLUMENT PAS une formation AU numérique (le numérique comme objet d'apprentissage pour lui-même).",
+    diagnosticExplanation: "Écueil didactique majeur (p. 24) : C'est une formation PAR le numérique (le numérique sert de vecteur instrumental pour une autre matière), mais ce n'est PAS une formation AU numérique (le numérique comme objet d'apprentissage autonome avec acquisition de savoirs et de compétences informatiques).",
   },
   {
     id: 2,
-    title: "Séquence B : L'assemblage du kit pré-découpé en usine",
-    context: "Pour fabriquer une mangeoire à oiseaux, l'enseignant distribue des planches déjà usinées et pré-percées. Les élèves suivent une notice de montage pas à pas sans concevoir.",
+    title: "Séquence B : La frappe mécanique d'un texte imprimé au traitement de texte",
+    context: "L'enseignant demande aux élèves de recopier au kilomètre une poésie depuis une feuille papier dans un traitement de texte, sans aborder les styles, l'arborescence, les raccourcis ni les commandes invariantes.",
     isFMTTN: false,
-    diagnosticExplanation: "Écueil didactique (p. 22-23) : Simple montage mécanique sans démarche technologique. Aucun besoin réel n'est analysé, aucun croquis d'intention n'est produit et aucun choix de matériau n'est exercé.",
+    diagnosticExplanation: "Écueil didactique (p. 44, 64) : Dactylographie passive sans apprentissage du vocabulaire invariant du traitement de texte (saut de page, puces, marges, alignement) ni de la gestion structurée des fichiers.",
   },
   {
     id: 3,
-    title: "Séquence C : L'exposé magistral théorique sur la robotique",
-    context: "Le professeur projette un documentaire vidéo sur les robots industriels et dicte un cours magistral sur l'histoire de l'informatique sans aucune manipulation pratique.",
+    title: "Séquence C : Le cours magistral magistratif sur l'histoire de l'ordinateur",
+    context: "L'enseignant projette un diaporama sur les pionniers de l'informatique pendant 50 minutes sans aucune manipulation sur machine, ni débranchement algorithmique, ni pratique concrète.",
     isFMTTN: false,
-    diagnosticExplanation: "Écueil didactique (p. 20-21) : Contredit l'apprentissage par le faire, l'intelligence du geste et la manipulation d'outils et de composants qui fondent le Tronc Commun.",
+    diagnosticExplanation: "Écueil didactique (p. 20, 24) : Contredit l'esprit du Tronc Commun où l'élève doit manipuler, expérimenter, créer et s'approprier les outils dans un processus actif de production.",
   },
   {
     id: 4,
-    title: "Séquence D : Le Projet Autonome d'Arrosage Automatisé de l'École",
-    context: "Face au dessèchement des bacs potagers, les élèves analysent le besoin, dessinent des croquis côtés, conçoivent le logigramme (début, test de capteur, action), programment la carte Micro:bit pour ouvrir une vanne, façonnent un boîtier étanche en bois recyclé et évaluent le bilan hydrique.",
+    title: "Séquence D : La Création d'une Fiction Interactive & Jeu sous Scratch",
+    context: "Les élèves conçoivent un récit interactif : ils modélisent le logigramme avec symboles normalisés (p. 50), écrivent les scripts Scratch avec boucles et conditions (p. 56), sélectionnent des images sous licence Creative Commons (p. 44, 63) et paramètrent la protection des données personnelles (p. 57).",
     isFMTTN: true,
-    diagnosticExplanation: "✓ AUTHENTIQUE SÉQUENCE DU TRONC COMMUN FMTTN ! Articulation exemplaire de la démarche technologique (Volet 1), de la pensée computationnelle (Volet 2), de la réalisation manuelle et du développement durable (p. 20-26).",
+    diagnosticExplanation: "✓ AUTHENTIQUE PROJET DU VOLET NUMÉRIQUE FMTTN ! Intégration exemplaire des 4 champs : Informations et données, Communication, Création de contenus (pensée algorithmique) et Sécurité (p. 24-25).",
   },
 ];
 
-// ÉCHELON 2 : LA SPIRALE CURRICULAIRE (ORDONNANCER DU P3 AU S2)
+// ÉCHELON 2 : LA SPIRALE CURRICULAIRE DU VOLET NUMÉRIQUE (P3 ➔ S2)
 type SpiraleAttendu = {
   id: string;
   orderNumber: number;
@@ -63,28 +63,28 @@ const INITIAL_SHUFFLED_ATTENDUS: SpiraleAttendu[] = [
     id: "att-s2",
     orderNumber: 4,
     levelBadge: "Cycle S2 (2e Secondaire)",
-    attenduText: "Expliquer le principe du codage binaire, coder un nombre (< 256) en binaire, utiliser des variables/opérateurs logiques et expliquer l'obsolescence programmée.",
-    curriculumRef: "Référentiel p. 74",
+    attenduText: "Expliquer le principe du codage binaire, coder un nombre (< 256) en binaire, utiliser les formules/fonctions d'un tableur et expliquer l'obsolescence programmée.",
+    curriculumRef: "Référentiel p. 73-74",
   },
   {
     id: "att-p5",
     orderNumber: 2,
     levelBadge: "Cycle P5 (5e Primaire)",
     attenduText: "Représenter et associer les symboles conventionnels d'un logigramme séquentiel (Début/Fin ovale, Processus rectangle, Décision losange) et chercher son e-réputation.",
-    curriculumRef: "Référentiel p. 50",
+    curriculumRef: "Référentiel p. 50 & 57",
   },
   {
     id: "att-p3",
     orderNumber: 1,
     levelBadge: "Cycle P3 (3e Primaire)",
-    attenduText: "Entrée officielle dans les attendus spécifiques du numérique obligatoire : recherche d'informations élémentaires et initiation à l'organisation des données.",
-    curriculumRef: "Référentiel p. 24 & 45",
+    attenduText: "Utiliser adéquatement en contexte les termes moteur de recherche, barre de recherche, navigateur, Internet, et sélectionner des mots-clés pertinents.",
+    curriculumRef: "Référentiel p. 24 & 37",
   },
   {
     id: "att-p6",
     orderNumber: 3,
     levelBadge: "Cycle P6 (6e Primaire)",
-    attenduText: "Différencier formellement Algorithme et Programme, verbaliser et concevoir un logigramme intégrant une boucle et une condition.",
+    attenduText: "Différencier formellement Algorithme et Programme, identifier une suite d'opérations pouvant être remplacée par une boucle et utiliser un outil de présentation.",
     curriculumRef: "Référentiel p. 56",
   },
 ];
@@ -100,14 +100,13 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
   const [orderedAttendus, setOrderedAttendus] = useState<SpiraleAttendu[]>(INITIAL_SHUFFLED_ATTENDUS);
   const [step2Validated, setStep2Validated] = useState(false);
 
-  // Échelon 3 : Les 4 Pôles et mot d'armement
-  const [selectedPoles, setSelectedPoles] = useState<string[]>([]);
+  // Échelon 3 : Les 4 Champs du Volet Numérique et code d'armement
+  const [selectedChamps, setSelectedChamps] = useState<string[]>([]);
   const [synthesisWord, setSynthesisWord] = useState("");
   const [isLaunching, setIsLaunching] = useState(false);
 
   const [errorMsg, setErrorMsg] = useState("");
 
-  // Move step card in spirale
   function moveAttendu(index: number, direction: "up" | "down") {
     if (step2Validated) return;
     const targetIndex = direction === "up" ? index - 1 : index + 1;
@@ -127,8 +126,8 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
       const chosen = SEQUENCES_POOL.find((s) => s.id === selectedSequenceId);
       setErrorMsg(
         chosen
-          ? `❌ Diagnostic erroné : ${chosen.diagnosticExplanation}`
-          : "❌ Veuillez sélectionner la séquence qui incarne pleinement la formation FMTTN selon le référentiel."
+          ? `❌ Diagnostic didactique erroné : ${chosen.diagnosticExplanation}`
+          : "❌ Veuillez sélectionner la séquence qui répond aux attendus du Volet Numérique de la FMTTN."
       );
       return;
     }
@@ -139,12 +138,12 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
   }
 
   function verifyStep2() {
-    const isCorrect = orderedAttendus.every((item, idx) => item.orderNumber === idx + 1);
+    const isSuccess = orderedAttendus.every((item, idx) => item.orderNumber === idx + 1);
 
-    if (!isCorrect) {
+    if (!isSuccess) {
       onError();
       setErrorMsg(
-        "❌ Ordre spiralaire erroné ! Rappel de la progression (p. 20, 24, 50, 56, 74) : les attendus numériques démarrent en P3, les symboles de logigramme en P5, la distinction Algorithme/Programme avec boucles en P6, et le binaire/obsolescence en S2."
+        "❌ L'ordonnancement de la spirale curriculaire est incorrect ! Vérifiez la progression officielle des apprentissages (P3 ➔ P5 ➔ P6 ➔ S2)."
       );
       return;
     }
@@ -154,79 +153,90 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
     setActiveStep(3);
   }
 
-  function togglePole(poleName: string) {
-    setSelectedPoles((prev) =>
-      prev.includes(poleName) ? prev.filter((p) => p !== poleName) : [...prev, poleName]
-    );
+  function toggleChamp(champName: string) {
     setErrorMsg("");
+    setSelectedChamps((prev) =>
+      prev.includes(champName) ? prev.filter((p) => p !== champName) : [...prev, champName]
+    );
   }
 
   function verifyStep3() {
-    // Expected 4 poles from page 18: Manuel, Technique, Technologique, Numérique
-    const expectedPoles = ["Manuel", "Technique", "Technologique", "Numérique"];
-    const has4CorrectPoles =
-      selectedPoles.length === 4 && expectedPoles.every((p) => selectedPoles.includes(p));
+    const requiredChamps = [
+      "Informations et données",
+      "Communication et collaboration",
+      "Création de contenus",
+      "Sécurité",
+    ];
 
-    if (!has4CorrectPoles) {
+    const hasAllChamps =
+      requiredChamps.every((p) => selectedChamps.includes(p)) &&
+      selectedChamps.length === requiredChamps.length;
+
+    if (!hasAllChamps) {
       onError();
       setErrorMsg(
-        "❌ Pôles incorrects ! Selon la page 18 du référentiel, quels sont les 4 pôles constitutifs de la culture commune polytechnique du Tronc Commun ?"
+        "❌ Sélection des champs incorrecte ! Le Volet Numérique repose sur exactement 4 champs officiels (p. 24-25 du référentiel)."
       );
       return;
     }
 
-    const cleanWord = synthesisWord.trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    if (cleanWord !== "TRONC COMMUN" && cleanWord !== "TRONCCOMMUN" && cleanWord !== "FMTTN") {
+    const cleanInput = synthesisWord.trim().toUpperCase().replace(/[\s\-_]/g, "");
+    // Accepter TRONCCOMMUN ou NUMERIQUE
+    if (cleanInput !== "TRONCCOMMUN" && cleanInput !== "NUMERIQUE" && cleanInput !== "AU_NUMERIQUE") {
       onError();
-      setErrorMsg("❌ Code d'armement final incorrect. Tapez « TRONC COMMUN » (le socle légal de la réforme p. 2-18).");
+      setErrorMsg(
+        "❌ Code d'armement incorrect. Indice : le cadre institutionnel officiel de cette réforme polytechnique commune de P1 à S3 (2 mots : T____ C_____)."
+      );
       return;
     }
 
     setErrorMsg("");
     setIsLaunching(true);
+
     setTimeout(() => {
-      setIsLaunching(false);
       onSuccess();
-    }, 2000);
+    }, 1200);
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-red-950/80 via-slate-900 to-amber-950/80 border border-red-800/50 shadow-2xl">
+    <div className="space-y-6 max-w-5xl mx-auto pb-12">
+      {/* HEADER WITH PDF LINK */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-red-950/80 via-slate-900 to-amber-950/80 border border-red-500/40 shadow-2xl">
         <div className="flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400">
-            <Rocket className="w-8 h-8 animate-pulse" />
+          <div className="p-3.5 rounded-xl bg-red-500/20 border border-red-500/40 text-red-400">
+            <Rocket className="w-8 h-8" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-widest font-mono text-red-400">Sas de Propulsion Finale • Niveau 6 (Excellence Didactique)</span>
+              <span className="text-xs uppercase tracking-widest font-mono text-red-400 font-bold">Épreuve Finale • Niveau 6 (Haute Exigence Didactique)</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/20 text-red-300 border border-red-500/30">
-                ÉPREUVE FINALE DE SYNTHÈSE TRANSVERSALE
+                VOLET NUMÉRIQUE FMTTN (P. 24-25, 102)
               </span>
             </div>
-            <h2 className="text-xl md:text-2xl font-black text-white tracking-tight">
-              Armement Hyperspatial : Le Grand Test Didactique FMTTN
+            <h2 className="text-xl md:text-2xl font-black text-white tracking-tight mt-0.5">
+              Sas d'Armement : Synthèse Didactique de l'Enseignant de Numérique
             </h2>
-            <p className="text-sm text-slate-300">
-              Pour initier le saut hyperspatial et sauver les 1 450 passagers, vous devez franchir 3 échelons de haute exigence : <strong>Diagnostic de séquences</strong>, <strong>Spirale curriculaire</strong> et <strong>Pôles polytechniques</strong> (p. 18-74).
+            <p className="text-xs text-slate-300">
+              Déjouez les faux-semblants pédagogiques (p. 24), validez la spirale curriculaire (P3 ➔ S2) et identifiez les 4 champs fondateurs du Volet Numérique.
             </p>
           </div>
         </div>
 
-        <button
-          onClick={() => openPdf(18)}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-200 text-xs font-bold transition shrink-0 cursor-pointer"
-        >
-          <HelpCircle className="w-4 h-4 text-red-400" />
-          <span>Consulter Référentiel p. 18-25</span>
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => openPdf(24)}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-500/20 hover:bg-red-500/30 border border-red-500/40 text-red-200 text-xs font-bold transition cursor-pointer"
+          >
+            <HelpCircle className="w-4 h-4 text-red-400" />
+            <span>Volet Numérique p. 24</span>
+          </button>
+        </div>
       </div>
 
-      {/* 3 STEPS PROGRESS BAR */}
+      {/* STEP INDICATOR */}
       <div className="grid grid-cols-3 gap-3">
         <div
-          onClick={() => step1Validated && setActiveStep(1)}
+          onClick={() => setActiveStep(1)}
           className={`p-3 rounded-xl border text-center transition cursor-pointer ${
             activeStep === 1
               ? "bg-red-950/60 border-red-500 text-red-200 ring-2 ring-red-500/30"
@@ -236,7 +246,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
           }`}
         >
           <div className="text-[10px] font-mono font-bold uppercase">Échelon 1</div>
-          <div className="text-xs font-bold truncate">Diagnostic de Séquences</div>
+          <div className="text-xs font-bold truncate">Discrimination Didactique (AU vs PAR)</div>
         </div>
 
         <div
@@ -262,7 +272,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
           }`}
         >
           <div className="text-[10px] font-mono font-bold uppercase">Échelon 3</div>
-          <div className="text-xs font-bold truncate">Les 4 Pôles & Code d'Armement</div>
+          <div className="text-xs font-bold truncate">Les 4 Champs & Code d'Armement</div>
         </div>
       </div>
 
@@ -279,7 +289,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
             </h3>
             <p className="text-xs text-slate-300 mt-1 leading-relaxed">
               En tant que maître de stage ou évaluateur de Bloc 3, vous observez 4 séquences d'apprentissage menées dans des écoles de la FWB.
-              <strong> Cliquez sur la SEULE séquence qui répond rigoureusement aux attendus et principes du Tronc Commun FMTTN</strong> (p. 20-25).
+              <strong> Cliquez sur la SEULE séquence qui répond rigoureusement aux attendus d'une formation AU numérique de la FMTTN</strong> (p. 24-25).
             </p>
           </div>
 
@@ -332,16 +342,16 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
         </div>
       ) : activeStep === 2 ? (
         /* ─────────────────────────────────────────────────────────────
-           ÉCHELON 2 : LA SPIRALE CURRICULAIRE (ORDONNANCEMENT P3-S2)
+           ÉCHELON 2 : LA SPIRALE CURRICULAIRE DU NUMÉRIQUE (ORDONNANCEMENT P3-S2)
         ───────────────────────────────────────────────────────────── */
         <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-5 shadow-xl animate-fade-in">
           <div className="border-b border-slate-800 pb-3">
             <h3 className="text-base font-bold text-white flex items-center gap-2">
               <Layers className="w-5 h-5 text-amber-400" />
-              <span>Échelon 2 : La Logique Spiralaire du Tronc Commun (p. 20, 24, 50, 56, 74)</span>
+              <span>Échelon 2 : La Logique Spiralaire du Volet Numérique (p. 24, 37, 50, 56, 74)</span>
             </h3>
             <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-              Le référentiel proscrit les ruptures et les sauts conceptuels brutaux. Utilisez les flèches ▲ et ▼ pour <strong>ordonner ces 4 attendus officiels selon leur niveau exact d'apparition dans le cursus (du plus précoce au plus avancé)</strong> :
+              Le référentiel proscrit les ruptures conceptuelles. Utilisez les flèches ▲ et ▼ pour <strong>ordonner ces 4 attendus officiels selon leur niveau exact d'apparition dans le cursus (du plus précoce au plus avancé)</strong> :
             </p>
           </div>
 
@@ -349,36 +359,45 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
             {orderedAttendus.map((item, idx) => (
               <div
                 key={item.id}
-                className="p-4 rounded-xl bg-slate-950/90 border border-slate-800 flex items-center gap-4 transition hover:border-amber-500/50"
+                className="p-4 rounded-xl border border-slate-800 bg-slate-950/80 flex items-center justify-between gap-4 transition hover:border-slate-700"
               >
-                <div className="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono font-bold text-sm flex items-center justify-center shrink-0">
-                  {idx + 1}
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap mb-1">
-                    <span className="px-2.5 py-0.5 rounded-full text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
-                      {item.levelBadge}
-                    </span>
-                    <span className="text-[11px] text-slate-400 font-mono italic">{item.curriculumRef}</span>
+                <div className="flex items-center gap-3.5 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-slate-900 border border-slate-700 flex items-center justify-center font-mono font-bold text-xs text-amber-400 shrink-0">
+                    #{idx + 1}
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">{item.attenduText}</p>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-mono font-bold text-cyan-400 uppercase">
+                        {item.levelBadge}
+                      </span>
+                      <span className="text-[10px] text-slate-500 font-mono">({item.curriculumRef})</span>
+                    </div>
+                    <p className="text-xs text-slate-200 leading-relaxed">{item.attenduText}</p>
+                  </div>
                 </div>
 
                 <div className="flex flex-col gap-1 shrink-0">
                   <button
                     onClick={() => moveAttendu(idx, "up")}
-                    disabled={idx === 0 || step2Validated}
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-amber-600 disabled:opacity-20 text-white transition cursor-pointer"
-                    title="Monter"
+                    disabled={idx === 0}
+                    className={`p-1.5 rounded-md border text-xs font-bold transition ${
+                      idx === 0
+                        ? "bg-slate-950 text-slate-700 border-slate-800 cursor-not-allowed"
+                        : "bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700 hover:text-white"
+                    }`}
+                    title="Monter d'un rang"
                   >
                     ▲
                   </button>
                   <button
                     onClick={() => moveAttendu(idx, "down")}
-                    disabled={idx === orderedAttendus.length - 1 || step2Validated}
-                    className="p-1.5 rounded-lg bg-slate-800 hover:bg-amber-600 disabled:opacity-20 text-white transition cursor-pointer"
-                    title="Descendre"
+                    disabled={idx === orderedAttendus.length - 1}
+                    className={`p-1.5 rounded-md border text-xs font-bold transition ${
+                      idx === orderedAttendus.length - 1
+                        ? "bg-slate-950 text-slate-700 border-slate-800 cursor-not-allowed"
+                        : "bg-slate-800 text-slate-200 border-slate-700 hover:bg-slate-700 hover:text-white"
+                    }`}
+                    title="Descendre d'un rang"
                   >
                     ▼
                   </button>
@@ -413,35 +432,59 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
         </div>
       ) : (
         /* ─────────────────────────────────────────────────────────────
-           ÉCHELON 3 : LES 4 PÔLES DU PROFIL DE SORTIE & CODE D'ARMEMENT
+           ÉCHELON 3 : LES 4 CHAMPS DU VOLET NUMÉRIQUE & CODE D'ARMEMENT
         ───────────────────────────────────────────────────────────── */
         <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-6 shadow-xl animate-fade-in">
           <div className="border-b border-slate-800 pb-3">
             <h3 className="text-base font-bold text-white flex items-center gap-2">
               <Compass className="w-5 h-5 text-emerald-400" />
-              <span>Échelon 3 : Les 4 Pôles Polytechniques & L'Armement Final (p. 18-21)</span>
+              <span>Échelon 3 : Les 4 Champs Officiels du Volet Numérique (p. 24-25)</span>
             </h3>
             <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-              La formation commune vise l'émancipation citoyenne par la complémentarité de 4 pôles.
-              <strong> Cochez exactement les 4 pôles officiels constitutifs de la discipline (p. 18)</strong> :
+              Le Volet 2 (Numérique) structure l'ensemble des apprentissages de P3 à S3 selon 4 champs canoniques.
+              <strong> Cochez exactement les 4 champs officiels du référentiel (p. 24-25)</strong> :
             </p>
           </div>
 
-          {/* 6 Choices (4 correct, 2 distractors) */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {/* 6 Choices (4 correct champs, 2 distractors) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
             {[
-              { name: "Manuel", desc: "Intelligence du geste & façonnage de matières (p. 18)" },
-              { name: "Bureautique Propriétaire", desc: "Apprentissage passif de logiciels commerciaux (Distracteur)" },
-              { name: "Technique", desc: "Procédures et actions opératoires (p. 18)" },
-              { name: "Technologique", desc: "Usage raisonné et conception d'objets (p. 18)" },
-              { name: "Théorie Pure", desc: "Enseignement abstrait sans travaux pratiques (Distracteur)" },
-              { name: "Numérique", desc: "Pensée informatique, médias et sécurité (p. 18)" },
-            ].map((p) => {
-              const isChecked = selectedPoles.includes(p.name);
+              {
+                name: "Informations et données",
+                icon: "📊",
+                desc: "Recherche, sélection critique, fiabilité des sources, hardware/software, fichiers et stockage (p. 24)",
+              },
+              {
+                name: "Bureautique Propriétaire Commerciale",
+                icon: "💼",
+                desc: "Apprentissage passif de licences privées d'entreprise (Distracteur non prescrit)",
+              },
+              {
+                name: "Communication et collaboration",
+                icon: "💬",
+                desc: "Partage de contenus, messagerie, outils synchrones/asynchrones, réseaux et nétiquette (p. 24)",
+              },
+              {
+                name: "Création de contenus",
+                icon: "💻",
+                desc: "Traitement de texte, tableur, multimédia, logigrammes, pensée informatique et programmation (p. 25)",
+              },
+              {
+                name: "Formation purement PAR le numérique",
+                icon: "📺",
+                desc: "Considérer le numérique seulement comme une aide d'enseignement d'autres disciplines (Distracteur p. 24)",
+              },
+              {
+                name: "Sécurité",
+                icon: "🛡️",
+                desc: "Protection des personnes et des données, identité numérique, prévention des risques et éthique (p. 25)",
+              },
+            ].map((c) => {
+              const isChecked = selectedChamps.includes(c.name);
               return (
                 <div
-                  key={p.name}
-                  onClick={() => togglePole(p.name)}
+                  key={c.name}
+                  onClick={() => toggleChamp(c.name)}
                   className={`p-3.5 rounded-xl border transition cursor-pointer flex flex-col justify-between ${
                     isChecked
                       ? "bg-emerald-950/60 border-emerald-400 text-white ring-2 ring-emerald-400/40 shadow-lg"
@@ -450,10 +493,13 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-sm text-white">{p.name}</span>
+                      <span className="font-bold text-sm text-white flex items-center gap-1.5">
+                        <span>{c.icon}</span>
+                        <span>{c.name}</span>
+                      </span>
                       <span className="text-xs font-mono">{isChecked ? "☑" : "☐"}</span>
                     </div>
-                    <p className="text-[10px] text-slate-400">{p.desc}</p>
+                    <p className="text-[11px] text-slate-400 leading-tight">{c.desc}</p>
                   </div>
                 </div>
               );
@@ -466,7 +512,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
               Mot de Passe d'Armement Hyperspatial
             </span>
             <p className="text-xs text-slate-300">
-              Quel est le cadre institutionnel officiel de cette réforme polytechnique garantissant l'égalité des chances de P1 à S3 (p. 2-18) ?
+              Quel est le cadre institutionnel officiel de cette réforme polytechnique garantissant la formation au numérique commune de P1 à S3 (p. 2-18) ?
             </p>
             <input
               type="text"
@@ -475,7 +521,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
                 setSynthesisWord(e.target.value);
                 setErrorMsg("");
               }}
-              placeholder="Entrez les deux mots officiels..."
+              placeholder="Entrez le code officiel (ex: TRONC COMMUN)..."
               className="w-full max-w-md px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-center text-lg uppercase tracking-widest focus:outline-none focus:border-red-500"
             />
           </div>
