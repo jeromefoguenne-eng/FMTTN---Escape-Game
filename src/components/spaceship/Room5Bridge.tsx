@@ -274,7 +274,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-widest font-mono text-cyan-400">Secteur 05</span>
+              <span className="text-xs uppercase tracking-widest font-mono text-cyan-400">Secteur 05 • Niveau 5 (Posture Enseignante & Éthique)</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
                 PONT DE COMMANDEMENT & LES 5 VISÉES (P. 26)
               </span>

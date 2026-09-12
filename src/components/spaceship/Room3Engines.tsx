@@ -279,7 +279,7 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-widest font-mono text-amber-400">Secteur 03</span>
+              <span className="text-xs uppercase tracking-widest font-mono text-amber-400">Secteur 03 • Niveau 3 (Avancé - Pensée Computationnelle)</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
                 PENSÉE COMPUTATIONNELLE & ROBOTIQUE (P. 50, 56, 101)
               </span>
@@ -459,19 +459,19 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
                 {
                   id: 1,
                   title: "Distinction Didactique Rigoureuse du Tronc Commun (p. 56 & 100-101)",
-                  text: "L'Algorithme est la logique conceptuelle et la suite finie d'opérations pour résoudre un problème (indépendant de la machine). Le Programme est sa transcription dans un code exécutable par un ordinateur ou robot.",
+                  text: "L'Algorithme est la méthode logique abstraite et la suite finie d'opérations pour résoudre un problème (indépendant de toute machine, mobilisable en débranché). Le Programme est sa transcription concrète dans un langage formel (Scratch, Python) exécutable par l'ordinateur ou le Thymio.",
                   correct: true,
                 },
                 {
                   id: 2,
-                  title: "Confusion Matériel / Logiciel",
-                  text: "L'algorithme concerne uniquement les calculs sur papier en mathématiques, tandis que le programme désigne le châssis physique en plastique et les moteurs du Thymio.",
+                  title: "Confusion Didactique Fréquente (Outil vs Concept)",
+                  text: "Scratch est un algorithme visuel par blocs, tandis que Python ou le C++ sont des programmes textuels.",
                   correct: false,
                 },
                 {
                   id: 3,
-                  title: "Synonymie Approximative",
-                  text: "Dans le référentiel FMTTN, algorithme et programme sont des synonymes interchangeables que l'on peut employer sans distinction dans les apprentissages.",
+                  title: "Confusion Matériel / Logiciel",
+                  text: "L'algorithme concerne uniquement les calculs mathématiques sur papier, tandis que le programme désigne le châssis physique et les moteurs du robot Thymio.",
                   correct: false,
                 },
               ].map((opt) => (

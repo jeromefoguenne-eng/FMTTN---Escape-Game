@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ShieldCheck, CheckCircle2, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Mail, Search, Eye, Lock, Globe, FileWarning, Sparkles, Link2, Unlink } from "lucide-react";
+import { ShieldCheck, CheckCircle2, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Mail, Search, Eye, Lock, Globe, FileWarning, Sparkles, Link2, Unlink, GraduationCap } from "lucide-react";
 
 type Props = {
   onUnlock: () => void;
@@ -28,36 +28,36 @@ type PairRight = {
 const PAIRS_LEFT: PairLeft[] = [
   {
     id: "case-identite",
-    situation: "Nom de famille, date de naissance et photo de classe d'une élève de 11 ans",
+    situation: "Nom de famille, date de naissance, photo de classe d'une élève de 11 ans",
     categoryHint: "Données civiles sous protection stricte du droit à l'image et du RGPD",
     expectedRightId: "strate-n5",
     icon: "🪪",
   },
   {
     id: "case-login",
-    situation: "Identifiant matricule et mot de passe de connexion à l'ENT Smartschool",
+    situation: "Identifiant matricule et mot de passe de connexion à l'ENT scolaire Smartschool",
     categoryHint: "Clés d'accès et jetons d'authentification pour déverrouiller la session",
     expectedRightId: "strate-n4",
     icon: "🔑",
   },
   {
     id: "case-activite",
-    situation: "Historique des requêtes web, horodatages et cookies techniques de navigation",
+    situation: "Historique de navigation, géolocalisation IP, horodatages et cookies techniques",
     categoryHint: "Traces d'usage déposées automatiquement par le navigateur sans saisie",
     expectedRightId: "strate-n3",
     icon: "📊",
   },
   {
     id: "case-publication",
-    situation: "Article rédigé et photo de maquette postés volontairement par l'élève sur le blog",
+    situation: "Article de blog rédigé et photo de maquette postés volontairement par l'élève",
     categoryHint: "Contenu produit de manière intentionnelle et diffusé dans l'espace public",
     expectedRightId: "strate-n2",
     icon: "📝",
   },
   {
     id: "case-reputation",
-    situation: "Commentaires postés par des tiers et classement algorithmique de profil",
-    categoryHint: "Ce que des camarades, des inconnus ou des algorithmes disent sur l'individu",
+    situation: "Sondage WhatsApp anonyme entre pairs et profilage algorithmique par des tiers",
+    categoryHint: "Ce que des camarades, des tiers ou des algorithmes diffusent sur l'individu",
     expectedRightId: "strate-n1",
     icon: "🌐",
   },
@@ -102,25 +102,23 @@ const PAIRS_RIGHT: PairRight[] = [
 ];
 
 export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
-  // Mode: "pairs" (Jeu d'appariement LearningApps) -> "phishing" (Viseur d'inspection)
   const [activeTab, setActiveTab] = useState<"pairs" | "phishing">("pairs");
 
-  // --- TAB 1 : MATCHING PAIRS STATE ---
   const [selectedLeftId, setSelectedLeftId] = useState<string | null>(null);
-  const [matchedPairs, setMatchedPairs] = useState<Record<string, string>>({}); // leftId -> rightId
+  const [matchedPairs, setMatchedPairs] = useState<Record<string, string>>({});
   const [pairsCompleted, setPairsCompleted] = useState(false);
 
-  // --- TAB 2 : PHISHING DETECTOR STATE ---
+  // CSEM media education choice for teacher
+  const [csemChoice, setCsemChoice] = useState<number | null>(null);
+
   const [detectedClues, setDetectedClues] = useState<string[]>([]);
   const [phishingCompleted, setPhishingCompleted] = useState(false);
 
   const [errorMsg, setErrorMsg] = useState("");
   const [unlocked, setUnlocked] = useState(false);
 
-  // Matching pair click logic
   function handleSelectLeft(id: string) {
     if (matchedPairs[id]) {
-      // Unpair if already paired
       setMatchedPairs((prev) => {
         const copy = { ...prev };
         delete copy[id];
@@ -148,7 +146,6 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
       return;
     }
 
-    // Success pair match!
     const newMatched = { ...matchedPairs, [selectedLeftId]: rightId };
     setMatchedPairs(newMatched);
     setSelectedLeftId(null);
@@ -156,15 +153,21 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
 
     if (Object.keys(newMatched).length === PAIRS_LEFT.length) {
       setPairsCompleted(true);
-      setActiveTab("phishing");
     }
   }
 
-  // Phishing toggle
+  function verifyPairsAndTransition() {
+    if (Object.keys(matchedPairs).length < PAIRS_LEFT.length) {
+      setErrorMsg("⚠️ Veuillez associer les 5 paires avant de continuer.");
+      return;
+    }
+    setActiveTab("phishing");
+  }
+
   function toggleClue(clueId: string) {
     setDetectedClues((prev) => {
       const next = prev.includes(clueId) ? prev.filter((c) => c !== clueId) : [...prev, clueId];
-      if (next.length === 3) {
+      if (next.length === 3 && csemChoice === 1) {
         setPhishingCompleted(true);
         setUnlocked(true);
         onUnlock();
@@ -172,6 +175,23 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
       return next;
     });
     setErrorMsg("");
+  }
+
+  function handleValidatePhishingWithCSEM() {
+    if (detectedClues.length < 3) {
+      setErrorMsg("⚠️ Vous devez neutraliser les 3 cibles du message frauduleux (expéditeur, URL, pièce jointe).");
+      return;
+    }
+
+    if (csemChoice !== 1) {
+      onError();
+      setErrorMsg("❌ Analyse CSEM incorrecte ! Selon la page 24, quelle dimension de l'éducation aux médias est mobilisée lorsqu'on décode les intentions et la manipulation de l'émetteur ?");
+      return;
+    }
+
+    setPhishingCompleted(true);
+    setUnlocked(true);
+    onUnlock();
   }
 
   return (
@@ -184,16 +204,16 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-widest font-mono text-purple-400">Secteur 04</span>
+              <span className="text-xs uppercase tracking-widest font-mono text-purple-400">Secteur 04 • Niveau 4 (Expertise Médias & RGPD)</span>
               <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                CYBER-CENTRE & ÉDUCATION AUX MÉDIAS (P. 100)
+                ÉDUCATION AUX MÉDIAS, CSEM & SÉCURITÉ (P. 24, 49, 100-101)
               </span>
             </div>
             <h2 className="text-xl md:text-2xl font-black text-white tracking-tight">
-              Jeu d'Appariement RGPD & Viseur Anti-Hameçonnage
+              Cyber-Centre : Identité Numérique & Détection d'Ingénierie Sociale
             </h2>
             <p className="text-xs text-slate-300">
-              Comme sur LearningApps, reliez les 5 situations scolaires aux strates de traces numériques (p. 100), puis utilisez le viseur d'inspection pour isoler l'attaque de phishing.
+              Associez les 5 strates de traces scolaires (p. 100), puis démasquez les mécanismes de phishing en mobilisant les cadres <strong>DIGCOMP & CSEM</strong> (p. 24).
             </p>
           </div>
         </div>
@@ -218,7 +238,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
           }`}
         >
           <Link2 className="w-4 h-4" />
-          <span>1. Jeu des Paires : Les 5 Strates RGPD (p. 100)</span>
+          <span>1. Les 5 Strates de l'Identité Numérique (p. 100)</span>
           {pairsCompleted && <CheckCircle2 className="w-4 h-4 text-emerald-300" />}
         </button>
 
@@ -231,8 +251,8 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
           }`}
         >
           <Search className="w-4 h-4" />
-          <span>2. Viseur Détective Anti-Hameçonnage</span>
-          {phishingCompleted && <CheckCircle2 className="w-4 h-4 text-emerald-300" />}
+          <span>2. Viseur Anti-Hameçonnage & Cadre CSEM (p. 24 & 100)</span>
+          {unlocked && <CheckCircle2 className="w-4 h-4 text-emerald-300" />}
         </button>
       </div>
 
@@ -243,20 +263,18 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <h3 className="text-2xl font-black text-emerald-300">
-            STRATES RGPD ASSOCIÉES & SÉCURITÉ CYBER RÉTABLIE !
+            CYBER-CENTRE SÉCURISÉ & SENSIBILISATION CSEM VALIDÉE !
           </h3>
           <p className="text-sm text-emerald-200/90 max-w-xl mx-auto">
-            Félicitations ! Les 5 paires didactiques sont parfaitement verrouillées et le filtre anti-hameçonnage a neutralisé les 3 vecteurs d'attaque sur le réseau scolaire de l'Arche.
+            Félicitations ! Les 5 strates d'identité sont maîtrisées, les 3 failles de phishing sont neutralisées et la dimension informationnelle et sociale du CSEM est explicitée. Le réseau de l'Arche est inviolable !
           </p>
         </div>
       ) : activeTab === "pairs" ? (
-        /* ─────────────────────────────────────────────────────────────
-           TAB 1 : MATCHING PAIRS (JEU DES PAIRES LEARNINGAPPS)
-        ───────────────────────────────────────────────────────────── */
+        /* TAB 1 */
         <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-5 shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
             <div className="text-slate-300">
-              👉 <strong>Consigne :</strong> Cliquez sur une situation à gauche, puis cliquez sur la strate correspondante à droite pour les relier.
+              👉 <strong>Consigne :</strong> Cliquez sur une situation à gauche, puis cliquez sur sa strate correspondante à droite pour les associer.
             </div>
             <div className="font-mono text-purple-300 font-bold">
               Paires formées : {Object.keys(matchedPairs).length} / {PAIRS_LEFT.length}
@@ -264,7 +282,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-            {/* Left Column: Situations */}
+            {/* Left */}
             <div className="space-y-3">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-purple-400 block">
                 Colonne A : Situations Scolaires en FWB
@@ -300,7 +318,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
               })}
             </div>
 
-            {/* Right Column: 5 Strates RGPD */}
+            {/* Right */}
             <div className="space-y-3">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400 block">
                 Colonne B : Les 5 Strates Officielles (p. 100)
@@ -337,7 +355,6 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
             </div>
           </div>
 
-          {/* Error Message */}
           {errorMsg && (
             <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 text-rose-300 text-xs flex items-center gap-2.5 animate-shake">
               <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
@@ -345,7 +362,6 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
             </div>
           )}
 
-          {/* Bottom Action */}
           <div className="flex justify-between items-center pt-2">
             <button
               onClick={() => setMatchedPairs({})}
@@ -357,7 +373,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
 
             {pairsCompleted && (
               <button
-                onClick={() => setActiveTab("phishing")}
+                onClick={verifyPairsAndTransition}
                 className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg transition cursor-pointer hover:scale-105"
               >
                 <span>Passer au Viseur Anti-Phishing</span>
@@ -367,10 +383,8 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
           </div>
         </div>
       ) : (
-        /* ─────────────────────────────────────────────────────────────
-           TAB 2 : VISEUR D'INSPECTION ANTI-HAMEÇONNAGE (POINT ON IMAGE)
-        ───────────────────────────────────────────────────────────── */
-        <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-5 shadow-xl">
+        /* TAB 2 */
+        <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-6 shadow-xl">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
@@ -378,7 +392,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
                 <span>Viseur Détective : Neutraliser les 3 Failles de Phishing</span>
               </h3>
               <p className="text-xs text-slate-300">
-                Passez votre viseur et <strong>cliquez directement sur les 3 zones suspectes</strong> de ce faux courriel Smartschool pour bloquer l'intrusion.
+                Passez votre viseur et <strong>cliquez sur les 3 zones suspectes</strong> de ce faux courriel Smartschool pour bloquer l'attaque (p. 100).
               </p>
             </div>
             <div className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/40 shrink-0">
@@ -386,9 +400,8 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
             </div>
           </div>
 
-          {/* Realistic Mail Interface with Interactive Target Crosshairs */}
+          {/* Mail Interface */}
           <div className="rounded-2xl border border-slate-700 bg-slate-950 overflow-hidden shadow-2xl font-sans text-xs sm:text-sm">
-            {/* Header with Clue 1 */}
             <div className="p-4 bg-slate-900 border-b border-slate-800 space-y-2">
               <div className="flex items-center justify-between gap-2 flex-wrap">
                 <span className="text-xs font-mono text-slate-400">Expéditeur :</span>
@@ -414,14 +427,12 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
               </div>
             </div>
 
-            {/* Body with Clue 2 & 3 */}
             <div className="p-6 space-y-4 text-slate-200 leading-relaxed">
               <p>Bonjour,</p>
               <p>
                 Une anomalie critique a été détectée sur votre session scolaire. Pour éviter le blocage définitif de votre dossier et la perte de vos travaux, vous devez renouveler votre mot de passe dans les 60 minutes :
               </p>
 
-              {/* Clue 2: Fake URL */}
               <div className="py-2 text-center">
                 <button
                   onClick={() => toggleClue("url")}
@@ -437,7 +448,6 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
                 </button>
               </div>
 
-              {/* Clue 3: Malicious Attachment */}
               <div className="pt-2 border-t border-slate-800/80">
                 <span className="text-xs font-mono text-slate-400 block mb-1">Pièce jointe sécurisée :</span>
                 <button
@@ -457,7 +467,64 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
             </div>
           </div>
 
-          {/* Feedback & Back Button */}
+          {/* Sub-challenge: CSEM Dimensions Question for Bloc 3 Teacher */}
+          <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">
+              <GraduationCap className="w-4 h-4" />
+              <span>Didactique de l'Éducation aux Médias : Les 3 Dimensions du CSEM (p. 24)</span>
+            </div>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Le référentiel FMTTN s'appuie sur le Conseil Supérieur de l'Éducation aux Médias (CSEM, p. 24) qui distingue trois dimensions complémentaires : <em>informationnelle</em>, <em>technique</em> et <em>sociale</em>. 
+              Lorsqu'un enseignant fait analyser à ses élèves l'urgence anxiogène et l'usurpation d'identité d'un faux courriel pour déconstruire l'intention malveillante, quelle dimension est au cœur de l'apprentissage ?
+            </p>
+
+            <div className="space-y-2">
+              {[
+                {
+                  id: 1,
+                  title: "Dimension Informationnelle & Sociale (CSEM p. 24)",
+                  text: "Décoder l'intention de communication, évaluer de façon critique la véracité des sources, démasquer la manipulation psychologique et comprendre les enjeux relationnels et citoyens en ligne.",
+                  correct: true,
+                },
+                {
+                  id: 2,
+                  title: "Dimension Purement Matérielle Hardware",
+                  text: "Démonter physiquement la carte mère de l'ordinateur pour mesurer la tension électrique du port réseau Ethernet.",
+                  correct: false,
+                },
+                {
+                  id: 3,
+                  title: "Délégation Extérieure",
+                  text: "Le référentiel stipule que l'analyse des arnaques numériques ne relève pas de la pédagogie scolaire mais doit être confiée exclusivement aux services de police.",
+                  correct: false,
+                },
+              ].map((opt) => (
+                <div
+                  key={opt.id}
+                  onClick={() => {
+                    setCsemChoice(opt.id);
+                    setErrorMsg("");
+                  }}
+                  className={`p-3.5 rounded-xl border transition-all cursor-pointer text-xs ${
+                    csemChoice === opt.id
+                      ? "bg-purple-950/60 border-purple-400 text-purple-100 ring-2 ring-purple-400/40"
+                      : "bg-slate-900/80 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                  }`}
+                >
+                  <div className="font-bold text-white mb-0.5">{opt.title}</div>
+                  <p className="text-slate-300 leading-relaxed">{opt.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {errorMsg && (
+            <div className="p-3.5 rounded-xl bg-rose-950/40 border border-rose-500/50 text-rose-300 text-xs flex items-center gap-2.5 animate-shake">
+              <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
+              <div>{errorMsg}</div>
+            </div>
+          )}
+
           <div className="flex items-center justify-between pt-2">
             <button
               onClick={() => setActiveTab("pairs")}
@@ -467,11 +534,13 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
               <span>Retour au Jeu des Paires</span>
             </button>
 
-            <span className="text-xs text-slate-400 font-mono">
-              {phishingCompleted
-                ? "✓ 3 / 3 failles isolées avec succès !"
-                : "Cliquez sur les 3 cibles 🎯 pour neutraliser les virus."}
-            </span>
+            <button
+              onClick={handleValidatePhishingWithCSEM}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg transition cursor-pointer hover:scale-105"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Valider la Protection Cyber & Débloquer</span>
+            </button>
           </div>
         </div>
       )}
