@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Cpu, Radio, Zap, Sparkles, Activity, Eye, Layers, GraduationCap, Globe, Check } from "lucide-react";
+import { Globe, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Cpu, Radio, Zap, Sparkles, Activity, Eye, Layers, GraduationCap, Check } from "lucide-react";
 
 type Props = {
   onUnlock: () => void;
@@ -14,62 +14,50 @@ type SearchStepCard = {
   orderNumber: number;
   title: string;
   sub: string;
-  phaseName: string;
+  themeTag: string;
   icon: string;
-  quoteDidactique: string;
-  didacticRationale: string;
 };
 
 const INITIAL_SHUFFLED_STEPS: SearchStepCard[] = [
   {
     id: "step-intention",
     orderNumber: 3,
-    title: "Identification de l'Intention des Éléments de la Page Web",
-    sub: "Distinguer contenus d'information, encarts promotionnels, cookies et annonces sponsorisées",
-    phaseName: "Étape 3 : Détection d'intention",
+    themeTag: "Repérer les publicités & l'intention",
+    title: "Distinguer les résultats d'information et les liens publicitaires",
+    sub: "Repérer les annonces payantes en haut de page et comprendre l'intention du site (vendre, informer ou convaincre).",
     icon: "🎯",
-    quoteDidactique: "« L'élève identifie l'intention de chaque élément figurant sur une page Web : informer, vendre, séduire, convaincre... » (p. 43, 73)",
-    didacticRationale: "Apprentissage clé pour ne pas confondre un résultat de recherche éditorial avec un lien publicitaire rémunéré.",
   },
   {
     id: "step-requete",
     orderNumber: 2,
-    title: "Requête Ciblée dans le Moteur de Recherche avec Opérateurs",
-    sub: "Utiliser la barre de recherche avec des combinaisons de mots et des filtres précis",
-    phaseName: "Étape 2 : Interrogation ciblée",
+    themeTag: "Lancer la recherche ciblée",
+    title: "Taper les mots-clés choisis dans le moteur de recherche",
+    sub: "Utiliser la barre de recherche avec des mots précis et des filtres simples sans taper de phrases entières.",
     icon: "🔍",
-    quoteDidactique: "« L'élève utilise des outils de recherche dont des moteurs de recherche, en considérant leurs spécificités. » (p. 37, 43)",
-    didacticRationale: "Proscrire les phrases complètes en langage naturel au profit de requêtes structurées et ciblées.",
   },
   {
     id: "step-orga",
     orderNumber: 5,
-    title: "Organisation, Sauvegarde Structurée & Citation Éthique",
-    sub: "Nommer le fichier avec méthode, classer dans l'arborescence et mentionner la source",
-    phaseName: "Étape 5 : Structuration & Droits",
+    themeTag: "Enregistrer & citer l'auteur",
+    title: "Enregistrer le document au bon endroit et citer la source",
+    sub: "Donner un nom clair au fichier, le classer dans son dossier et indiquer le nom de l'auteur ou du site utilisé.",
     icon: "📁",
-    quoteDidactique: "« L'élève organise des fichiers numériques avec méthode et cite la source dans le respect des droits. » (p. 43, 63)",
-    didacticRationale: "La recherche ne s'arrête pas à la lecture : elle implique la gestion documentaire et le respect de la paternité de l'œuvre.",
   },
   {
     id: "step-besoin",
     orderNumber: 1,
-    title: "Formulation du Besoin d'Information & Mots-Clés Pertinents",
-    sub: "Définir la question de recherche et extraire les concepts pivots sans bruit documentaire",
-    phaseName: "Étape 1 : Cadrage du besoin",
+    themeTag: "Cadrer le sujet & choisir les mots-clés",
+    title: "Définir ce que l'on cherche et choisir 2 ou 3 mots-clés",
+    sub: "Clarifier la question de recherche et sélectionner des mots précis avant d'ouvrir le navigateur.",
     icon: "💡",
-    quoteDidactique: "« Déterminer un ou plusieurs mot(s)-clé(s) pertinent(s) pour effectuer une recherche. » (p. 37, 43)",
-    didacticRationale: "Sans questionnement préalable clair, l'élève se noie dans l'infobésité du Web sans objectif d'apprentissage.",
   },
   {
     id: "step-critique",
     orderNumber: 4,
-    title: "Évaluation Critique de la Source (Auteur, Date & Croisement)",
-    sub: "Vérifier la fiabilité du site (.be, .org), la date de mise à jour et croiser 2 sources",
-    phaseName: "Étape 4 : Validation critique",
+    themeTag: "Vérifier la fiabilité du site",
+    title: "Vérifier qui a écrit l'information et comparer avec un autre site",
+    sub: "Vérifier l'auteur, la date de l'article, l'adresse du site (.be, .org, etc.) et croiser avec une 2e source.",
     icon: "⚖️",
-    quoteDidactique: "« Identifier des éléments nécessaires au questionnement quant à la fiabilité de l'information. » (p. 24, 73)",
-    didacticRationale: "Développement de l'esprit critique d'élève-citoyen face aux rumeurs, fake news et biais d'autorité.",
   },
 ];
 
@@ -90,64 +78,64 @@ const IOT_COMPONENTS: IoTComponent[] = [
     name: "Sonde d'humidité numérique",
     icon: "💧",
     expectedRole: "ENTREE",
-    description: "Mesure la teneur en eau du milieu et transmet un signal électrique numérique.",
-    technicalRoleDesc: "CAPTEUR (Entrée) : Capte une grandeur physique du milieu pour la convertir en signal de mesure.",
+    description: "Mesure la teneur en eau du sol et transmet un signal électrique mesurable.",
+    technicalRoleDesc: "CAPTEUR (Entrée) : Mesure une grandeur physique du milieu.",
   },
   {
     id: "temp_co2",
-    name: "Capteur thermique & CO2",
+    name: "Capteur de température & CO2",
     icon: "🌡️",
     expectedRole: "ENTREE",
-    description: "Mesure la température et la concentration de gaz dans l'environnement spatial.",
-    technicalRoleDesc: "CAPTEUR (Entrée) : Acquiert la température ambiante sous forme de données numériques.",
+    description: "Mesure la température et la qualité de l'air sous forme de données numériques.",
+    technicalRoleDesc: "CAPTEUR (Entrée) : Mesure la température ambiante.",
   },
   {
     id: "ldr_light",
-    name: "Photorésistance LDR (Luminosité)",
+    name: "Capteur de lumière (LDR)",
     icon: "☀️",
     expectedRole: "ENTREE",
-    description: "Détecte le flux lumineux pour déterminer l'état jour/nuit.",
-    technicalRoleDesc: "CAPTEUR (Entrée) : Convertit le flux lumineux en données d'entrée pour l'algorithme.",
+    description: "Détecte le niveau de lumière ambiante pour savoir s'il fait jour ou nuit.",
+    technicalRoleDesc: "CAPTEUR (Entrée) : Mesure l'intensité lumineuse.",
   },
   {
     id: "microbit",
     name: "Carte programmable scolaire Micro:bit",
     icon: "🧠",
     expectedRole: "TRAITEMENT",
-    description: "Le microcontrôleur central : exécute le programme algorithmique et traite les conditions.",
-    technicalRoleDesc: "TRAITEMENT (Unité centrale) : Compare les valeurs reçues aux seuils programmés et déclenche les ordres.",
+    description: "L'ordinateur central : exécute le programme, compare les mesures aux seuils et prend les décisions.",
+    technicalRoleDesc: "TRAITEMENT : Analyse les données capteurs et déclenche les commandes.",
   },
   {
     id: "electrovanne",
-    name: "Électrovanne d'irrigation",
+    name: "Électrovanne d'arrosage",
     icon: "🚰",
     expectedRole: "SORTIE",
-    description: "Vanne motorisée qui s'ouvre pour arroser lorsque l'algorithme détecte un sol trop sec.",
-    technicalRoleDesc: "ACTIONNEUR (Sortie) : Convertit un ordre électrique du programme en action mécanique physique.",
+    description: "Vanne électrique qui s'ouvre pour arroser quand le programme détecte que la terre est trop sèche.",
+    technicalRoleDesc: "ACTIONNEUR (Sortie) : Ouvre ou ferme l'eau sur ordre du programme.",
   },
   {
     id: "led_strip",
-    name: "Rampe de LED horticoles",
+    name: "Lampe LED d'éclairage",
     icon: "💡",
     expectedRole: "SORTIE",
-    description: "Éclairage artificiel activé automatiquement par le microcontrôleur en cas d'obscurité.",
-    technicalRoleDesc: "ACTIONNEUR (Sortie) : Émet de la lumière en réponse au signal de commande du traitement.",
+    description: "Éclairage qui s'allume automatiquement quand le capteur de lumière détecte l'obscurité.",
+    technicalRoleDesc: "ACTIONNEUR (Sortie) : Produit de la lumière sur ordre du programme.",
   },
   {
     id: "ecran_lcd",
-    name: "Afficheur numérique LCD I2C",
+    name: "Écran d'affichage texte LCD",
     icon: "📟",
     expectedRole: "SORTIE",
-    description: "Écran d'affichage restituant les températures et alertes aux utilisateurs.",
-    technicalRoleDesc: "SORTIE (Restitution) : Traduit les données internes traitées en texte lisible pour l'humain.",
+    description: "Écran qui affiche la température et les messages d'état aux élèves.",
+    technicalRoleDesc: "SORTIE : Affiche les informations traitées pour l'utilisateur.",
   },
   {
     id: "buzzer",
-    name: "Avertisseur sonore (Buzzer)",
+    name: "Buzzer sonore d'alarme",
     icon: "🔔",
     expectedRole: "SORTIE",
-    description: "Émet un bip d'alerte en cas de dépassement d'un seuil critique de température.",
-    technicalRoleDesc: "ACTIONNEUR (Sortie) : Convertit un signal électrique en alerte acoustique.",
+    description: "Émet un bip sonore quand la température dépasse un seuil d'alerte.",
+    technicalRoleDesc: "ACTIONNEUR (Sortie) : Émet un signal sonore sur commande.",
   },
 ];
 
@@ -156,7 +144,6 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
 
   // PHASE 1 STATE : 5 STEPS ORDERING
   const [stepsList, setStepsList] = useState<SearchStepCard[]>(INITIAL_SHUFFLED_STEPS);
-  const [selectedStepIndex, setSelectedStepIndex] = useState<number | null>(null);
   const [phase1Error, setPhase1Error] = useState("");
   const [phase1Success, setPhase1Success] = useState(false);
 
@@ -170,7 +157,6 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
   const [didacticChoice, setDidacticChoice] = useState<number | null>(null);
   const [didacticError, setDidacticError] = useState("");
 
-  // Move step up / down in array
   function handleMoveStep(index: number, direction: "UP" | "DOWN") {
     const targetIndex = direction === "UP" ? index - 1 : index + 1;
     if (targetIndex < 0 || targetIndex >= stepsList.length) return;
@@ -192,12 +178,11 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
       setPhase1Success(true);
       setPhase1Error("");
     } else {
-      setPhase1Error("L'ordonnancement de la recherche critique n'est pas correct. Relisez la progression officielle des pages 37, 43 et 73.");
+      setPhase1Error("L'ordre des actions n'est pas correct. Réfléchissez à l'ordre logique d'une recherche sur Internet (du besoin initial jusqu'à la sauvegarde finale).");
       onError();
     }
   }
 
-  // IoT Classification handlers
   function handleSelectIoT(id: string) {
     setSelectedIoTId(id === selectedIoTId ? null : id);
   }
@@ -257,7 +242,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
       setDidacticError("");
       onUnlock();
     } else {
-      setDidacticError("Régulation inadéquate : l'attendu de la page 73 exige d'apprendre aux élèves à questionner la fiabilité de l'information et à identifier l'intention de l'auteur.");
+      setDidacticError("Régulation inadéquate : le référentiel demande d'apprendre aux élèves à repérer les publicités et à vérifier qui a écrit l'information.");
       onError();
     }
   }
@@ -280,10 +265,10 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
                 <span className="text-xs text-slate-400 font-mono">Volet 2 : Numérique FMTTN</span>
               </div>
               <h2 className="text-xl md:text-2xl font-black text-white mt-1">
-                Investigation Critique & Systèmes de Données
+                Recherche sur Internet & Systèmes Connectés
               </h2>
               <p className="text-sm text-slate-300">
-                Maîtrisez la recherche d'information sur le Web (p. 37, 43, 73) et la chaîne de traitement cyber-physique (p. 24, 76-79).
+                Guidez les élèves dans une recherche efficace et critique sur le Web (p. 37, 43, 73) et comprenez le fonctionnement d'un système connecté (p. 24, 76).
               </p>
             </div>
           </div>
@@ -304,7 +289,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
             className={`flex items-center gap-2 transition ${phase === "SEARCH_CHAIN" ? "text-emerald-400 font-bold" : phase1Success ? "text-emerald-500/70" : "text-slate-400"}`}
           >
             <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">1</span>
-            <span>Démarche de Recherche Critique</span>
+            <span>Étapes d'une Recherche sur le Web</span>
           </button>
           <div className="w-10 h-0.5 bg-slate-800" />
           <button
@@ -313,7 +298,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
             className={`flex items-center gap-2 transition ${phase === "IOT_SYSTEM" ? "text-emerald-400 font-bold" : phase2Success ? "text-emerald-500/70" : phase1Success ? "text-slate-300" : "text-slate-600 cursor-not-allowed"}`}
           >
             <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">2</span>
-            <span>Chaîne Cyber-Physique IoT</span>
+            <span>Capteurs, Traitement & Sorties</span>
           </button>
           <div className="w-10 h-0.5 bg-slate-800" />
           <button
@@ -322,21 +307,21 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
             className={`flex items-center gap-2 transition ${phase === "DIDACTIC_QUESTION" ? "text-emerald-400 font-bold" : phase2Success ? "text-slate-300" : "text-slate-600 cursor-not-allowed"}`}
           >
             <span className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center border border-current">3</span>
-            <span>Régulation Didactique (Bloc 3)</span>
+            <span>Situation de Classe</span>
           </button>
         </div>
       </div>
 
-      {/* PHASE 1 : ORDERING THE 5 RESEARCH STEPS */}
+      {/* PHASE 1 : ORDERING THE 5 RESEARCH STEPS (NO STEP NUMBERS REVEALED!) */}
       {phase === "SEARCH_CHAIN" && (
         <div className="space-y-4">
           <div className="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl backdrop-blur-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                <span>Ordonnancez les 5 étapes canoniques de la recherche documentaire numérique (p. 37, 43, 73)</span>
+                <span>Remettez dans le bon ordre les 5 actions d'une recherche documentaire sur Internet</span>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                Utilisez les flèches ↑ et ↓ pour ranger chronologiquement les étapes de l'apprentissage de l'élève.
+                Utilisez les flèches pour déplacer les cartes de la première action à la dernière.
               </p>
             </div>
             <button
@@ -345,7 +330,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
                 setPhase1Success(false);
                 setPhase1Error("");
               }}
-              className="text-xs text-slate-400 hover:text-white transition px-2 py-1 bg-slate-800 rounded-lg self-start sm:self-auto"
+              className="text-xs text-slate-400 hover:text-white transition px-2.5 py-1 bg-slate-800 rounded-lg self-start sm:self-auto"
             >
               Mélanger à nouveau
             </button>
@@ -368,11 +353,10 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
                   <span className="text-2xl shrink-0">{step.icon}</span>
                   <div className="min-w-0">
                     <div className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
-                      {step.phaseName}
+                      {step.themeTag}
                     </div>
                     <div className="text-sm font-bold text-white truncate">{step.title}</div>
-                    <div className="text-xs text-slate-400 mt-0.5">{step.sub}</div>
-                    <div className="text-[11px] text-slate-500 italic mt-1 font-mono">{step.quoteDidactique}</div>
+                    <div className="text-xs text-slate-300 mt-0.5">{step.sub}</div>
                   </div>
                 </div>
 
@@ -422,14 +406,14 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
                 className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg transition cursor-pointer"
               >
                 <Check className="w-4 h-4" />
-                <span>Valider la Chronologie de Recherche</span>
+                <span>Valider l'Ordre des Actions</span>
               </button>
             ) : (
               <button
                 onClick={() => setPhase("IOT_SYSTEM")}
                 className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg transition animate-pulse cursor-pointer"
               >
-                <span>Phase 1 Réussie · Passer à la Chaîne Cyber-Physique</span>
+                <span>Ordre Validé ! Passer à la Chaîne d'Information</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             )}
@@ -437,7 +421,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
         </div>
       )}
 
-      {/* PHASE 2 : IOT 3 BINS (CAPTEUR, TRAITEMENT, ACTIONNEUR) */}
+      {/* PHASE 2 : IOT 3 BINS */}
       {phase === "IOT_SYSTEM" && (
         <div className="space-y-6">
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 backdrop-blur-sm">
@@ -445,10 +429,10 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-emerald-400" />
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                  Composants Connectés IoT à Classer dans la Chaîne d'Information (p. 24, 76-79)
+                  Classez chaque composant dans son rôle (p. 24, 76)
                 </h3>
               </div>
-              <span className="text-xs text-slate-400">Cliquez sur un composant puis sur son rôle fonctionnel</span>
+              <span className="text-xs text-slate-400">Cliquez sur un composant puis sur son rôle</span>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -480,22 +464,22 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
             {[
               {
                 role: "ENTREE" as DigitalComponentRole,
-                label: "1. Acquérir / Entrées (Capteurs)",
-                sub: "Convertissent une grandeur physique du milieu en données numériques",
+                label: "1. Capteurs (Entrées)",
+                sub: "Mesurent l'environnement (température, humidité, lumière)",
                 icon: "📡",
                 color: "border-blue-500/50 bg-blue-950/30 text-blue-300",
               },
               {
                 role: "TRAITEMENT" as DigitalComponentRole,
-                label: "2. Traiter / Unité Centrale",
-                sub: "Exécute l'algorithme, compare aux seuils et décide des actions",
+                label: "2. Traitement (Microcontrôleur)",
+                sub: "Exécute le programme et décide quoi faire",
                 icon: "🧠",
                 color: "border-purple-500/50 bg-purple-950/30 text-purple-300",
               },
               {
                 role: "SORTIE" as DigitalComponentRole,
-                label: "3. Agir / Sorties (Actionneurs)",
-                sub: "Convertissent un ordre du microcontrôleur en action concrète ou affichage",
+                label: "3. Actionneurs & Écrans (Sorties)",
+                sub: "Agissent sur le réel ou affichent le résultat (moteurs, lampes, écran)",
                 icon: "⚡",
                 color: "border-amber-500/50 bg-amber-950/30 text-amber-300",
               },
@@ -566,7 +550,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
 
                   {isActive && (
                     <div className="mt-2 text-center text-xs font-bold text-white animate-pulse">
-                      Déposer dans ce rôle
+                      Déposer dans cette catégorie
                     </div>
                   )}
                 </div>
@@ -579,7 +563,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
               onClick={() => setPlacedIoT({})}
               className="text-xs text-slate-400 hover:text-white transition"
             >
-              Réinitialiser la chaîne
+              Réinitialiser
             </button>
 
             {!phase2Success ? (
@@ -593,14 +577,14 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
                 }`}
               >
                 <Check className="w-4 h-4" />
-                <span>Valider la Chaîne ({Object.keys(placedIoT).length}/{IOT_COMPONENTS.length})</span>
+                <span>Valider le Classement ({Object.keys(placedIoT).length}/{IOT_COMPONENTS.length})</span>
               </button>
             ) : (
               <button
                 onClick={() => setPhase("DIDACTIC_QUESTION")}
                 className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 rounded-xl text-xs font-bold uppercase tracking-wider shadow-lg transition animate-pulse cursor-pointer"
               >
-                <span>Phase 2 Réussie · Passer à la Didactique (Étape 3)</span>
+                <span>Chaîne Validée ! Passer à la Situation de Classe</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             )}
@@ -613,36 +597,38 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
         <div className="bg-slate-900/90 border border-emerald-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-xl space-y-6">
           <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
             <GraduationCap className="w-4 h-4" />
-            <span>Étape 3 sur 3 · Didactique de l'Évaluation de l'Information Numérique</span>
+            <span>Étape 3 sur 3 · Situation de Classe en Primaire</span>
           </div>
 
           <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-xl space-y-2">
             <h3 className="text-sm font-bold text-white">Situation concrète en classe de P5 (Liège)</h3>
             <p className="text-xs text-slate-300 italic leading-relaxed">
-              « Lors d'un projet de recherche sur l'énergie, les élèves tapent "énergie solaire" sur un moteur de recherche. Le premier résultat est un encart publicitaire intitulé "Installez vos panneaux gratuitement !". Les élèves recopient textuellement le slogan commercial dans leur exposé sans vérifier la source. »
+              « Lors d'un travail sur l'énergie, des élèves tapent "énergie solaire" sur un moteur de recherche. Le tout premier résultat est une publicité intitulée : 
+              <strong className="text-white font-semibold not-italic"> "Installez vos panneaux solaires gratuitement !"</strong>. 
+              Les élèves recopient ce texte publicitaire dans leur exposé sans vérifier qui a écrit cette page. »
             </p>
           </div>
 
           <div className="space-y-3">
             <div className="text-xs font-bold uppercase tracking-wider text-slate-300">
-              En tant que professeur de numérique, quelle consigne d'apprentissage conforme au référentiel (p. 43, 73) mettez-vous en place ?
+              En tant que professeur de numérique, que faites-vous avec vos élèves (p. 43, 73) ?
             </div>
 
             {[
               {
                 id: 1,
-                label: "Option A : Mettre en œuvre la grille de questionnement critique officielle (intention, auteur, statut du site)",
-                desc: "Faire identifier l'intention commerciale de la balise 'Annonce', apprendre à ignorer les liens sponsorisés payants et exiger le croisement de deux sites institutionnels ou encyclopédiques (.be, .org) avec identification de l'auteur (p. 43, 73).",
+                label: "Option A : Apprendre à repérer la mention 'Annonce' et vérifier l'auteur sur un autre site",
+                desc: "Montrer la balise publicitaire en haut des résultats, expliquer la différence entre un site commercial et un site d'information, et faire comparer avec un site officiel ou encyclopédique (.be, .org).",
               },
               {
                 id: 2,
-                label: "Option B : Accepter le texte dès lors que les mots 'panneaux' et 'solaire' sont présents",
-                desc: "Considérer que les élèves de primaire n'ont pas besoin de distinguer publicité et contenu scientifique, la manipulation du clavier étant la seule priorité.",
+                label: "Option B : Accepter leur texte tant que le mot 'solaire' apparaît bien",
+                desc: "Considérer qu'en primaire, le contenu scientifique importe peu et que seule la saisie du texte compte.",
               },
               {
                 id: 3,
-                label: "Option C : Désinstaller le navigateur Internet et faire tout l'exposé à partir du dictionnaire papier",
-                desc: "Renoncer à l'enseignement du numérique sous prétexte que le Web commercial est trop dangereux pour les élèves.",
+                label: "Option C : Interdire les ordinateurs et revenir au dictionnaire papier",
+                desc: "Supprimer l'accès à Internet pour éviter tout risque de tomber sur des publicités.",
               },
             ].map((opt) => (
               <button
@@ -672,7 +658,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
               onClick={() => setPhase("IOT_SYSTEM")}
               className="text-xs text-slate-400 hover:text-white transition"
             >
-              ← Revenir à la chaîne IoT
+              ← Revenir à la chaîne de composants
             </button>
             <button
               onClick={handleVerifyDidactic}

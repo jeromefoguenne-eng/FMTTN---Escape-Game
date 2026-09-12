@@ -29,35 +29,35 @@ const PAIRS_LEFT: PairLeft[] = [
   {
     id: "case-identite",
     situation: "Nom de famille, date de naissance, photo de classe d'une élève de 11 ans",
-    categoryHint: "Données civiles sous protection stricte du droit à l'image et du RGPD",
+    categoryHint: "Données personnelles protégées par le droit à l'image et le RGPD",
     expectedRightId: "strate-n5",
     icon: "🪪",
   },
   {
     id: "case-login",
     situation: "Identifiant matricule et mot de passe de connexion à l'ENT scolaire Smartschool",
-    categoryHint: "Clés d'accès et jetons d'authentification pour déverrouiller la session",
+    categoryHint: "Mots de passe secrets servant à déverrouiller un compte scolaire",
     expectedRightId: "strate-n4",
     icon: "🔑",
   },
   {
     id: "case-activite",
     situation: "Historique de navigation, géolocalisation IP, horodatages et cookies techniques",
-    categoryHint: "Traces d'usage déposées automatiquement par le navigateur sans saisie",
+    categoryHint: "Traces techniques laissées automatiquement en surfant sur le Web",
     expectedRightId: "strate-n3",
     icon: "📊",
   },
   {
     id: "case-publication",
     situation: "Article de blog rédigé et photo de maquette postés volontairement par l'élève",
-    categoryHint: "Contenu produit de manière intentionnelle et diffusé dans l'espace public",
+    categoryHint: "Contenu que l'élève a choisi lui-même d'écrire et de publier",
     expectedRightId: "strate-n2",
     icon: "📝",
   },
   {
     id: "case-reputation",
     situation: "Sondage WhatsApp anonyme entre pairs et profilage algorithmique par des tiers",
-    categoryHint: "Ce que des camarades, des tiers ou des algorithmes diffusent sur l'individu",
+    categoryHint: "Ce que d'autres personnes ou des sites diffusent sur l'élève",
     expectedRightId: "strate-n1",
     icon: "🌐",
   },
@@ -66,37 +66,37 @@ const PAIRS_LEFT: PairLeft[] = [
 const PAIRS_RIGHT: PairRight[] = [
   {
     id: "strate-n1",
-    strateName: "Niveau 1 : e-Réputation",
+    strateName: "Réputation en ligne (e-Réputation)",
     levelNumber: 1,
-    officialDefinition: "Traces subies ou calculées par des tiers (avis, rumeurs, profilage p. 100)",
+    officialDefinition: "Ce que d'autres personnes ou moteurs de recherche publient sur nous (p. 100)",
     badgeColor: "border-pink-500/50 bg-pink-950/40 text-pink-300",
   },
   {
     id: "strate-n3",
-    strateName: "Niveau 3 : Activités & Télémétrie",
+    strateName: "Traces de navigation automatique",
     levelNumber: 3,
-    officialDefinition: "Traces d'usage générées automatiquement lors des sessions (p. 100)",
+    officialDefinition: "Traces techniques enregistrées automatiquement par le navigateur (cookies, historique p. 100)",
     badgeColor: "border-cyan-500/50 bg-cyan-950/40 text-cyan-300",
   },
   {
     id: "strate-n5",
-    strateName: "Niveau 5 : Identité Personnelle",
+    strateName: "Identité personnelle (État civil & Image)",
     levelNumber: 5,
-    officialDefinition: "État civil, coordonnées et biométrie sous haute protection RGPD (p. 100)",
+    officialDefinition: "Nom, prénom, date de naissance et photo de la personne (p. 100)",
     badgeColor: "border-purple-500/50 bg-purple-950/40 text-purple-300",
   },
   {
     id: "strate-n2",
-    strateName: "Niveau 2 : Publications Déclaratives",
+    strateName: "Publications volontaires",
     levelNumber: 2,
-    officialDefinition: "Données et créations partagées sciemment par l'usager (p. 100)",
+    officialDefinition: "Fichiers, photos et messages partagés volontairement par l'utilisateur (p. 100)",
     badgeColor: "border-emerald-500/50 bg-emerald-950/40 text-emerald-300",
   },
   {
     id: "strate-n4",
-    strateName: "Niveau 4 : Logs In & Accréditations",
+    strateName: "Identifiants de connexion & Mots de passe",
     levelNumber: 4,
-    officialDefinition: "Identifiants de compte et journaux de connexion sécurisée (p. 100)",
+    officialDefinition: "Codes d'accès et mots de passe permettant d'entrer dans un compte (p. 100)",
     badgeColor: "border-amber-500/50 bg-amber-950/40 text-amber-300",
   },
 ];
@@ -340,7 +340,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
                     }`}
                   >
                     <div className="w-8 h-8 rounded-xl bg-slate-800 font-mono font-bold text-xs flex items-center justify-center shrink-0 border border-slate-700">
-                      N{strate.levelNumber}
+                      #{strate.levelNumber}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-bold text-xs sm:text-sm text-white">{strate.strateName}</div>
@@ -413,7 +413,6 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
                       : "bg-slate-800/90 border-slate-700 text-slate-200 hover:border-amber-400 hover:ring-2 hover:ring-amber-400/50"
                   }`}
                 >
-                  <span>🎯</span>
                   <span>Portail Scolaire FWB &lt;securite@fwb-portail-verification.xyz&gt;</span>
                   {detectedClues.includes("sender") && <CheckCircle2 className="w-4 h-4 text-emerald-400 ml-1" />}
                 </button>
@@ -442,7 +441,6 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
                       : "bg-blue-600 hover:bg-blue-500 border-blue-400 text-white hover:border-amber-400 hover:ring-2 hover:ring-amber-400/50"
                   }`}
                 >
-                  <span>🎯</span>
                   <span>Mettre à jour mes identifiants (http://auth-fwb-update-credentials.top/login)</span>
                   {detectedClues.includes("url") && <CheckCircle2 className="w-4 h-4 text-emerald-400 ml-1" />}
                 </button>
@@ -458,7 +456,6 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
                       : "bg-slate-900 border-slate-700 text-slate-300 hover:border-amber-400 hover:ring-2 hover:ring-amber-400/50"
                   }`}
                 >
-                  <span>🎯</span>
                   <FileWarning className="w-4 h-4 text-rose-400" />
                   <span>Certificat_Validation_FWB.exe (1.2 Mo)</span>
                   {detectedClues.includes("attachment") && <CheckCircle2 className="w-4 h-4 text-emerald-400 ml-1" />}
@@ -474,28 +471,27 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
               <span>Didactique de l'Éducation aux Médias : Les 3 Dimensions du CSEM (p. 24)</span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed">
-              Le référentiel FMTTN s'appuie sur le Conseil Supérieur de l'Éducation aux Médias (CSEM, p. 24) qui distingue trois dimensions complémentaires : <em>informationnelle</em>, <em>technique</em> et <em>sociale</em>. 
-              Lorsqu'un enseignant fait analyser à ses élèves l'urgence anxiogène et l'usurpation d'identité d'un faux courriel pour déconstruire l'intention malveillante, quelle dimension est au cœur de l'apprentissage ?
+              Le référentiel FMTTN s'appuie sur l'Éducation aux Médias (CSEM, p. 24). Lorsqu'un enseignant fait observer à ses élèves l'urgence artificielle et la fausse identité d'un courriel frauduleux pour les aider à déjouer le piège, quelle démarche privilégie-t-il ?
             </p>
 
             <div className="space-y-2">
               {[
                 {
                   id: 1,
-                  title: "Dimension Informationnelle & Sociale (CSEM p. 24 - Approche Recommandée)",
-                  text: "Décoder l'intention de communication de l'émetteur, démasquer les leviers d'ingénierie sociale (urgence artificielle, manipulation psychologique, usurpation d'autorité) et développer un esprit critique citoyen sur la diffusion des médias.",
+                  title: "Option A : Développer l'esprit critique et repérer la manipulation (CSEM)",
+                  text: "Apprendre aux élèves à analyser qui parle et dans quel but, repérer les pièges psychologiques (fausse urgence, peur de perdre ses devoirs, fausse autorité) et développer des réflexes de vigilance.",
                   correct: true,
                 },
                 {
                   id: 2,
-                  title: "Focalisation Technique Exclusive (Sans Éducation aux Médias)",
-                  text: "Déléguer la sécurité aux filtres anti-spam et au pare-feu réseau de l'école sans développer le discernement intellectuel ni l'analyse critique des élèves.",
+                  title: "Option B : Se fier uniquement aux réglages techniques",
+                  text: "Compter uniquement sur les filtres automatiques et l'antivirus de l'école sans expliquer aux élèves comment repérer un message suspect.",
                   correct: false,
                 },
                 {
                   id: 3,
-                  title: "Approche Juridique Formelle Décontextualisée",
-                  text: "Faire mémoriser les articles du code pénal sanctionnant la cybercriminalité sans confronter les élèves à des exemples authentiques d'hameçonnage ni décoder la sémiotique du message.",
+                  title: "Option C : Apprendre les lois et règlements par cœur",
+                  text: "Faire réciter les articles de loi sur la cybercriminalité sans jamais faire manipuler ni analyser de vrais exemples d'e-mails frauduleux.",
                   correct: false,
                 },
               ].map((opt) => (

@@ -28,8 +28,8 @@ const ITEMS_POOL: WorkshopItem[] = [
     icon: "⚡",
     pupilContext: "Lucas (P5) : Composant branché sur la carte mère",
     expectedCategory: "HARDWARE",
-    description: "Mémoire de travail rapide et volatile : stocke temporairement les programmes en cours d'exécution mais s'efface à l'extinction.",
-    didacticTrap: "Hardware (p. 63) : distinguer impérativement la mémoire vive volatile de la mémoire de stockage permanente.",
+    description: "Mémoire de travail temporaire et rapide de l'ordinateur : elle s'efface complètement dès qu'on coupe le courant.",
+    didacticTrap: "Matériel (p. 63) : bien distinguer la mémoire vive (temporaire) du stockage permanent (disque).",
   },
   {
     id: "ssd",
@@ -37,8 +37,8 @@ const ITEMS_POOL: WorkshopItem[] = [
     icon: "💾",
     pupilContext: "Zoé (S1) : Support de stockage physique du poste",
     expectedCategory: "HARDWARE",
-    description: "Support de stockage physique permanent non volatile conservant les fichiers et le système même hors tension.",
-    didacticTrap: "Hardware (p. 43, 63) : composant physique de stockage permanent local opposé au cloud distant.",
+    description: "Composant interne qui enregistre durablement tous les fichiers et logiciels, même quand l'ordinateur est éteint.",
+    didacticTrap: "Matériel (p. 43, 63) : stockage physique présent à l'intérieur de la machine.",
   },
   {
     id: "os",
@@ -46,8 +46,8 @@ const ITEMS_POOL: WorkshopItem[] = [
     icon: "🐧",
     pupilContext: "Emma (P6) : Le programme qui gère toute la machine",
     expectedCategory: "SOFTWARE",
-    description: "Logiciel système fondamental assurant la liaison entre le matériel physique et les logiciels d'application.",
-    didacticTrap: "Software (p. 43) : utiliser adéquatement en contexte les termes dont système d'exploitation, logiciel, application.",
+    description: "Le logiciel principal qui fait fonctionner la machine et permet d'exécuter tous les autres programmes.",
+    didacticTrap: "Logiciel (p. 43) : utiliser correctement les termes logiciel, application et système d'exploitation.",
   },
   {
     id: "navigateur",
@@ -55,8 +55,8 @@ const ITEMS_POOL: WorkshopItem[] = [
     icon: "🌐",
     pupilContext: "Noah (P4) : L'outil pour afficher les pages Web",
     expectedCategory: "SOFTWARE",
-    description: "Logiciel applicatif client conçu pour interpréter le code HTML/CSS et naviguer sur le réseau Internet.",
-    didacticTrap: "Software (p. 37, 43) : distinguer navigateur (logiciel client) et moteur de recherche (service Web en ligne).",
+    description: "Logiciel installé sur l'appareil qui permet d'afficher et visiter les sites Web sur Internet.",
+    didacticTrap: "Logiciel (p. 37, 43) : bien distinguer le navigateur (le logiciel) du moteur de recherche (le site en ligne).",
   },
   {
     id: "docx",
@@ -64,8 +64,8 @@ const ITEMS_POOL: WorkshopItem[] = [
     icon: "📄",
     pupilContext: "Emma (P6) : Dossier de synthèse rédigé en classe",
     expectedCategory: "FICHIERS",
-    description: "Format de fichier bureautique contenant du texte structuré et associé à un logiciel de traitement de texte.",
-    didacticTrap: "Format de fichier (p. 63) : associer différents types de fichiers à un logiciel à l'aide de leur extension.",
+    description: "Fichier texte créé avec un logiciel de traitement de texte (Word, LibreOffice Writer, etc.).",
+    didacticTrap: "Fichiers (p. 63) : associer un type de fichier à son logiciel grâce à son extension (.docx).",
   },
   {
     id: "mp3",
@@ -73,8 +73,8 @@ const ITEMS_POOL: WorkshopItem[] = [
     icon: "🎵",
     pupilContext: "Lucas (P5) : Enregistrement sonore pour la webradio",
     expectedCategory: "FICHIERS",
-    description: "Format de fichier numérique compressé encapsulant des données audio échantillonnées.",
-    didacticTrap: "Format multimédia (p. 50, 63) : identifier la nature du média numérique à travers son extension normalisée.",
+    description: "Fichier audio compressé contenant un enregistrement de son ou de musique.",
+    didacticTrap: "Fichiers (p. 50, 63) : reconnaître le type de média (son, image, vidéo) grâce à l'extension (.mp3).",
   },
   {
     id: "cloud_drive",
@@ -82,8 +82,8 @@ const ITEMS_POOL: WorkshopItem[] = [
     icon: "☁️",
     pupilContext: "Zoé (S1) : Répertoire en ligne accessible partout",
     expectedCategory: "CLOUD",
-    description: "Espace de stockage distant dématérialisé hébergé sur des serveurs distants connectés au réseau Internet.",
-    didacticTrap: "Stockage distant (p. 43) : distinguer des supports de stockage utilisés dont disque dur local et cloud.",
+    description: "Espace de stockage sur Internet permettant de retrouver ses fichiers depuis n'importe quel ordinateur.",
+    didacticTrap: "Cloud (p. 43) : faire la différence entre un enregistrement local (disque) et un enregistrement en ligne (cloud).",
   },
   {
     id: "ent_server",
@@ -91,8 +91,8 @@ const ITEMS_POOL: WorkshopItem[] = [
     icon: "🏛️",
     pupilContext: "Noah (P4) : Plateforme en ligne pour recevoir les devoirs",
     expectedCategory: "CLOUD",
-    description: "Infrastructure réseau distante fournissant des services collaboratifs synchrones et asynchrones aux élèves.",
-    didacticTrap: "Réseau et services distants (p. 24, 63) : comprendre l'architecture client-serveur de l'école.",
+    description: "Plateforme en ligne de l'école permettant aux enseignants et élèves d'échanger devoirs et messages.",
+    didacticTrap: "Cloud (p. 24, 63) : comprendre qu'un service en ligne fonctionne sur des serveurs distants connectés.",
   },
 ];
 
@@ -559,7 +559,7 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
         <div className="bg-slate-900/90 border border-emerald-500/40 rounded-2xl p-6 shadow-2xl backdrop-blur-xl space-y-6">
           <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
             <Sparkles className="w-4 h-4" />
-            <span>Étape 3 sur 3 · L'Axiome Épistémologique Fondateur du Volet Numérique (p. 24)</span>
+            <span>Étape 3 sur 3 · La Définition Clé du Volet Numérique (p. 24)</span>
           </div>
 
           <div className="p-5 bg-slate-950/80 border border-emerald-500/30 rounded-xl space-y-3">

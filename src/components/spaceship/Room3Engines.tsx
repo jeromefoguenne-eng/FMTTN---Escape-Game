@@ -58,19 +58,19 @@ const LOGI_FUNCTIONS = [
   {
     id: "fn_start_end",
     title: "Début et Fin",
-    desc: "Marque l'initialisation ou l'arrêt définitif de la séquence algorithmique.",
+    desc: "Indique où commence et où se termine le logigramme.",
     role: "Initialiser / Terminer",
   },
   {
     id: "fn_process",
     title: "Processus / Action",
-    desc: "Exécute une opération ou un ordre moteur déterminé (ex. avancer d'un pas, allumer une DEL).",
+    desc: "Indique une action ou une instruction concrète (ex. avancer d'un pas, allumer une lampe).",
     role: "Agir / Calculer",
   },
   {
     id: "fn_decision",
     title: "Décision / Condition",
-    desc: "Évalue un test logique (Vrai/Faux) pour aiguiller l'exécution selon le capteur (ex. obstacle détecté ?).",
+    desc: "Pose une question (Oui/Non) pour choisir le chemin selon la situation (ex. obstacle détecté ?).",
     role: "Tester / Aiguiller",
   },
 ];
@@ -83,17 +83,7 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
   const [algoConceptChoice, setAlgoConceptChoice] = useState<number | null>(null);
   const [tab1Validated, setTab1Validated] = useState(false);
 
-  const [commands, setCommands] = useState<Command[]>([
-    "FORWARD",
-    "TURN_RIGHT",
-    "FORWARD",
-    "FORWARD",
-    "TURN_LEFT",
-    "FORWARD",
-    "FORWARD",
-    "TURN_RIGHT",
-    "FORWARD",
-  ]);
+  const [commands, setCommands] = useState<Command[]>([]);
 
   const [robotPos, setRobotPos] = useState<[number, number]>([0, 0]);
   const [robotDir, setRobotDir] = useState<Direction>("EAST");
@@ -120,14 +110,14 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
 
   function handleAssignFunction(funcId: string) {
     if (!selectedSymbolId) {
-      setErrorMsg("👉 Sélectionnez d'abord une forme géométrique à gauche, puis associez-la à sa fonction conventionnelle à droite.");
+      setErrorMsg("👉 Cliquez sur une forme géométrique à gauche, puis associez-la à son rôle à droite.");
       return;
     }
 
     const expected = LOGI_SYMBOLS.find((s) => s.id === selectedSymbolId)?.expectedFunctionId;
     if (expected !== funcId) {
       onError();
-      setErrorMsg("❌ Association géométrique incorrecte ! Consultez les symboles conventionnels du logigramme dans le référentiel p. 50.");
+      setErrorMsg("❌ Association incorrecte ! Consultez les formes du logigramme dans le référentiel p. 50.");
       setSelectedSymbolId(null);
       return;
     }
@@ -142,13 +132,13 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
 
   function verifyTab1() {
     if (Object.keys(symbolMatches).length < LOGI_SYMBOLS.length) {
-      setErrorMsg("⚠️ Veuillez associer les 3 symboles conventionnels du logigramme (p. 50).");
+      setErrorMsg("⚠️ Veuillez associer les 3 formes du logigramme (p. 50).");
       return;
     }
 
     if (algoConceptChoice !== 1) {
       onError();
-      setErrorMsg("❌ Distinction conceptuelle incorrecte ! Quelle est la différence fondamentale entre Algorithme et Programme selon le référentiel p. 56 et 101 ?");
+      setErrorMsg("❌ Réponse incorrecte ! Relisez la différence entre un algorithme et un programme (p. 56 et 101).");
       return;
     }
 
@@ -447,7 +437,7 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
           <div className="space-y-3 pt-3 border-t border-slate-800">
             <div className="border-b border-slate-800/80 pb-2">
               <h3 className="text-sm font-bold text-amber-300 uppercase tracking-wider font-mono">
-                B. Épistémologie Didactique : Différencier Algorithme & Programme (p. 56 & 100-101)
+                B. Différencier Algorithme & Programme (p. 56 & 100-101)
               </h3>
               <p className="text-xs text-slate-300 mt-0.5">
                 En tant que futur enseignant de Bloc 3, quelle proposition transmet la distinction exacte du référentiel à vos élèves ?

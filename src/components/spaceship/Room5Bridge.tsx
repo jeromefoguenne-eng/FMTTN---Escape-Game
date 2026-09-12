@@ -30,173 +30,172 @@ type ViseeSector = {
 const SECTORS: ViseeSector[] = [
   {
     id: 1,
-    name: "Dilemme 1 : Recherche d'Information & Discernement Critique",
+    name: "Situation 1 : Recherche sur Internet & Publicités",
     shortName: "Recherche Web",
-    champFMTTN: "Champ 1 : Informations et Données (p. 37, 43, 73)",
+    champFMTTN: "Informations et Données (p. 37, 43, 73)",
     icon: Search,
     gaugeColor: "from-blue-600 to-cyan-400",
-    contextFWB: "P5 / P6 — Initiation à la recherche documentaire sur le Web (Namur)",
-    problemScenario: "En recherchant des données pour un projet de classe sur l'environnement, les élèves cliquent systématiquement sur le premier lien commercial sponsorisé et recopient fidèlement son texte promotionnel sans vérifier l'auteur. Quelle régulation didactique activer ?",
+    contextFWB: "Classe de P5 / P6 (Namur)",
+    problemScenario: "Lors d'une recherche sur Internet, les élèves cliquent tous sur le premier lien commercial sponsorisé et recopient le texte de la publicité sans vérifier qui a écrit la page. Quelle consigne donnez-vous ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Verrouillage restrictif : interdire le Web et fournir un dossier PDF pré-sélectionné",
-        sub: "Distribuer une sélection fermée d'articles validés par le professeur sans confronter les élèves au Web ouvert",
+        label: "Choix 1 : Interdire les moteurs de recherche et donner des textes imprimés",
+        sub: "Donner des documents tout préparés sur papier sans laisser les élèves utiliser Internet.",
         isOptimal: false,
-        feedbackEffect: "Approche trop fermée : priver les élèves du Web ouvert empêche l'acquisition de l'autonomie et des critères d'évaluation des sources prescrits par le référentiel (p. 43, 73).",
+        feedbackEffect: "Trop restrictif : les élèves n'apprennent pas à évaluer les informations sur le Web (p. 43, 73).",
       },
       {
         id: 2,
-        label: "Levier 2 : Démarche d'analyse critique : repérage des annonces, examen de l'URL & croisement de sources",
-        sub: "Faire repérer la mention 'Annonce/Sponsorisé', vérifier le domaine (.be, .org, .gouv) et confronter à deux sources indépendantes",
+        label: "Choix 2 : Apprendre à repérer la mention 'Annonce', vérifier l'adresse et comparer 2 sites",
+        sub: "Faire repérer la balise publicitaire, regarder si le site est fiable (.be, .org) et comparer avec une deuxième source.",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! Pleine conformité avec l'attendu officiel : identifier l'intention de chaque élément d'une page Web et questionner la fiabilité de l'information (p. 43, 73).",
+        feedbackEffect: "✓ Choix validé ! L'élève apprend à distinguer publicité et information, et vérifie la fiabilité des sources (p. 43, 73).",
       },
       {
         id: 3,
-        label: "Levier 3 : Laisser-faire naïf : supposer que les 'digital natives' développeront l'esprit critique d'eux-mêmes",
-        sub: "Valider les documents tant que le thème général est abordé, sans analyser la véracité ni le statut de l'auteur",
+        label: "Choix 3 : Laisser les élèves chercher sans consigne particulière",
+        sub: "Penser que les élèves comprendront d'eux-mêmes avec le temps.",
         isOptimal: false,
-        feedbackEffect: "Illusion pédagogique : l'aisance technique superficielle des élèves ne remplace pas l'apprentissage explicite de la littératie informationnelle (p. 24).",
+        feedbackEffect: "Insuffisant : sans apprentissage explicite, les élèves continuent à confondre publicité et résultat fiable (p. 24).",
       },
     ],
   },
   {
     id: 2,
-    name: "Dilemme 2 : Messagerie, Nétiquette & Protection de la Vie Privée",
-    shortName: "Courriel & RGPD",
-    champFMTTN: "Champ 2 & 4 : Communication, Collaboration & Sécurité (p. 49, 57, 64)",
+    name: "Situation 2 : E-mails, Politesse en ligne & Données personnelles",
+    shortName: "E-mails & RGPD",
+    champFMTTN: "Communication & Sécurité (p. 49, 57, 64)",
     icon: Mail,
     gaugeColor: "from-indigo-600 to-blue-400",
-    contextFWB: "P6 / S1 — Communication par messagerie et travail collaboratif (Bruxelles)",
-    problemScenario: "Pour diffuser la synthèse d'un travail de groupe, un élève rédige un e-mail et insère les 25 adresses électroniques personnelles de ses camarades dans le champ 'À' (destinataire direct). Quelle régulation didactique activer ?",
+    contextFWB: "Classe de P6 / S1 (Bruxelles)",
+    problemScenario: "Pour envoyer un devoir de groupe par e-mail, un élève écrit un message et met les adresses e-mails personnelles de ses 25 camarades de classe dans la case 'À'. Quelle consigne donnez-vous ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Enseignement explicite du champ 'Cci / Bcc' (copie cachée) et sensibilisation au RGPD",
-        sub: "Distinguer 'À' (action attendue), 'Cc' (information visible) et 'Cci' (protection de l'adresse et de l'identité numérique des pairs)",
+        label: "Choix 1 : Expliquer l'utilité de la case 'Cci' (copie cachée) pour protéger les adresses (RGPD)",
+        sub: "Montrer que la case 'Cci' permet d'envoyer à plusieurs personnes sans dévoiler publiquement leurs adresses privées.",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! L'élève comprend l'importance de préserver la vie privée et les données personnelles d'autrui conformément au RGPD et à la nétiquette (p. 49, 57, 64).",
+        feedbackEffect: "✓ Choix validé ! L'élève comprend comment protéger la vie privée et les données personnelles de ses camarades (p. 49, 57, 64).",
       },
       {
         id: 2,
-        label: "Levier 2 : Suspension de l'accès à la messagerie scolaire et retour exclusif au papier",
-        sub: "Retirer l'outil de communication pour éviter tout risque de fuite de données sans enseigner la bonne pratique",
+        label: "Choix 2 : Supprimer la messagerie électronique pour toute la classe",
+        sub: "Interdire les e-mails et demander de tout rendre sur clé USB ou papier.",
         isOptimal: false,
-        feedbackEffect: "Approche punitive stérile : le référentiel demande d'apprendre à utiliser les outils de communication en contexte sécurisé, non de les supprimer (p. 49).",
+        feedbackEffect: "Inadapté : le référentiel demande d'apprendre à utiliser les outils de communication en toute sécurité, pas de les bannir (p. 49).",
       },
       {
         id: 3,
-        label: "Levier 3 : Demander de transférer les 25 adresses dans le champ 'Cc' (copie conforme)",
-        sub: "Considérer que le champ 'Cc' résout le problème de confidentialité en séparant destinataire et observateurs",
+        label: "Choix 3 : Mettre toutes les adresses dans la case 'Cc' (copie visible)",
+        sub: "Penser que la case 'Cc' protège la vie privée.",
         isOptimal: false,
-        feedbackEffect: "Erreur technique et légale : le champ 'Cc' laisse toutes les adresses visibles de tous les destinataires, ce qui viole la confidentialité des données personnelles (p. 57, 64).",
+        feedbackEffect: "Erreur : la case 'Cc' laisse les 25 adresses visibles de tout le monde (p. 57, 64).",
       },
     ],
   },
   {
     id: 3,
-    name: "Dilemme 3 : Pensée Algorithmique & Factorisation par Boucles",
+    name: "Situation 3 : Programmation par Blocs sous Scratch",
     shortName: "Scratch & Boucles",
-    champFMTTN: "Champ 3 : Création de Contenus — Pensée informatique (p. 50, 56)",
+    champFMTTN: "Création de Contenus & Programmation (p. 50, 56)",
     icon: Code,
     gaugeColor: "from-purple-600 to-pink-400",
-    contextFWB: "P5 / P6 — Algorithmes et programmation par blocs Scratch (Liège)",
-    problemScenario: "Pour faire dessiner un octogone régulier à son lutin Scratch, un élève empile 16 blocs consécutifs : 8 fois le bloc [avancer de 50] alterné avec 8 fois le bloc [tourner à droite de 45°]. Quel levier didactique enclencher ?",
+    contextFWB: "Classe de P5 / P6 (Liège)",
+    problemScenario: "Pour faire tracer un polygone à 8 côtés à son lutin Scratch, un élève empile 16 blocs à la suite : 8 fois [avancer] et 8 fois [tourner]. Que faites-vous ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Valider le script tel quel car le tracé visuel sur la scène est correct",
-        sub: "Considérer que la méthode d'écriture importe peu tant que le lutin produit la forme géométrique demandée",
+        label: "Choix 1 : Valider le programme tant que le dessin est réussi",
+        sub: "Considérer que la façon d'écrire le code n'a pas d'importance du moment que l'image apparaît.",
         isOptimal: false,
-        feedbackEffect: "Obstacle didactique : passer à côté de l'essence de la pensée computationnelle qui vise l'élégance algorithmique et la factorisation (p. 50, 56).",
+        feedbackEffect: "Incomplet : l'élève passe à côté de la notion essentielle de répétition et de boucle en programmation (p. 56).",
       },
       {
         id: 2,
-        label: "Levier 2 : Reprendre la souris et remplacer soi-même les blocs par une boucle sans expliciter",
-        sub: "Corriger directement le programme à l'écran pour gagner du temps lors de la séance",
+        label: "Choix 2 : Prendre la souris et remplacer le code soi-même sans rien expliquer",
+        sub: "Faire la correction à sa place pour aller plus vite pendant le cours.",
         isOptimal: false,
-        feedbackEffect: "Dépouillement de l'élève : l'enseignant résout le problème à la place de l'élève sans lui permettre de construire la notion de répétition (p. 26).",
+        feedbackEffect: "Inadéquat : l'élève doit comprendre et construire la solution par lui-même.",
       },
       {
         id: 3,
-        label: "Levier 3 : Faire verbaliser le motif récurrent et faire découvrir le bloc itératif [Répéter 8 fois]",
-        sub: "Guider l'élève pour repérer la séquence élémentaire répétée et factoriser le code selon l'attendu du référentiel",
+        label: "Choix 3 : Faire remarquer la répétition et faire utiliser le bloc [Répéter 8 fois]",
+        sub: "Aider l'élève à voir les blocs qui se répètent et lui faire découvrir la boucle pour simplifier son programme.",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! Parfaite réponse à l'attendu officiel : 'Identifier une suite d'opérations qui peut être remplacée par une boucle' (p. 56).",
+        feedbackEffect: "✓ Choix validé ! Répond exactement à l'attendu du référentiel : 'Identifier une suite d'opérations remplaçable par une boucle' (p. 56).",
       },
     ],
   },
   {
     id: 4,
-    name: "Dilemme 4 : Propriété Intellectuelle, Licences Libres & Médias",
+    name: "Situation 4 : Images sur Internet & Droits d'auteur",
     shortName: "Droits d'Auteur",
-    champFMTTN: "Champ 3 & 4 : Création multimédia et Éthique légale (p. 44, 63, 66)",
+    champFMTTN: "Création de Contenus & Éthique (p. 44, 63, 66)",
     icon: ShieldCheck,
     gaugeColor: "from-emerald-600 to-teal-400",
-    contextFWB: "S1 / S2 — Conception de présentations multimédias et éthique numérique (Mons)",
-    problemScenario: "Pour illustrer son diaporama d'exposé, un groupe télécharge des photographies artistiques filigranées sur un moteur de recherche et les publie sans mentionner les auteurs ni vérifier les autorisations. Quelle régulation didactique opérer ?",
+    contextFWB: "Classe de S1 / S2 (Mons)",
+    problemScenario: "Pour illustrer un diaporama d'exposé, des élèves copient des photographies trouvées sur Google Images sans mentionner les auteurs ni vérifier si elles sont libres de droits. Quelle consigne donnez-vous ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Atelier sur les licences Creative Commons, le filtrage par droits d'usage & la citation légale",
-        sub: "Apprendre à paramétrer le filtre d'images réutilisables, citer l'auteur, le titre et la licence (ex: CC BY-NC) dans le respect de la loi",
+        label: "Choix 1 : Apprendre à filtrer les images sous licence libre (Creative Commons) et citer l'auteur",
+        sub: "Montrer comment activer le filtre d'images réutilisables et expliquer comment noter le nom de l'auteur et la licence.",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! L'élève respecte le droit d'auteur, la propriété intellectuelle et apprend à exploiter légalement des ressources partagées (p. 44, 63, 66).",
+        feedbackEffect: "✓ Choix validé ! L'élève respecte le droit d'auteur et apprend à utiliser légalement des ressources partagées (p. 44, 63, 66).",
       },
       {
         id: 2,
-        label: "Levier 2 : Autoriser la copie intégrale sous prétexte que l'usage est strictement scolaire",
-        sub: "Affirmer aux élèves que toute image visible sur Internet est utilisable librement tant qu'on ne la vend pas",
+        label: "Choix 2 : Autoriser à copier n'importe quelle image sous prétexte que c'est pour l'école",
+        sub: "Dire aux élèves que tout est gratuit sur Internet tant qu'on ne vend rien.",
         isOptimal: false,
-        feedbackEffect: "Erreur didactique majeure : l'exception pédagogique ne dispense pas de vérifier les droits et d'apprendre la citation éthique des auteurs (p. 63, 66).",
+        feedbackEffect: "Erreur : même à l'école, on doit apprendre à vérifier les droits et à citer les sources (p. 63, 66).",
       },
       {
         id: 3,
-        label: "Levier 3 : Proscrire tout média externe et obliger à dessiner chaque élément à la main",
-        sub: "Refuser l'accès aux banques d'images pour contourner le problème des droits",
+        label: "Choix 3 : Interdire toute image et obliger les élèves à tout dessiner à la main",
+        sub: "Refuser d'utiliser des images numériques pour ne pas avoir à gérer les droits d'auteur.",
         isOptimal: false,
-        feedbackEffect: "Contournement stérile : l'élève ne développe aucune compétence de recherche documentaire responsable ni de gestion de droits numériques (p. 24).",
+        feedbackEffect: "Contournement : cela n'apprend pas aux élèves à rechercher et utiliser des médias numériques de manière responsable (p. 24).",
       },
     ],
   },
   {
     id: 5,
-    name: "Dilemme 5 : Tableur & Modélisation Dynamique par Formules",
-    shortName: "Tableur Dynamique",
-    champFMTTN: "Champ 3 : Création de Contenus — Traitement de données (p. 50, 73, 74)",
+    name: "Situation 5 : Tableur & Calcul Automatique",
+    shortName: "Tableur",
+    champFMTTN: "Création de Contenus & Données (p. 50, 73, 74)",
     icon: FileSpreadsheet,
     gaugeColor: "from-amber-600 to-yellow-400",
-    contextFWB: "S1 / S2 — Traitement de données et automatisation sous tableur (Charleroi)",
-    problemScenario: "Dans un tableur, des élèves doivent calculer les totaux et les moyennes de dépenses d'un club scolaire. Ils calculent les valeurs sur leur calculatrice et tapent directement le chiffre '145' en dur dans la cellule de total. Quel levier didactique enclencher ?",
+    contextFWB: "Classe de S1 / S2 (Charleroi)",
+    problemScenario: "Dans un tableur, des élèves doivent calculer le total d'une colonne de dépenses. Ils font le calcul sur une calculatrice et tapent directement le résultat '145' au clavier dans la case du total. Que faites-vous ?",
     switches: [
       {
         id: 1,
-        label: "Levier 1 : Valider la cellule dès lors que le montant numérique calculé est arithmétiquement exact",
-        sub: "Traiter le tableur comme une simple grille de traitement de texte sans mobiliser ses capacités de calcul",
+        label: "Choix 1 : Valider le nombre tapé tant que le résultat est juste",
+        sub: "Considérer le tableur comme un simple tableau de texte sans utiliser ses fonctions de calcul.",
         isOptimal: false,
-        feedbackEffect: "Régression didactique : le tableur est réduit à un tableau passif sans faire découvrir la puissance du calcul dynamique (p. 73-74).",
+        feedbackEffect: "Dommage : l'élève n'apprend pas à utiliser la puissance du calcul automatique dans un tableur (p. 73-74).",
       },
       {
         id: 2,
-        label: "Levier 2 : Faire saisir la formule '=50+45+50' avec les chiffres en dur dans la barre de formule",
-        sub: "Expliquer le symbole '=' mais en additionnant des constantes plutôt que des références de cellules",
+        label: "Choix 2 : Faire taper la formule '=50+45+50' avec les chiffres en dur dans la barre",
+        sub: "Expliquer le symbole '=' mais en additionnant des chiffres fixes au lieu des cases.",
         isOptimal: false,
-        feedbackEffect: "Piège technique : si une valeur de départ change, le total reste faux car il n'est pas lié aux coordonnées des cellules (p. 74).",
+        feedbackEffect: "Piège : si l'élève modifie un nombre dans le tableau, le total ne se mettra pas à jour tout seul (p. 74).",
       },
       {
         id: 3,
-        label: "Levier 3 : Faire manipuler les références de cellules (A2:A10) et la fonction '=SOMME()' puis modifier une valeur test",
-        sub: "Démontrer l'intérêt du recalcul automatique instantané et formaliser les notions de cellule, plage et fonction native",
+        label: "Choix 3 : Faire utiliser les cases (A2:A10) et la formule '=SOMME()' pour que tout se calcule automatiquement",
+        sub: "Montrer qu'en changeant un prix dans le tableau, le total se recalcule immédiatement sans calculatrice.",
         isOptimal: true,
-        feedbackEffect: "✓ Jauge chargée ! Réussite exemplaire des attendus du tableur : utiliser adéquatement formules, fonctions et adressage de cellules (p. 73-74).",
+        feedbackEffect: "✓ Choix validé ! L'élève comprend l'intérêt des formules et des références de cellules (p. 73-74).",
       },
     ],
   },
 ];
 
 export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
-  // Gauges values (0 to 100)
   const [gauges, setGauges] = useState<Record<number, number>>({
     1: 0,
     2: 0,
@@ -246,7 +245,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
 
   function handleIgniteHyperdrive() {
     if (!all5GaugesCharged) {
-      setErrorMsg("Toutes les jauges didactiques doivent être chargées à 100% avec les leviers optimaux !");
+      setErrorMsg("Toutes les jauges doivent être chargées à 100% avec les bonnes options pédagogiques !");
       onError();
       return;
     }
@@ -272,10 +271,10 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
                 <span className="text-xs text-slate-400 font-mono">Volet 2 : Numérique FMTTN</span>
               </div>
               <h2 className="text-xl md:text-2xl font-black text-white mt-1">
-                Le Laboratoire Didactique de l'Enseignant de Numérique
+                Situations de Classe en Cours de Numérique
               </h2>
               <p className="text-sm text-slate-300">
-                Analysez 5 situations authentiques de classe de numérique et choisissez la régulation didactique conforme au Tronc Commun.
+                Observez 5 situations concrètes d'élèves et choisissez la meilleure façon de les aider à progresser.
               </p>
             </div>
           </div>
@@ -285,7 +284,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
             className="flex items-center gap-2 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-cyan-500/40 rounded-lg text-xs font-medium transition self-start md:self-auto shadow-sm"
           >
             <HelpCircle className="w-4 h-4" />
-            <span>Consulter le Volet Numérique (p. 24-26)</span>
+            <span>Consulter le Référentiel (p. 24-26)</span>
           </button>
         </div>
 
@@ -314,7 +313,6 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
                   </span>
                 </div>
                 <div className="text-xs font-bold truncate text-slate-200">{s.shortName}</div>
-                {/* Visual mini-bar */}
                 <div className="w-full bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">
                   <div
                     className={`h-full transition-all duration-500 ${
@@ -350,7 +348,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
             <button
               onClick={() => setActiveSectorId((prev) => (prev > 1 ? prev - 1 : 5))}
               className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition"
-              title="Dilemme précédent"
+              title="Précédent"
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
@@ -360,7 +358,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
             <button
               onClick={() => setActiveSectorId((prev) => (prev < 5 ? prev + 1 : 1))}
               className="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition"
-              title="Dilemme suivant"
+              title="Suivant"
             >
               <ArrowRight className="w-4 h-4" />
             </button>
@@ -371,22 +369,21 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
         <div className="p-4 rounded-xl bg-slate-950/70 border border-cyan-500/30 mb-6">
           <div className="flex items-center gap-2 text-xs font-bold text-cyan-300 uppercase tracking-wider mb-2">
             <GraduationCap className="w-4 h-4 text-cyan-400" />
-            <span>Situation Didactique Concrète de Classe (FWB)</span>
+            <span>Situation observée en classe</span>
           </div>
           <p className="text-sm text-slate-200 font-medium leading-relaxed italic">
             « {activeSector.problemScenario} »
           </p>
         </div>
 
-        {/* 3 LEVIERS PLAUSIBLES */}
+        {/* 3 CHOIX PEDAGOGIQUES SIMPLES */}
         <div className="space-y-3">
           <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
-            Actionnez le levier didactique conforme aux attendus du Tronc Commun :
+            Choisissez la meilleure façon d'aider les élèves :
           </div>
 
           {activeSector.switches.map((sw) => {
             const isSelected = activeSwitchSelections[activeSectorId] === sw.id;
-            const isGaugeFull = gauges[activeSectorId] === 100;
             const isThisOptimal = sw.isOptimal;
 
             return (
@@ -420,7 +417,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
                       </span>
                       {isSelected && (
                         <span className="text-xs font-bold uppercase font-mono px-2 py-0.5 rounded">
-                          {isThisOptimal ? "✓ Activé (100%)" : "✕ Inadéquat"}
+                          {isThisOptimal ? "✓ Choix Validé" : "✕ À améliorer"}
                         </span>
                       )}
                     </div>
@@ -458,10 +455,10 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-5 bg-slate-900/90 border border-slate-800 rounded-2xl backdrop-blur-sm">
         <div>
           <div className="text-xs font-bold uppercase tracking-wider text-slate-400">
-            Progression Didactique du Volet Numérique :
+            Progression :
           </div>
           <div className="text-sm font-semibold text-slate-200 mt-0.5">
-            Jauges chargées : <span className="font-mono text-cyan-400 font-bold">{totalGaugesSum / 100} / 5</span>
+            Situations résolues : <span className="font-mono text-cyan-400 font-bold">{totalGaugesSum / 100} / 5</span>
           </div>
         </div>
 
@@ -475,7 +472,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
           }`}
         >
           <Zap className="w-4 h-4" />
-          <span>{all5GaugesCharged ? "Allumer le Cap Didactique & Valider la Salle" : "Chargez les 5 jauges à 100%"}</span>
+          <span>{all5GaugesCharged ? "Valider les 5 Situations et Ouvrir le Sas Final" : "Résolvez les 5 situations (100%)"}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>
@@ -485,7 +482,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
         <div className="p-4 rounded-xl bg-emerald-950/60 border border-emerald-500/60 text-emerald-200 text-sm flex items-center gap-3 animate-fadeIn">
           <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
           <div>
-            <span className="font-bold">Postures Didactiques Maîtrisées !</span> Vous avez régulé avec succès les 5 situations de classe du Volet Numérique. Le pont de commandement est opérationnel pour le Sas Final.
+            <span className="font-bold">Bravo !</span> Vous avez apporté les bonnes réponses aux 5 situations d'élèves. Le pont de commandement est prêt pour le test final.
           </div>
         </div>
       )}
