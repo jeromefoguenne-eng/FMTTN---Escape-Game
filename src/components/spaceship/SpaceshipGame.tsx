@@ -181,78 +181,29 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
 
   function playSound(type: "success" | "error" | "alarm" | "victory") {
     if (!soundEnabled) return;
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (!AudioCtx) return;
-      if (!audioCtxRef.current) {
-        audioCtxRef.current = new AudioCtx();
-      }
-      const ctx = audioCtxRef.current;
-      if (ctx.state === "suspended") ctx.resume();
-      const now = ctx.currentTime;
-
-      if (type === "success") {
-        [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "sine";
-          osc.frequency.setValueAtTime(freq, now + i * 0.08);
-          gain.gain.setValueAtTime(0.1, now + i * 0.08);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.3);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + i * 0.08);
-          osc.stop(now + i * 0.08 + 0.3);
-        });
-      } else if (type === "error") {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(140, now);
-        osc.frequency.linearRampToValueAtTime(90, now + 0.25);
-        gain.gain.setValueAtTime(0.18, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.25);
-      } else if (type === "victory") {
-        [440, 554.37, 659.25, 880].forEach((freq, i) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = "triangle";
-          osc.frequency.setValueAtTime(freq, now + i * 0.15);
-          gain.gain.setValueAtTime(0.2, now + i * 0.15);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.6);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + i * 0.15);
-          osc.stop(now + i * 0.15 + 0.6);
-        });
-      }
-    } catch {
-      // Audio catch
-    }
+    soundEngine.unlockContext();
+    soundEngine.playSfx(type);
   }
 
-  // Timer Tick
+  // Timer Tick & Progressive Classical Oppression
   useEffect(() => {
     if (!isTimerRunning) return;
 
     const interval = setInterval(() => {
       setTimeLeft((prev) => {
-        if (prev <= 1) {
+        const nextVal = prev <= 1 ? 0 : prev - 1;
+        // Dynamically update music tension, tempo and filters
+        soundEngine.updateChronoTension(nextVal, 1800);
+
+        if (nextVal === 0) {
           setIsTimerRunning(false);
           soundEngine.stopMusic();
           soundEngine.playSfx("alarm");
           setGameState("meltdown");
-          return 0;
-        }
-        if (prev === 300) {
-          soundEngine.startMusic("tension");
+        } else if (nextVal === 300) {
           soundEngine.playSfx("alarm");
         }
-        return prev - 1;
+        return nextVal;
       });
     }, 1000);
 
@@ -262,7 +213,9 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
   function startMissionFromBriefing() {
     setIsTimerRunning(true);
     setGameState("map");
-    soundEngine.startMusic("ambient");
+    soundEngine.unlockContext();
+    soundEngine.updateChronoTension(1800, 1800);
+    soundEngine.startMusic("classical");
     soundEngine.playSfx("unlock");
     addRadioMessage(
       "Commandant de Bord",
@@ -528,6 +481,62 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
                   <p>
                     <strong className="text-emerald-300">Seules les compétences du Volet Numérique du référentiel FMTTN</strong> permettront de sauver l'Arche : rétablir l'architecture informatique en distinguant matériel, logiciels et stockage (p. 43, 63), guider la recherche critique sur le Web et connecter la serre automatisée (p. 43, 76), reprogrammer le robot d'inspection en logigramme normalisé sous Scratch (p. 50, 56), neutraliser l'attaque d'hameçonnage pour protéger les données personnelles des colons (p. 100) et réguler les situations didactiques de classe (p. 24-26) pour sauver les passagers !
                   </p>
+                </div>
+              </div>
+
+              {/* Audio & Classical Atmosphere Bar */}
+              <div className="p-3.5 rounded-2xl bg-slate-950/90 border border-purple-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-purple-900/40 border border-purple-500/40 flex items-center justify-center text-purple-300">
+                    🎵
+                  </div>
+                  <div>
+                    <div className="font-bold text-white flex items-center gap-1.5">
+                      <span>Bande-Son Classique Progressive</span>
+                      <span className="text-[10px] px-1.5 py-0.5 rounded font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                        D Mineur
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-slate-400">
+                      S'accélère et devient de plus en plus oppressante avec le chrono
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 self-end sm:self-center">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundEngine.unlockContext();
+                      const next = soundEngine.toggleMusic();
+                      setMusicEnabled(next);
+                    }}
+                    className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                      musicEnabled
+                        ? "bg-purple-600/30 border-purple-500 text-purple-200 shadow-md shadow-purple-500/20"
+                        : "bg-slate-900 border-slate-700 text-slate-400"
+                    }`}
+                  >
+                    <Radio className="w-3.5 h-3.5" />
+                    <span>{musicEnabled ? "Musique ACTIVE" : "Musique COUPEE"}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundEngine.unlockContext();
+                      const next = soundEngine.toggleSound();
+                      setSoundEnabled(next);
+                    }}
+                    className={`p-1.5 rounded-xl border transition cursor-pointer ${
+                      soundEnabled
+                        ? "bg-slate-800 text-cyan-400 border-cyan-500/40"
+                        : "bg-slate-900 border-slate-700 text-slate-500"
+                    }`}
+                    title={soundEnabled ? "Effets SFX actifs" : "Effets SFX coupés"}
+                  >
+                    {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                  </button>
                 </div>
               </div>
 
