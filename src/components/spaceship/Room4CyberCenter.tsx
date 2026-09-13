@@ -1,4 +1,5 @@
 "use client";
+import { soundEngine } from "@/lib/sound/soundEngine";
 
 import { useState } from "react";
 import { ShieldCheck, CheckCircle2, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Mail, Search, Eye, Lock, Globe, FileWarning, Sparkles, Link2, Unlink, GraduationCap } from "lucide-react";
@@ -127,6 +128,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
       setSelectedLeftId(null);
       return;
     }
+    soundEngine.playSfx("click");
     setSelectedLeftId(id);
     setErrorMsg("");
   }
@@ -147,6 +149,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
     }
 
     const newMatched = { ...matchedPairs, [selectedLeftId]: rightId };
+    soundEngine.playSfx("snap");
     setMatchedPairs(newMatched);
     setSelectedLeftId(null);
     setErrorMsg("");
@@ -165,6 +168,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
   }
 
   function toggleClue(clueId: string) {
+    soundEngine.playSfx("scan");
     setDetectedClues((prev) => (prev.includes(clueId) ? prev.filter((c) => c !== clueId) : [...prev, clueId]));
     setErrorMsg("");
   }
@@ -182,6 +186,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
     }
 
     setPhishingCompleted(true);
+    soundEngine.playSfx("unlock");
     setUnlocked(true);
     onUnlock();
   }

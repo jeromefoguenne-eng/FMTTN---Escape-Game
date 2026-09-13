@@ -36,6 +36,7 @@ import { Room5Bridge } from "./Room5Bridge";
 import { FinalEscapeTrial } from "./FinalEscapeTrial";
 import { ReferentielModal } from "../layout/ReferentielModal";
 import { assetUrl } from "@/lib/utils";
+import { soundEngine } from "@/lib/sound/soundEngine";
 
 type Props = {
   roomCode?: string;
@@ -156,7 +157,8 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
   const [evaluationScore, setEvaluationScore] = useState(100);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const [soundEnabled, setSoundEnabled] = useState(soundEngine.isSoundEnabled());
+  const [musicEnabled, setMusicEnabled] = useState(soundEngine.isMusicEnabled());
 
   // PDF modal state
   const [pdfOpen, setPdfOpen] = useState(false);
@@ -241,8 +243,14 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
       setTimeLeft((prev) => {
         if (prev <= 1) {
           setIsTimerRunning(false);
+          soundEngine.stopMusic();
+          soundEngine.playSfx("alarm");
           setGameState("meltdown");
           return 0;
+        }
+        if (prev === 300) {
+          soundEngine.startMusic("tension");
+          soundEngine.playSfx("alarm");
         }
         return prev - 1;
       });
@@ -254,6 +262,8 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
   function startMissionFromBriefing() {
     setIsTimerRunning(true);
     setGameState("map");
+    soundEngine.startMusic("ambient");
+    soundEngine.playSfx("unlock");
     addRadioMessage(
       "Commandant de Bord",
       "Passerelle Centrale",
@@ -289,6 +299,7 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
   }
 
   function handleFinalEscapeSuccess() {
+    soundEngine.startMusic("victory");
     playSound("victory");
     setIsTimerRunning(false);
     setGameState("victory");
@@ -410,11 +421,37 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
                 <span className="sm:hidden">PDF</span>
               </button>
 
+              {/* Ambient Music Toggle */}
               <button
-                onClick={() => setSoundEnabled(!soundEnabled)}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition"
+                onClick={() => {
+                  const next = soundEngine.toggleMusic();
+                  setMusicEnabled(next);
+                }}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition cursor-pointer ${
+                  musicEnabled
+                    ? "bg-purple-950/70 border-purple-500/60 text-purple-300 shadow-md shadow-purple-500/20 ring-1 ring-purple-400/40"
+                    : "bg-slate-900 border-slate-800 text-slate-500"
+                }`}
+                title={musicEnabled ? "Couper la musique d'ambiance spatiale" : "Activer la musique d'ambiance spatiale"}
               >
-                {soundEnabled ? <Volume2 className="w-4 h-4 text-cyan-400" /> : <VolumeX className="w-4 h-4 text-slate-500" />}
+                <Radio className={`w-3.5 h-3.5 ${musicEnabled ? "text-purple-400 animate-pulse" : "text-slate-500"}`} />
+                <span className="hidden md:inline">{musicEnabled ? "Musique ON" : "Musique OFF"}</span>
+              </button>
+
+              {/* SFX Toggle */}
+              <button
+                onClick={() => {
+                  const next = soundEngine.toggleSound();
+                  setSoundEnabled(next);
+                }}
+                className={`p-2 rounded-xl border transition cursor-pointer ${
+                  soundEnabled
+                    ? "bg-slate-800 hover:bg-slate-700 text-cyan-400 border-cyan-500/40"
+                    : "bg-slate-900 border-slate-800 text-slate-500"
+                }`}
+                title={soundEnabled ? "Couper les bruitages SFX" : "Activer les bruitages SFX"}
+              >
+                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
               </button>
             </div>
           </div>

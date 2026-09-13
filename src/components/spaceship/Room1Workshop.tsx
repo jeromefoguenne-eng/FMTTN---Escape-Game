@@ -1,4 +1,5 @@
 "use client";
+import { soundEngine } from "@/lib/sound/soundEngine";
 
 import { useState } from "react";
 import { HardDrive, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, RotateCcw, Sparkles, Box, Check, ArrowDown, GraduationCap, Cpu, Layers, FileCode, Cloud } from "lucide-react";
@@ -154,6 +155,7 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
   const unplacedItems = ITEMS_POOL.filter((item) => !placements[item.id]);
 
   function handleSelectItem(itemId: string) {
+    soundEngine.playSfx("click");
     setSelectedItemId(itemId === selectedItemId ? null : itemId);
   }
 
@@ -169,6 +171,7 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
       delete next[selectedItemId];
       return next;
     });
+    soundEngine.playSfx("snap");
     setSelectedItemId(null);
   }
 
@@ -189,6 +192,7 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
   function handleReset() {
     setPlacements({});
     setValidationErrors({});
+    soundEngine.playSfx("snap");
     setSelectedItemId(null);
     setAllCorrect(false);
   }
@@ -211,6 +215,7 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
       onError();
       setAllCorrect(false);
     } else {
+      soundEngine.playSfx("success");
       setAllCorrect(true);
     }
   }
@@ -242,6 +247,7 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
 
     if (cleaned === "PAR" || cleaned === "PARLE" || cleaned === "PARLENUMERIQUE") {
       setAxiomError("");
+      soundEngine.playSfx("unlock");
       setUnlocked(true);
       onUnlock();
     } else {

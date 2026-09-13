@@ -1,4 +1,5 @@
 "use client";
+import { soundEngine } from "@/lib/sound/soundEngine";
 
 import { useState } from "react";
 import { Globe, CheckCircle, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Cpu, Radio, Zap, Sparkles, Activity, Eye, Layers, GraduationCap, Check } from "lucide-react";
@@ -167,6 +168,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
     updated[index] = updated[targetIndex];
     updated[targetIndex] = temp;
 
+    soundEngine.playSfx("click");
     setStepsList(updated);
     setPhase1Success(false);
     setPhase1Error("");
@@ -176,6 +178,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
     const isOrdered = stepsList.every((step, idx) => step.orderNumber === idx + 1);
 
     if (isOrdered) {
+      soundEngine.playSfx("success");
       setPhase1Success(true);
       setPhase1Error("");
     } else {
@@ -185,6 +188,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
   }
 
   function handleSelectIoT(id: string) {
+    soundEngine.playSfx("click");
     setSelectedIoTId(id === selectedIoTId ? null : id);
   }
 
@@ -199,6 +203,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
       delete next[selectedIoTId];
       return next;
     });
+    soundEngine.playSfx("snap");
     setSelectedIoTId(null);
   }
 
@@ -234,6 +239,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
       onError();
       setPhase2Success(false);
     } else {
+      soundEngine.playSfx("success");
       setPhase2Success(true);
     }
   }
@@ -241,6 +247,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
   function handleVerifyDidactic() {
     if (didacticChoice === 1) {
       setDidacticError("");
+      soundEngine.playSfx("unlock");
       setUnlocked(true);
       onUnlock();
     } else {

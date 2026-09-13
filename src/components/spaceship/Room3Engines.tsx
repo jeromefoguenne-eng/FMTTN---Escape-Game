@@ -1,4 +1,5 @@
 "use client";
+import { soundEngine } from "@/lib/sound/soundEngine";
 
 import { useState } from "react";
 import { Bot, CheckCircle, AlertTriangle, HelpCircle, Play, RotateCcw, ArrowRight, ArrowLeft, ArrowUp, Cpu, Sparkles, Flame, Shield, Workflow, CheckCircle2 } from "lucide-react";
@@ -143,6 +144,7 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
     }
 
     setErrorMsg("");
+    soundEngine.playSfx("success");
     setTab1Validated(true);
     setActiveTab("robot_maze");
   }
@@ -157,12 +159,14 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
       setErrorMsg("⚠️ Mémoire du robot limitée à 15 instructions.");
       return;
     }
+    soundEngine.playSfx("click");
     setCommands((prev) => [...prev, cmd]);
     setErrorMsg("");
   }
 
   function removeCommand(index: number) {
     if (isRunning || unlocked) return;
+    soundEngine.playSfx("click");
     setCommands((prev) => prev.filter((_, i) => i !== index));
     setErrorMsg("");
   }
@@ -193,7 +197,8 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
     if (nextStep >= commands.length) {
       if (robotPos[0] === 4 && robotPos[1] === 4) {
         setSimStatus("success");
-        setUnlocked(true);
+        soundEngine.playSfx("unlock");
+      setUnlocked(true);
         onUnlock();
       } else {
         setSimStatus("idle");
@@ -221,13 +226,15 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
       else if (curDir === "EAST") curDir = "SOUTH";
       else if (curDir === "SOUTH") curDir = "WEST";
       else if (curDir === "WEST") curDir = "NORTH";
-      setRobotDir(curDir);
+      soundEngine.playSfx("step");
+        setRobotDir(curDir);
     } else if (cmd === "TURN_LEFT") {
       if (curDir === "NORTH") curDir = "WEST";
       else if (curDir === "WEST") curDir = "SOUTH";
       else if (curDir === "SOUTH") curDir = "EAST";
       else if (curDir === "EAST") curDir = "NORTH";
-      setRobotDir(curDir);
+      soundEngine.playSfx("step");
+        setRobotDir(curDir);
     } else if (cmd === "FORWARD") {
       let nextX = curX;
       let nextY = curY;
@@ -237,14 +244,16 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
       else if (curDir === "WEST") nextX -= 1;
 
       if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) {
-        setSimStatus("crashed");
+        soundEngine.playSfx("alarm");
+          setSimStatus("crashed");
         onError();
         setErrorMsg("💥 Collision avec la paroi externe du conduit !");
         return;
       }
 
       if (isObstacle(nextX, nextY)) {
-        setSimStatus("crashed");
+        soundEngine.playSfx("alarm");
+          setSimStatus("crashed");
         onError();
         setErrorMsg(`💥 Collision avec un débris en (${nextX}, ${nextY}) !`);
         return;
@@ -252,11 +261,13 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
 
       curX = nextX;
       curY = nextY;
-      setRobotPos([curX, curY]);
+      soundEngine.playSfx("step");
+        setRobotPos([curX, curY]);
     }
 
     if (curX === 4 && curY === 4) {
       setSimStatus("success");
+      soundEngine.playSfx("unlock");
       setUnlocked(true);
       onUnlock();
     }
@@ -288,12 +299,14 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
         else if (curDir === "EAST") curDir = "SOUTH";
         else if (curDir === "SOUTH") curDir = "WEST";
         else if (curDir === "WEST") curDir = "NORTH";
+        soundEngine.playSfx("step");
         setRobotDir(curDir);
       } else if (cmd === "TURN_LEFT") {
         if (curDir === "NORTH") curDir = "WEST";
         else if (curDir === "WEST") curDir = "SOUTH";
         else if (curDir === "SOUTH") curDir = "EAST";
         else if (curDir === "EAST") curDir = "NORTH";
+        soundEngine.playSfx("step");
         setRobotDir(curDir);
       } else if (cmd === "FORWARD") {
         let nextX = curX;
@@ -305,6 +318,7 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
 
         if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) {
           setIsRunning(false);
+          soundEngine.playSfx("alarm");
           setSimStatus("crashed");
           onError();
           setErrorMsg("💥 Collision avec la paroi externe du conduit ! Ajustez vos rotations.");
@@ -313,6 +327,7 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
 
         if (isObstacle(nextX, nextY)) {
           setIsRunning(false);
+          soundEngine.playSfx("alarm");
           setSimStatus("crashed");
           onError();
           setErrorMsg(`💥 Collision avec un débris sur la case (${nextX}, ${nextY}) ! Ajustez la trajectoire pour contourner.`);
@@ -321,6 +336,7 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
 
         curX = nextX;
         curY = nextY;
+        soundEngine.playSfx("step");
         setRobotPos([curX, curY]);
       }
     }
@@ -330,6 +346,7 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
 
     if (curX === 4 && curY === 4) {
       setSimStatus("success");
+      soundEngine.playSfx("unlock");
       setUnlocked(true);
       onUnlock();
     } else {

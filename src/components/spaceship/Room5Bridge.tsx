@@ -1,4 +1,5 @@
 "use client";
+import { soundEngine } from "@/lib/sound/soundEngine";
 
 import { useState } from "react";
 import { GraduationCap, CheckCircle2, AlertTriangle, HelpCircle, ArrowRight, ArrowLeft, Power, Zap, Sliders, FileSpreadsheet, Search, Mail, Code, ShieldCheck } from "lucide-react";
@@ -227,6 +228,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
     }));
 
     if (sw.isOptimal) {
+      soundEngine.playSfx("success");
       setGauges((prev) => ({ ...prev, [sectorId]: 100 }));
       setFeedbackMessages((prev) => ({
         ...prev,
@@ -249,6 +251,7 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
       onError();
       return;
     }
+    soundEngine.playSfx("unlock");
     setUnlocked(true);
     onUnlock();
   }

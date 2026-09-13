@@ -1,4 +1,5 @@
 "use client";
+import { soundEngine } from "@/lib/sound/soundEngine";
 
 import { useState } from "react";
 import { Rocket, CheckCircle2, AlertTriangle, HelpCircle, ShieldCheck, KeyRound, Sparkles, Award, Layers, Compass, ArrowUp, ArrowDown, ArrowRight, Monitor, Code, Lock, Share2 } from "lucide-react";
@@ -133,6 +134,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
     }
 
     setErrorMsg("");
+    soundEngine.playSfx("unlock");
     setStep1Validated(true);
     setActiveStep(2);
   }
@@ -149,6 +151,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
     }
 
     setErrorMsg("");
+    soundEngine.playSfx("unlock");
     setStep2Validated(true);
     setActiveStep(3);
   }
@@ -205,6 +208,7 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
     }
 
     setErrorMsg("");
+    soundEngine.playSfx("victory");
     setIsLaunching(true);
 
     setTimeout(() => {
