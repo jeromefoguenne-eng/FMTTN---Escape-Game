@@ -182,6 +182,86 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
     resetSimulation();
   }
 
+  function executeSingleStep() {
+    if (commands.length === 0) {
+      setErrorMsg("⚠️ Ajoutez des blocs d'instructions pour guider le robot.");
+      return;
+    }
+    if (isRunning || unlocked) return;
+
+    let nextStep = activeStepIndex === null ? 0 : activeStepIndex + 1;
+    if (nextStep >= commands.length) {
+      if (robotPos[0] === 4 && robotPos[1] === 4) {
+        setSimStatus("success");
+        setUnlocked(true);
+        onUnlock();
+      } else {
+        setSimStatus("idle");
+        setErrorMsg(`⚠️ Fin des instructions en (${robotPos[0]}, ${robotPos[1]}). Le cœur est en (4, 4) !`);
+      }
+      return;
+    }
+
+    let curX = activeStepIndex === null ? 0 : robotPos[0];
+    let curY = activeStepIndex === null ? 0 : robotPos[1];
+    let curDir = activeStepIndex === null ? "EAST" : robotDir;
+
+    if (activeStepIndex === null) {
+      setRobotPos([0, 0]);
+      setRobotDir("EAST");
+    }
+
+    setActiveStepIndex(nextStep);
+    setSimStatus("running");
+    setErrorMsg("");
+    const cmd = commands[nextStep];
+
+    if (cmd === "TURN_RIGHT") {
+      if (curDir === "NORTH") curDir = "EAST";
+      else if (curDir === "EAST") curDir = "SOUTH";
+      else if (curDir === "SOUTH") curDir = "WEST";
+      else if (curDir === "WEST") curDir = "NORTH";
+      setRobotDir(curDir);
+    } else if (cmd === "TURN_LEFT") {
+      if (curDir === "NORTH") curDir = "WEST";
+      else if (curDir === "WEST") curDir = "SOUTH";
+      else if (curDir === "SOUTH") curDir = "EAST";
+      else if (curDir === "EAST") curDir = "NORTH";
+      setRobotDir(curDir);
+    } else if (cmd === "FORWARD") {
+      let nextX = curX;
+      let nextY = curY;
+      if (curDir === "NORTH") nextY -= 1;
+      else if (curDir === "SOUTH") nextY += 1;
+      else if (curDir === "EAST") nextX += 1;
+      else if (curDir === "WEST") nextX -= 1;
+
+      if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) {
+        setSimStatus("crashed");
+        onError();
+        setErrorMsg("💥 Collision avec la paroi externe du conduit !");
+        return;
+      }
+
+      if (isObstacle(nextX, nextY)) {
+        setSimStatus("crashed");
+        onError();
+        setErrorMsg(`💥 Collision avec un débris en (${nextX}, ${nextY}) !`);
+        return;
+      }
+
+      curX = nextX;
+      curY = nextY;
+      setRobotPos([curX, curY]);
+    }
+
+    if (curX === 4 && curY === 4) {
+      setSimStatus("success");
+      setUnlocked(true);
+      onUnlock();
+    }
+  }
+
   async function executeProgram() {
     if (commands.length === 0) {
       setErrorMsg("⚠️ Ajoutez des blocs d'instructions pour guider le robot.");
@@ -679,23 +759,32 @@ export function Room3Engines({ onUnlock, onError, openPdf }: Props) {
               </div>
             )}
 
-            <div className="flex gap-3 pt-1">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1">
               <button
                 onClick={resetSimulation}
                 disabled={isRunning}
-                className="w-1/3 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-1.5"
+                className="py-3 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-1.5"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
                 <span>Réinitialiser</span>
               </button>
 
               <button
-                onClick={executeProgram}
-                disabled={isRunning}
-                className="w-2/3 py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-600/30 transition cursor-pointer hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-50"
+                onClick={executeSingleStep}
+                disabled={isRunning || unlocked}
+                className="py-3 px-3 rounded-xl bg-amber-950/60 hover:bg-amber-900/80 text-amber-200 border border-amber-500/50 text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5"
               >
-                <Play className="w-4 h-4 fill-white" />
-                <span>{isRunning ? "Exécution du robot en cours..." : "Exécuter le Programme Thymio"}</span>
+                <span>⏯️</span>
+                <span>Pas-à-Pas ({activeStepIndex !== null ? activeStepIndex + 1 : 0}/{commands.length})</span>
+              </button>
+
+              <button
+                onClick={executeProgram}
+                disabled={isRunning || unlocked}
+                className="py-3 px-3 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-600/30 transition cursor-pointer flex items-center justify-center gap-1.5 disabled:opacity-50"
+              >
+                <Play className="w-3.5 h-3.5 fill-white" />
+                <span>{isRunning ? "En cours..." : "Tout Exécuter"}</span>
               </button>
             </div>
           </div>

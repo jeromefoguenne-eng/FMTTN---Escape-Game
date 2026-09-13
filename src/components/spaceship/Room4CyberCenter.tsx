@@ -165,15 +165,7 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
   }
 
   function toggleClue(clueId: string) {
-    setDetectedClues((prev) => {
-      const next = prev.includes(clueId) ? prev.filter((c) => c !== clueId) : [...prev, clueId];
-      if (next.length === 3 && csemChoice === 1) {
-        setPhishingCompleted(true);
-        setUnlocked(true);
-        onUnlock();
-      }
-      return next;
-    });
+    setDetectedClues((prev) => (prev.includes(clueId) ? prev.filter((c) => c !== clueId) : [...prev, clueId]));
     setErrorMsg("");
   }
 
@@ -464,6 +456,33 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
             </div>
           </div>
 
+          {/* Educational Feedback on Detected Clues */}
+          {detectedClues.length > 0 && (
+            <div className="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 text-xs space-y-1.5 animate-fade-in">
+              <div className="font-bold text-purple-300 font-mono flex items-center gap-1.5">
+                <span>🛡️</span>
+                <span>Analyse des anomalies identifiées :</span>
+              </div>
+              <ul className="space-y-1 text-slate-300 list-disc list-inside">
+                {detectedClues.includes("sender") && (
+                  <li>
+                    <strong className="text-white">Expéditeur frauduleux :</strong> le domaine <code>.xyz</code> ne correspond pas aux serveurs officiels de la Fédération.
+                  </li>
+                )}
+                {detectedClues.includes("url") && (
+                  <li>
+                    <strong className="text-white">Lien non sécurisé :</strong> protocole <code>http://</code> et adresse suspecte destinés à voler vos mots de passe.
+                  </li>
+                )}
+                {detectedClues.includes("attachment") && (
+                  <li>
+                    <strong className="text-white">Pièce jointe dangereuse :</strong> un fichier exécutable <code>.exe</code> peut infecter l'appareil dès son ouverture.
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
+
           {/* Sub-challenge: CSEM Dimensions Question for Bloc 3 Teacher */}
           <div className="p-5 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-purple-400 uppercase tracking-wider">
@@ -538,6 +557,20 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
               <span>Valider la Protection Cyber & Débloquer</span>
             </button>
           </div>
+        </div>
+      )}
+
+      {unlocked && (
+        <div className="p-6 rounded-2xl bg-emerald-950/80 border-2 border-emerald-500 text-center space-y-3 animate-fade-in shadow-2xl">
+          <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-400 flex items-center justify-center mx-auto">
+            <CheckCircle2 className="w-6 h-6" />
+          </div>
+          <h3 className="text-lg font-black text-emerald-300">
+            SECTEUR 04 SÉCURISÉ & DÉFENSES CYBER RÉTABLIES !
+          </h3>
+          <p className="text-xs text-emerald-200 max-w-lg mx-auto leading-relaxed">
+            Excellent ! Vous avez relié les 5 types de traces de l'identité numérique (p. 100), neutralisé les failles du faux courriel et mobilisé l'éducation critique aux médias (CSEM p. 24) pour développer le discernement des élèves face aux manipulations en ligne.
+          </p>
         </div>
       )}
     </div>

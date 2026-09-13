@@ -431,14 +431,28 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
 
         {/* FEEDBACK DISPLAY */}
         {feedbackMessages[activeSectorId] && (
-          <div
-            className={`mt-5 p-4 rounded-xl border text-xs font-medium leading-relaxed animate-fadeIn ${
-              gauges[activeSectorId] === 100
-                ? "bg-emerald-950/40 border-emerald-500/50 text-emerald-200"
-                : "bg-red-950/40 border-red-500/50 text-red-200"
-            }`}
-          >
-            {feedbackMessages[activeSectorId]}
+          <div className="space-y-3 mt-5">
+            <div
+              className={`p-4 rounded-xl border text-xs font-medium leading-relaxed animate-fadeIn ${
+                gauges[activeSectorId] === 100
+                  ? "bg-emerald-950/40 border-emerald-500/50 text-emerald-200"
+                  : "bg-red-950/40 border-red-500/50 text-red-200"
+              }`}
+            >
+              {feedbackMessages[activeSectorId]}
+            </div>
+
+            {gauges[activeSectorId] === 100 && activeSectorId < 5 && (
+              <div className="flex justify-end pt-1">
+                <button
+                  onClick={() => setActiveSectorId((prev) => prev + 1)}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-emerald-500 hover:brightness-110 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg transition cursor-pointer"
+                >
+                  <span>Passer à la situation suivante</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

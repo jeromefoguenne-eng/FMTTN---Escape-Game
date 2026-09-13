@@ -180,11 +180,26 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
       return;
     }
 
-    const cleanInput = synthesisWord.trim().toUpperCase().replace(/[\s\-_]/g, "");
-    if (cleanInput !== "TRONCCOMMUN" && cleanInput !== "NUMERIQUE" && cleanInput !== "AU_NUMERIQUE") {
+    const cleanInput = synthesisWord
+      .trim()
+      .toUpperCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[\s\-_']/g, "");
+
+    const validPasswords = [
+      "TRONCCOMMUN",
+      "LETRONCCOMMUN",
+      "NUMERIQUE",
+      "AUNUMERIQUE",
+      "EDUCATIONAUNUMERIQUE",
+      "FMTTN",
+    ];
+
+    if (!validPasswords.includes(cleanInput)) {
       onError();
       setErrorMsg(
-        "❌ Mot de passe incorrect. Indice : le nom officiel de l'école commune pour tous de la 1ère primaire à la 3e secondaire (2 mots : T____ C_____)."
+        "❌ Mot de passe incorrect. Indice : le nom officiel de l'école commune pour tous de la 1ère primaire à la 3e secondaire (2 mots : TRONC COMMUN)."
       );
       return;
     }

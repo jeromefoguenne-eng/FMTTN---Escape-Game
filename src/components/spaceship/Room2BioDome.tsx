@@ -156,6 +156,7 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
   // PHASE 3 STATE : DIDACTIC QUESTION
   const [didacticChoice, setDidacticChoice] = useState<number | null>(null);
   const [didacticError, setDidacticError] = useState("");
+  const [unlocked, setUnlocked] = useState(false);
 
   function handleMoveStep(index: number, direction: "UP" | "DOWN") {
     const targetIndex = direction === "UP" ? index - 1 : index + 1;
@@ -240,9 +241,10 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
   function handleVerifyDidactic() {
     if (didacticChoice === 1) {
       setDidacticError("");
+      setUnlocked(true);
       onUnlock();
     } else {
-      setDidacticError("Régulation inadéquate : le référentiel demande d'apprendre aux élèves à repérer les publicités et à vérifier qui a écrit l'information.");
+      setDidacticError("Régulation inadéquate : le référentiel demande d'apprendre aux élèves à repérer les publicités et à vérifier qui a écrit l'information (p. 43, 73).");
       onError();
     }
   }
@@ -673,6 +675,20 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
+        </div>
+      )}
+
+      {unlocked && (
+        <div className="p-6 rounded-2xl bg-emerald-950/80 border-2 border-emerald-500 text-center space-y-3 animate-fade-in shadow-2xl">
+          <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-400 flex items-center justify-center mx-auto">
+            <CheckCircle className="w-6 h-6" />
+          </div>
+          <h3 className="text-lg font-black text-emerald-300">
+            SECTEUR 02 SÉCURISÉ & STABILISÉ !
+          </h3>
+          <p className="text-xs text-emerald-200 max-w-lg mx-auto leading-relaxed">
+            Bravo ! Vous avez structuré la démarche de recherche documentaire critique (cadrage, mots-clés, discernement des annonces, vérification des sources p. 43, 73) et validé l'architecture de la chaîne connectée IoT (Entrées ➔ Traitement ➔ Sorties p. 76).
+          </p>
         </div>
       )}
     </div>

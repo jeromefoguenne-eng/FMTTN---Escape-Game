@@ -149,6 +149,7 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
   // Step 3 : Axiom completion (p. 24)
   const [axiomWord, setAxiomWord] = useState("");
   const [axiomError, setAxiomError] = useState("");
+  const [unlocked, setUnlocked] = useState(false);
 
   const unplacedItems = ITEMS_POOL.filter((item) => !placements[item.id]);
 
@@ -232,12 +233,19 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
   }
 
   function handleVerifyAxiom() {
-    const cleaned = axiomWord.trim().toUpperCase();
-    if (cleaned === "PAR") {
+    const cleaned = axiomWord
+      .trim()
+      .toUpperCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^A-Z]/g, "");
+
+    if (cleaned === "PAR" || cleaned === "PARLE" || cleaned === "PARLENUMERIQUE") {
       setAxiomError("");
+      setUnlocked(true);
       onUnlock();
     } else {
-      setAxiomError("Mot incorrect ! Consultez la citation officielle de la page 24 du référentiel.");
+      setAxiomError("Mot incorrect ! Indice : Le référentiel (p. 24) indique qu'il s'agit d'une formation AU numérique et non pas [ PAR ] le numérique.");
       onError();
     }
   }
@@ -620,6 +628,20 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
               <span>Voir la page 24 du référentiel</span>
             </button>
           </div>
+        </div>
+      )}
+
+      {unlocked && (
+        <div className="p-6 rounded-2xl bg-emerald-950/80 border-2 border-emerald-500 text-center space-y-3 animate-fade-in shadow-2xl">
+          <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-400 flex items-center justify-center mx-auto">
+            <CheckCircle className="w-6 h-6" />
+          </div>
+          <h3 className="text-lg font-black text-emerald-300">
+            SECTEUR 01 SÉCURISÉ & STABILISÉ !
+          </h3>
+          <p className="text-xs text-emerald-200 max-w-lg mx-auto leading-relaxed">
+            Félicitations ! Vous avez structuré l'architecture système (p. 43, 63), remédié à la confusion didactique de Lucas entre mémoire vive et mémoire permanente, et validé la définition clé de la formation <strong>AU</strong> numérique (p. 24).
+          </p>
         </div>
       )}
     </div>

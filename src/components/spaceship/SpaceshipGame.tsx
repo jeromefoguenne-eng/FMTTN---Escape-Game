@@ -489,7 +489,7 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
                     À des millions d'années-lumière de la Terre, <strong className="text-white">aucun secours extérieur, aucune usine et aucun serveur cloud terrestre</strong> ne peuvent intervenir. Tout repose sur l'autonomie technique, écologique et citoyenne des passagers.
                   </p>
                   <p>
-                    <strong className="text-emerald-300">Seuls les savoirs et démarches concrètes du référentiel FMTTN</strong> permettront de sauver l'Arche : discerner les matériaux recyclables pour réusiner les pièces brisées (p. 99), réguler biologiquement le bio-dôme de survie par la démarche technologique (p. 22), reprogrammer manuellement le drone d'inspection du réacteur en logigramme normalisé (p. 101), endiguer la fuite des données civiles des 1 450 colons (p. 100) et inscrire les 5 visées d'éco-citoyenneté (p. 26) pour débloquer le cap vers la nouvelle planète !
+                    <strong className="text-emerald-300">Seules les compétences du Volet Numérique du référentiel FMTTN</strong> permettront de sauver l'Arche : rétablir l'architecture informatique en distinguant matériel, logiciels et stockage (p. 43, 63), guider la recherche critique sur le Web et connecter la serre automatisée (p. 43, 76), reprogrammer le robot d'inspection en logigramme normalisé sous Scratch (p. 50, 56), neutraliser l'attaque d'hameçonnage pour protéger les données personnelles des colons (p. 100) et réguler les situations didactiques de classe (p. 24-26) pour sauver les passagers !
                   </p>
                 </div>
               </div>
@@ -932,7 +932,7 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
                 </div>
               </div>
               <div>
-                <div className="text-slate-400">Intégrité Mission</div>
+                <div className="text-slate-400">Score Didactique</div>
                 <div className="text-lg font-black font-mono text-cyan-400">{evaluationScore}%</div>
               </div>
               <div>
@@ -941,7 +941,59 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
               </div>
               <div>
                 <div className="text-slate-400">Distinction</div>
-                <div className="text-lg font-black font-mono text-amber-400">Héros FMTTN</div>
+                <div className="text-lg font-black font-mono text-amber-400">Expert FMTTN</div>
+              </div>
+            </div>
+
+            {/* Recap didactique des 6 compétences FMTTN validées */}
+            <div className="p-4 rounded-2xl bg-slate-950/90 border border-emerald-500/30 text-left space-y-3">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase text-emerald-400">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Bilan des Compétences Numériques Validées (Référentiel FWB) :</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-300">
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                  <span className="text-emerald-400 font-bold">1.</span>
+                  <div>
+                    <strong className="text-white">Architecture & Matériel (p. 43, 63) :</strong>
+                    <p className="text-slate-400 text-[10px]">Distinction mémoire vive (volatile) et stockage permanent (disque SSD/Cloud).</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                  <span className="text-emerald-400 font-bold">2.</span>
+                  <div>
+                    <strong className="text-white">Recherche Critique & IoT (p. 43, 73, 76) :</strong>
+                    <p className="text-slate-400 text-[10px]">Repérage des publicités, fiabilité des sources et chaîne Capteurs ➔ Traitement ➔ Sorties.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                  <span className="text-emerald-400 font-bold">3.</span>
+                  <div>
+                    <strong className="text-white">Pensée Algorithmique (p. 50, 56, 101) :</strong>
+                    <p className="text-slate-400 text-[10px]">Symboles normalisés de logigrammes et distinction Algorithme (méthode) vs Programme (code).</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                  <span className="text-emerald-400 font-bold">4.</span>
+                  <div>
+                    <strong className="text-white">Cybersécurité & Médias (p. 24, 49, 100) :</strong>
+                    <p className="text-slate-400 text-[10px]">Les 5 types de traces numériques, détection du phishing et éducation critique (CSEM).</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                  <span className="text-emerald-400 font-bold">5.</span>
+                  <div>
+                    <strong className="text-white">Régulations de Classe (p. 24-26, 43, 74) :</strong>
+                    <p className="text-slate-400 text-[10px]">Accompagnement pédagogique actif face aux tableurs, e-mails, boucles et droits d'auteur.</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2 p-2 rounded-lg bg-slate-900/60 border border-slate-800">
+                  <span className="text-emerald-400 font-bold">6.</span>
+                  <div>
+                    <strong className="text-white">Les 4 Champs Curriculaires (p. 24-25) :</strong>
+                    <p className="text-slate-400 text-[10px]">Données, Communication, Création de contenus et Sécurité au cœur du Tronc Commun.</p>
+                  </div>
+                </div>
               </div>
             </div>
 
