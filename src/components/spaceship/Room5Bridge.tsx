@@ -274,10 +274,10 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
                 <span className="text-xs text-slate-400 font-mono">Volet 2 : Numérique FMTTN</span>
               </div>
               <h2 className="text-xl md:text-2xl font-black text-white mt-1">
-                Situations de Classe en Cours de Numérique
+                Investigation de Scène 05 • L'Audit Didactique de l'École de Bord
               </h2>
               <p className="text-sm text-slate-300">
-                Observez 5 situations concrètes d'élèves et choisissez la meilleure façon de les aider à progresser.
+                Situation déclenchante : Les élèves utilisent les outils numériques sans régulation ni objectifs FMTTN. Menez l'enquête et appliquez les postures formatives (p. 24-26).
               </p>
             </div>
           </div>
@@ -291,7 +291,18 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
           </button>
         </div>
 
-        {/* 5 GAUGES SUMMARY BAR */}
+        {/* Investigation Banner */}
+      <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 text-xs sm:text-sm text-indigo-200 space-y-2 mt-4">
+        <div className="flex items-center gap-2 text-indigo-300 font-bold uppercase tracking-wider text-xs">
+          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+          <span>Démarche d'Investigation : Diagnostic Clinique & Régulation Pédagogique</span>
+        </div>
+        <p>
+          <strong>Constat d'enquête :</strong> Dans l'école de l'Arche, les élèves sont confrontés à des incompréhensions typiques (copier-coller sans esprit critique, confusion entre mémoire vive et disque, usage non sécurisé de l'image). Analysez chaque cas clinique et appliquez la régulation didactique préconisée par le référentiel FMTTN !
+        </p>
+      </div>
+
+      {/* 5 GAUGES SUMMARY BAR */}
         <div className="mt-6 grid grid-cols-2 sm:grid-cols-5 gap-3 pt-4 border-t border-slate-800">
           {SECTORS.map((s) => {
             const isFilled = gauges[s.id] === 100;
@@ -494,12 +505,14 @@ export function Room5Bridge({ onUnlock, onError, openPdf }: Props) {
         </button>
       </div>
 
-      {/* SUCCESS BANNER */}
+      {/* SUCCESS BANNER & EVIDENCE SECURED */}
       {unlocked && (
-        <div className="p-4 rounded-xl bg-emerald-950/60 border border-emerald-500/60 text-emerald-200 text-sm flex items-center gap-3 animate-fadeIn">
-          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+        <div className="p-5 rounded-2xl bg-emerald-950/80 border-2 border-emerald-500 text-emerald-200 text-sm flex flex-col sm:flex-row items-center gap-4 animate-fadeIn shadow-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold shrink-0">
+            <span>🔍 PIÈCE À CONVICTION #5 RÉCUPÉRÉE : EVID-05-DIDAC</span>
+          </div>
           <div>
-            <span className="font-bold">Bravo !</span> Vous avez apporté les bonnes réponses aux 5 situations d'élèves. Le pont de commandement est prêt pour le test final.
+            <span className="font-bold text-white">Diagnostic validé !</span> Vous avez régulé avec succès les 5 situations d'élèves. Les 5 Pièces à Conviction sont désormais au complet dans votre Dossier d'Investigation !
           </div>
         </div>
       )}

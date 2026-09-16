@@ -274,10 +274,10 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
                 <span className="text-xs text-slate-400 font-mono">Volet 2 : Numérique FMTTN</span>
               </div>
               <h2 className="text-xl md:text-2xl font-black text-white mt-1">
-                Recherche sur Internet & Systèmes Connectés
+                Investigation de Scène 02 • L'Affaire des Données Falsifiées du Bio-Dôme
               </h2>
               <p className="text-sm text-slate-300">
-                Guidez les élèves dans une recherche efficace et critique sur le Web (p. 37, 43, 73) et comprenez le fonctionnement d'un système connecté (p. 24, 76).
+                Situation déclenchante : Les cultures dépérissent alors que le tableau de bord affiche des données parfaites. Menez l'enquête sur les sources web et la chaîne connectée (p. 37, 43, 76).
               </p>
             </div>
           </div>
@@ -324,6 +324,15 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
       {/* PHASE 1 : ORDERING THE 5 RESEARCH STEPS (NO STEP NUMBERS REVEALED!) */}
       {phase === "SEARCH_CHAIN" && (
         <div className="space-y-4">
+          <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 text-xs sm:text-sm text-indigo-200 space-y-2">
+            <div className="flex items-center gap-2 text-indigo-300 font-bold uppercase tracking-wider text-xs">
+              <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping" />
+              <span>Démarche d'Investigation : Analyse Critique de la Recherche d'Information</span>
+            </div>
+            <p>
+              <strong>Constat d'enquête :</strong> L'automate du bio-dôme s'est appuyé sur des pages web publicitaires non vérifiées pour doser les nutriments. Reconstituez la démarche d'investigation documentaire en 5 étapes pour valider la fiabilité des données !
+            </p>
+          </div>
           <div className="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl backdrop-blur-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h3 className="text-sm font-bold text-white flex items-center gap-2">
@@ -687,6 +696,9 @@ export function Room2BioDome({ onUnlock, onError, openPdf }: Props) {
 
       {unlocked && (
         <div className="p-6 rounded-2xl bg-emerald-950/80 border-2 border-emerald-500 text-center space-y-3 animate-fade-in shadow-2xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold">
+            <span>🔍 PIÈCE À CONVICTION #2 RÉCUPÉRÉE : EVID-02-NET</span>
+          </div>
           <div className="w-12 h-12 rounded-full bg-emerald-500/20 border border-emerald-400 text-emerald-400 flex items-center justify-center mx-auto">
             <CheckCircle className="w-6 h-6" />
           </div>

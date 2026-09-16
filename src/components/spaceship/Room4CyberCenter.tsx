@@ -207,10 +207,10 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
               </span>
             </div>
             <h2 className="text-xl md:text-2xl font-black text-white tracking-tight">
-              Cyber-Centre : Identité Numérique & Détection d'Ingénierie Sociale
+              Investigation de Scène 04 • L'Intrusion par Ingénierie Sociale & Hameçonnage
             </h2>
             <p className="text-xs text-slate-300">
-              Associez les 5 strates de traces scolaires (p. 100), puis démasquez les mécanismes de phishing en mobilisant les cadres <strong>DIGCOMP & CSEM</strong> (p. 24).
+              Situation déclenchante : Une alerte de sécurité s'est déclenchée suite à l'ouverture d'un message suspect. Menez l'enquête sur l'identité numérique et le phishing (p. 24, 100).
             </p>
           </div>
         </div>
@@ -256,6 +256,9 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
       {/* UNLOCKED SUCCESS */}
       {unlocked ? (
         <div className="p-8 rounded-2xl bg-emerald-950/30 border border-emerald-500/50 text-center space-y-4 shadow-2xl animate-fade-in">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold mx-auto">
+            <span>🔍 PIÈCE À CONVICTION #4 RÉCUPÉRÉE : EVID-04-SEC</span>
+          </div>
           <div className="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-8 h-8" />
           </div>
@@ -269,6 +272,16 @@ export function Room4CyberCenter({ onUnlock, onError, openPdf }: Props) {
       ) : activeTab === "pairs" ? (
         /* TAB 1 */
         <div className="p-6 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-5 shadow-xl">
+          {/* Investigation Banner */}
+          <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 text-xs sm:text-sm text-indigo-200 space-y-2">
+            <div className="flex items-center gap-2 text-indigo-300 font-bold uppercase tracking-wider text-xs">
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping" />
+              <span>Démarche d'Investigation : Autopsie des Traces Numériques & Protection des Données</span>
+            </div>
+            <p>
+              <strong>Constat d'enquête :</strong> Un intrus a profité de la méconnaissance des traces laissées en ligne pour usurper l'identité d'un officier. Pour sécuriser le secteur, classez les 5 types de traces numériques (p. 100) et démasquez les pièges d'ingénierie sociale !
+            </p>
+          </div>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
             <div className="text-slate-300">
               👉 <strong>Consigne :</strong> Cliquez sur une situation à gauche, puis cliquez sur sa strate correspondante à droite pour les associer.

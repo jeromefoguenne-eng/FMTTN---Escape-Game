@@ -274,10 +274,10 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
                 <span className="text-xs text-slate-400 font-mono">Volet 2 : Numérique FMTTN</span>
               </div>
               <h2 className="text-xl md:text-2xl font-black text-white mt-1">
-                Architecture Numérique & Système Informatique
+                Investigation de Scène 01 • Autopsie du Terminal Crashé
               </h2>
               <p className="text-sm text-slate-300">
-                Maîtrisez les fondements de l'environnement numérique prescrits par le référentiel pour les classes de P3 à S3.
+                Situation déclenchante : Un terminal a perdu ses données après une coupure. Menez l'enquête sur l'architecture matérielle et logicielle (p. 43, 63).
               </p>
             </div>
           </div>
@@ -313,6 +313,18 @@ export function Room1Workshop({ onUnlock, onError, openPdf }: Props) {
       {/* STEP 1: INTERACTIVE SORTING BINS */}
       {step === "SORT" && (
         <div className="space-y-6">
+          {/* Investigation Scenario Banner */}
+          <div className="p-4 rounded-2xl bg-indigo-950/40 border border-indigo-500/40 text-xs sm:text-sm text-indigo-200 space-y-2">
+            <div className="flex items-center gap-2 text-indigo-300 font-bold uppercase tracking-wider text-xs">
+              <span className="w-2 h-2 rounded-full bg-indigo-400 animate-ping" />
+              <span>Étape 1 de la démarche d'investigation : Constat & Analyse des Traces Matérielles</span>
+            </div>
+            <p>
+              <strong>Rapport de l'Officier Scientifique :</strong> Lors de l'incident, le terminal de fabrication s'est éteint net. Des données en cours ont disparu, tandis que d'autres sont restées intactes sur le disque.
+              Pour comprendre la panne, classez les 8 indices matériels et logiciels trouvés sur la scène pour isoler la cause de la perte de données !
+            </p>
+          </div>
+
           <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 backdrop-blur-sm">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
               <div className="flex items-center gap-2">

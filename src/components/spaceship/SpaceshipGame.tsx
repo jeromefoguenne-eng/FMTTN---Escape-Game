@@ -27,6 +27,7 @@ import {
   Play,
   Globe2,
   Users,
+  FileSearch,
 } from "lucide-react";
 import { Room1Workshop } from "./Room1Workshop";
 import { Room2BioDome } from "./Room2BioDome";
@@ -35,6 +36,7 @@ import { Room4CyberCenter } from "./Room4CyberCenter";
 import { Room5Bridge } from "./Room5Bridge";
 import { FinalEscapeTrial } from "./FinalEscapeTrial";
 import { ReferentielModal } from "../layout/ReferentielModal";
+import { InvestigationModal } from "./InvestigationModal";
 import { assetUrl } from "@/lib/utils";
 import { soundEngine } from "@/lib/sound/soundEngine";
 
@@ -161,6 +163,7 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
   const [musicEnabled, setMusicEnabled] = useState(soundEngine.isMusicEnabled());
 
   // PDF modal state
+  const [investigationOpen, setInvestigationOpen] = useState(false);
   const [pdfOpen, setPdfOpen] = useState(false);
   const [pdfPage, setPdfPage] = useState<number | null>(null);
 
@@ -172,7 +175,7 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
       role: "Officier Scientifique en Chef",
       avatar: "👩‍🚀",
       message:
-        "Alerte générale à bord de l'Arche FMTTN ! Notre voyage vers les nouvelles exoplanètes habitables est gravement compromis suite à une avarie majeure. Les automates sont hors service. Seules les compétences et concepts de la FMTTN peuvent réparer nos systèmes et sauver les passagers !",
+        "Alerte Enquête à bord de l'Arche FMTTN ! Un signal fantôme a déclenché des pannes en cascade sur 5 secteurs vitaux. Cadet-Enseignant, ouvrez le Dossier d'Investigation #FMTTN-404 : appliquez la démarche d'investigation (constat, hypothèses, recherche de preuves, validation) pour recueillir les 5 pièces à conviction et identifier la cause première !",
       time: "T-30:00",
     },
   ]);
@@ -246,7 +249,7 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
         "Hélène",
         "Officier Scientifique",
         "👩‍🚀",
-        `Zone « ${zoneInfo?.name} » rétablie ! Les passagers de ce secteur sont hors de danger. Retournez à la carte pour choisir le prochain secteur.`
+        `Zone « ${zoneInfo?.name} » résolue ! La Pièce à Conviction #${zoneId} a été authentifiée et ajoutée à votre Dossier d'Investigation. Consultez le dossier dans l'en-tête pour analyser le diagnostic complet !`
       );
     }
   }
@@ -310,6 +313,14 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
         showButton={false}
       />
 
+      {/* Modal Dossier d'Investigation */}
+      <InvestigationModal
+        isOpen={investigationOpen}
+        onClose={() => setInvestigationOpen(false)}
+        clearedZoneIds={clearedZoneIds}
+        openPdf={handleOpenPdf}
+      />
+
       {/* TOP STATUS BAR */}
       {gameState !== "briefing" && (
         <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 px-4 py-3">
@@ -362,8 +373,19 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
               </div>
             </div>
 
-            {/* Actions: PDF Referentiel & Sound */}
+            {/* Actions: Investigation Dossier, PDF Referentiel & Sound */}
             <div className="flex items-center gap-2">
+              {/* Dossier d'Investigation Button */}
+              <button
+                onClick={() => setInvestigationOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-900/40 hover:bg-indigo-800/60 border border-indigo-500/50 text-indigo-300 text-xs font-bold transition cursor-pointer shadow-md shadow-indigo-950/30"
+                title="Ouvrir le Dossier d'Investigation et consulter les pièces à conviction"
+              >
+                <FileSearch className="w-4 h-4 text-indigo-400" />
+                <span className="hidden sm:inline">Dossier d'Enquête ({clearedZoneIds.length}/5)</span>
+                <span className="sm:hidden">Preuves ({clearedZoneIds.length}/5)</span>
+              </button>
+
               <button
                 onClick={() => handleOpenPdf(2)}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition cursor-pointer"
@@ -418,16 +440,16 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
         <div className="flex-1 flex flex-col items-center justify-center p-4 md:p-8 max-w-5xl mx-auto w-full animate-fade-in">
           <div className="text-center space-y-3 mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-bold tracking-wide animate-pulse">
-              <Globe2 className="w-4 h-4 text-indigo-400" />
-              <span>EXPÉDITION INTERGALACTIQUE STELLA • MISSION VERS UNE NOUVELLE PLANÈTE</span>
+              <FileSearch className="w-4 h-4 text-indigo-400" />
+              <span>DOSSIER D'INVESTIGATION #FMTTN-404 • APPRENTISSAGE PAR INVESTIGATION</span>
             </div>
 
             <h1 className="font-[family-name:var(--font-orbitron)] text-4xl sm:text-6xl font-black text-white tracking-tight">
-              L'ARCHE <span className="text-emerald-400 underline decoration-emerald-500/40">FMTTN</span> EN DÉTRESSE
+              L'ARCHE <span className="text-emerald-400 underline decoration-emerald-500/40">FMTTN</span> : L'ENQUÊTE
             </h1>
 
             <p className="text-base sm:text-lg text-amber-300 font-bold max-w-2xl mx-auto">
-              Des centaines de passagers en route vers de nouveaux mondes sont en danger.
+              Élucidez l'Affaire du Signal Fantôme grâce à la démarche d'investigation didactique.
             </p>
           </div>
 
@@ -557,11 +579,22 @@ export function SpaceshipGame({ roomCode = "EXPEDITION-FMTTN", playerName: initi
               {/* Action Buttons */}
               <div className="pt-2 flex flex-col sm:flex-row gap-3">
                 <button
+                  type="button"
+                  onClick={() => setInvestigationOpen(true)}
+                  className="px-4 py-3.5 rounded-xl bg-indigo-950/70 hover:bg-indigo-900/80 text-indigo-200 border border-indigo-500/40 text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer shadow-md shadow-indigo-950/40"
+                  title="Consulter la démarche d'investigation et le dossier d'enquête"
+                >
+                  <FileSearch className="w-4 h-4 text-indigo-400" />
+                  <span>Dossier d'Investigation & Méthodologie</span>
+                </button>
+
+                <button
+                  type="button"
                   onClick={() => handleOpenPdf(2)}
                   className="px-4 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer"
                 >
                   <BookOpen className="w-4 h-4 text-emerald-400" />
-                  <span>Consulter le Référentiel (103 p.)</span>
+                  <span>Référentiel (103 p.)</span>
                 </button>
 
                 <button

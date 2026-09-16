@@ -232,10 +232,10 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
               </span>
             </div>
             <h2 className="text-xl md:text-2xl font-black text-white tracking-tight mt-0.5">
-              Sas d'Armement : Le Grand Test de l'Enseignant de Numérique
+              Sas d'Évacuation : Clôture du Rapport d'Investigation Officiel
             </h2>
             <p className="text-xs text-slate-300">
-              Repérez la vraie activité de cours de numérique, classez les apprentissages par difficulté et validez les 4 domaines officiels du référentiel.
+              Croisez les 5 pièces à conviction recueillies pour reconstituer la chaîne causale de l'avarie et déverrouiller le code de survie de l'Arche !
             </p>
           </div>
         </div>
@@ -249,6 +249,24 @@ export function FinalEscapeTrial({ onSuccess, onError, openPdf }: Props) {
             <span>Volet Numérique p. 24</span>
           </button>
         </div>
+      </div>
+
+      {/* Dossier d'Investigation Summary */}
+      <div className="p-4 rounded-2xl bg-slate-900/90 border border-emerald-500/40 space-y-2.5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-emerald-400 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+              <span>📁</span>
+              <span>Synthèse du Dossier d'Enquête #FMTTN-404 : 5 Preuves Authentifiées</span>
+            </span>
+          </div>
+          <span className="text-[11px] font-mono text-emerald-300 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/30 font-bold">
+            CHAÎNE CAUSALE ÉLUCIDÉE
+          </span>
+        </div>
+        <p className="text-xs text-slate-300 leading-relaxed">
+          Grâce à votre démarche d'investigation, la cause racine est établie : une faille d'ingénierie sociale (EVID-04) a permis l'injection d'un script sans condition d'arrêt (EVID-03), saturant la mémoire vive temporaire (EVID-01), faussant les données des capteurs (EVID-02) et révélant un besoin d'étayage didactique rigoureux (EVID-05).
+        </p>
       </div>
 
       {/* STEP INDICATOR */}
