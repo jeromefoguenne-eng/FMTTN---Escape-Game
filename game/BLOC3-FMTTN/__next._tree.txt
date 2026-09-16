@@ -1,0 +1,10 @@
+:HL["/FMTTN---Escape-Game/_next/static/chunks/36xkdnp3ku6bd.css","style"]
+:HL["/FMTTN---Escape-Game/_next/static/chunks/3xq4rb6ssk-5v.css","style"]
+:HL["/FMTTN---Escape-Game/_next/static/media/0acc7fdf55eb3220-s.p.3oprs0vbfre0x.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/FMTTN---Escape-Game/_next/static/media/47fe1b7cd6e6ed85-s.p.3bh2vc0w-r-ll.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/FMTTN---Escape-Game/_next/static/media/797e433ab948586e-s.p.0r6juujl39pe6.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/FMTTN---Escape-Game/_next/static/media/8e6fa89aa22d24ec-s.p.2o7m9ogm38dql.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/FMTTN---Escape-Game/_next/static/media/a218039a3287bcfd-s.p.43zbiuwnnoiok.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/FMTTN---Escape-Game/_next/static/media/c875c6f5d3e977ac-s.p.1h18_wedhzk4h.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/FMTTN---Escape-Game/_next/static/media/e2334d715941921e-s.p.3o_v2fun1jzxk.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"game","param":null,"prefetchHints":4192,"slots":{"children":{"name":"roomCode","param":{"type":"d","key":"BLOC3-FMTTN","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"ioXT1U7MXPjyGrSb4o9Go"}
